@@ -1,0 +1,3346 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MindFusion.Gauges.Wpf</name>
+    </assembly>
+    <members>
+        <member name="T:MindFusion.Gauges.Wpf.ArcArea">
+            <summary>
+            An adorner element representing an intersection of two ellipses.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.ArcArea.ThisType">
+            <summary>
+            A read-only field containing the type of this class.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.ArcArea.#ctor">
+            <summary>
+            Initializes a new instance of the ArcArea class.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.ArcArea.#cctor">
+            <summary>
+            Static constructor.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.ArcArea.ArrangeOverride(System.Windows.Size)">
+            <summary>
+            Control.ArrangeOverride override.
+            </summary>
+            <param name="arrangeBounds">
+            The computed size that is used to arrange the content.
+            </param>
+            <returns>
+            The size of the control.
+            </returns>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.ArcArea.StartAngle">
+            <summary>
+            Gets or sets the start angle of the arc. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.ArcArea.StartAngleProperty">
+            <summary>
+            Identifies the StartAngle dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.ArcArea.EndAngle">
+            <summary>
+            Gets or sets the end angle of the arc. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.ArcArea.EndAngleProperty">
+            <summary>
+            Identifies the EndAngle dependency property.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Gauges.Wpf.BaseScale">
+            <summary>
+            Represents a scale within a gauge control. The scale contains collections
+            of pointers, labels, ticks and ranges along with any arbitrary controls.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.BaseScale.ThisType">
+            <summary>
+            A read-only field containing the type of this class.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.#ctor">
+            <summary>
+            Initializes a new instance of the BaseScale class.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.BeginInit">
+            <summary>
+            ItemsControl.BeginInit override.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.EndInit">
+            <summary>
+            ItemsControl.EndInit override.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.OnApplyTemplate">
+            <summary>
+            FrameworkElement.OnApplyTemplate override.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.OnRender(System.Windows.Media.DrawingContext)">
+            <summary>
+            UIElement.OnRender override.
+            </summary>
+            <param name="drawingContext">
+            The drawing instructions for a specific element. This context is provided to the layout system.
+            </param>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.MeasureOverride(System.Windows.Size)">
+            <summary>
+            Control.MeasureOverride override.
+            </summary>
+            <param name="constraint">
+            The maximum size that the method can return.
+            </param>
+            <returns>
+            The size of the control, up to the maximum specified by constraint.
+            </returns>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.OnMouseDown(System.Windows.Input.MouseButtonEventArgs)">
+            <summary>
+            UIElement.OnMouseDown override.
+            </summary>
+            <param name="e">
+            The System.Windows.Input.MouseButtonEventArgs that contains the event data.
+            </param>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.OnMouseMove(System.Windows.Input.MouseEventArgs)">
+            <summary>
+            UIElement.OnMouseMove override.
+            </summary>
+            <param name="e">
+            The System.Windows.Input.MouseEventArgs that contains the event data.
+            </param>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.OnMouseUp(System.Windows.Input.MouseButtonEventArgs)">
+            <summary>
+            UIElement.OnMouseUp override.
+            </summary>
+            <param name="e">
+            The System.Windows.Input.MouseButtonEventArgs that contains the event data.
+            </param>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.UpdateInteractivePointers(System.Windows.Point)">
+            <summary>
+            Updates all interactive pointers in this scale.
+            </summary>
+            <param name="point">
+            The point the pointers should point to.
+            </param>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.ArrangeOverride(System.Windows.Size)">
+            <summary>
+            Control.ArrangeOverride override.
+            </summary>
+            <param name="arrangeBounds">
+            The computed size that is used to arrange the content.
+            </param>
+            <returns>
+            The size of the control.
+            </returns>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.RemeasureScaleElements">
+            <summary>
+            Invalidates the size of all scale elements (and subsequently their position) -
+            ticks, labels, ranges and pointers.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.RearrangeScaleElements">
+            <summary>
+            Invalidates the position of all scale elements - ticks, labels, ranges and pointers.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.InvalidateArrange(System.Windows.DependencyObject,System.Boolean)">
+            <summary>
+            Invalidates the arrangement of the specified scale, optionally
+            rebuilding all ticks and labels.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.InvalidateArrange(System.Windows.DependencyObject,System.Boolean,System.Boolean)">
+            <summary>
+            Invalidates the arrangement of the specified scale, optionally
+            rebuilding all ticks and labels.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.GetValueFromPoint(System.Windows.Point)">
+            <summary>
+            Returns the value corresponding to the specified point.
+            </summary>
+            <param name="point">
+            The point to test.
+            </param>
+            <returns>
+            The value from the scale, corresponding to the point, possibly MinValue or
+            MaxValue if the specified point cannot be associated with a value.
+            </returns>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.GetAbsoluteValueFromPoint(System.Windows.Point)">
+            <summary>
+            Returns the value corresponding to the specified point without
+            applying range restrictions.
+            </summary>
+            <param name="point">
+            The point to test
+            </param>
+            <returns>
+            The value from the scale corresponding to the point.
+            </returns>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.UpdateScaleGeometry">
+            <summary>
+            Rebuilds the scale path geometry.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.MeasurePointer(MindFusion.Gauges.Wpf.Pointer,System.Windows.Size)">
+            <summary>
+            Measures the specified pointer according to its PointerWidth and PointerHeight.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.ArrangePointer(MindFusion.Gauges.Wpf.Pointer)">
+            <summary>
+            Arranges the specified pointer according to its Value.
+            If the pointer is animated, the arrangement is performed
+            through animation.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.MeasureTick(MindFusion.Gauges.Wpf.Tick,System.Windows.Size)">
+            <summary>
+            Measures the specified tick according to the setting's TickWidth and TickHeight.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.ArrangeTick(MindFusion.Gauges.Wpf.Tick)">
+            <summary>
+            Arranges the specified tick according to its Value.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.ArrangeLabel(MindFusion.Gauges.Wpf.TickLabel)">
+            <summary>
+            Arranges the specified label according to the value it represents.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.MeasureRange(MindFusion.Gauges.Wpf.Range,System.Windows.Size)">
+            <summary>
+            Measures the specified range.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.CreateRangeGeometry(MindFusion.Gauges.Wpf.Range)">
+            <summary>
+            Creates a geometry for the specified range, taking into consideration
+            its start and end value, start and end width and its alignment.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.CalculateAbsoluteLength(MindFusion.Gauges.Wpf.Length)">
+            <summary>
+            Returns an absolute value corresponding to the specified length.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.GetAbsoluteLength(MindFusion.Gauges.Wpf.Length,System.Double)">
+            <summary>
+            Calculates the absolute length corresponding to the specified argument,
+            relative to the the specified area.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.ConvertValueBack(System.Double)">
+            <summary>
+            Calculates the position corresponding to the specified already converted value
+            according to the currently used function.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.ConvertValue(System.Double)">
+            <summary>
+            Calculates the value at the specified position of the scale according
+            to the currently used function.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.GetTickStep(MindFusion.Gauges.Wpf.TickSettings,System.Double)">
+            <summary>
+            Returns the step between adjacent ticks according to the specified settings.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.UpdateTicksAndLabels">
+            <summary>
+            Rebuilds the tick and label elements in the scale completely.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.RenderTicksAndLabels(System.Collections.Generic.Stack{MindFusion.Gauges.Wpf.TickSettings},System.Double,System.Double,System.Double,System.Boolean,System.Boolean)">
+            <summary>
+            Recursively creates ticks and labels and adds them to the appropriate containers.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.AddTickAndLabel(System.Double,MindFusion.Gauges.Wpf.TickSettings)">
+            <summary>
+            Create a tick and a label representing the specified value and adds them
+            to the underlying containers.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.OnScaleClicked(System.Windows.Input.MouseButtonEventArgs)">
+            <summary>
+            Invoked from the OnMouseDown event handler of this scale.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.OnScalePathClicked(System.Object,System.Windows.Input.MouseButtonEventArgs)">
+            <summary>
+            Handles the MouseDown event on the scale geometry path.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.AddPointer(MindFusion.Gauges.Wpf.Pointer)">
+            <summary>
+            Adds the specified pointer to the scale.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.RemovePointer(MindFusion.Gauges.Wpf.Pointer)">
+            <summary>
+            Removes the specified pointer from the scale.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.OnPointerClicked(System.Object,System.Windows.Input.MouseButtonEventArgs)">
+            <summary>
+            Handles the Clicked event on all underlying pointers.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.AddRange(MindFusion.Gauges.Wpf.Range)">
+            <summary>
+            Adds the specified range to the scale.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.RemoveRange(MindFusion.Gauges.Wpf.Range)">
+            <summary>
+            Removes the specified range from the scale.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.OnRangeClicked(System.Object,System.Windows.Input.MouseButtonEventArgs)">
+            <summary>
+            Handles the Clicked event on all underlying ranges.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.OnPointerClicked(MindFusion.Gauges.Wpf.GaugeMouseEventArgs)">
+            <summary>
+            Raises the PointerClicked event.
+            </summary>
+            <param name="e">
+            An object, containing the event data.
+            </param>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.OnRangeClicked(MindFusion.Gauges.Wpf.GaugeMouseEventArgs)">
+            <summary>
+            Raises the RangeClicked event.
+            </summary>
+            <param name="e">
+            An object, containing the event data.
+            </param>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.OnScaleGeometryClicked(MindFusion.Gauges.Wpf.GaugeMouseEventArgs)">
+            <summary>
+            Raises the ScaleGeometryClicked event.
+            </summary>
+            <param name="e">
+            An object, containing the event data.
+            </param>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.OnScaleClicked(MindFusion.Gauges.Wpf.GaugeMouseEventArgs)">
+            <summary>
+            Raises the ScaleClicked event.
+            </summary>
+            <param name="e">
+            An object, containing the event data.
+            </param>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.CanAnimate">
+            <summary>
+            Gets a value indicating whether scale elements are allowed to animate.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.GetLabelValue(System.Double,MindFusion.Gauges.Wpf.TickSettings)">
+            <summary>
+            Raises the QueryLabelValue event in order to retrieve a custom value for a label.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.OnQueryLabelValue(MindFusion.Gauges.Wpf.QueryLabelValueEventArgs)">
+            <summary>
+            Raises the QueryLabelValue event.
+            </summary>
+            <param name="e">
+            An object, containing the event data.
+            </param>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.BaseScale.Pointers">
+            <summary>
+            Gets or sets a collection with the pointers displayed in the scale.
+            This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.BaseScale.PointersProperty">
+            <summary>
+            Identifies the Pointers dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.BaseScale.Ranges">
+            <summary>
+            Gets or sets a collection with the ranges displayed in the scale.
+            This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.BaseScale.RangesProperty">
+            <summary>
+            Identifies the Ranges dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.BaseScale.MinValue">
+            <summary>
+            Gets or sets the minimal value displayed by the scale.
+            This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.BaseScale.MinValueProperty">
+            <summary>
+            Identifies the MinValue dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.BaseScale.MaxValue">
+            <summary>
+            Gets or sets the maximal value displayed by the scale.
+            This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.BaseScale.MaxValueProperty">
+            <summary>
+            Identifies the MaxValue dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.BaseScale.Stroke">
+            <summary>
+            Gets or sets the brush used to stroke the scale. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.BaseScale.StrokeProperty">
+            <summary>
+            Identifies the Stroke dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.BaseScale.StrokeThickness">
+            <summary>
+            Gets or sets the thickness of the scale stroke. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.BaseScale.StrokeThicknessProperty">
+            <summary>
+            Identifies the StrokeThickness dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.BaseScale.Fill">
+            <summary>
+            Gets or sets the brush used to fill the scale. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.BaseScale.FillProperty">
+            <summary>
+            Identifies the Fill dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.BaseScale.MajorTickSettings">
+            <summary>
+            Gets or sets the settings for the major ticks and their associated labels.
+            This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.BaseScale.MajorTickSettingsProperty">
+            <summary>
+            Identifies the MajorTickSettings dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.BaseScale.MiddleTickSettings">
+            <summary>
+            Gets or sets the settings for the middle ticks and their associated labels.
+            This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.BaseScale.MiddleTickSettingsProperty">
+            <summary>
+            Identifies the MiddleTickSettings dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.BaseScale.MinorTickSettings">
+            <summary>
+            Gets or sets the settings for the minor ticks and their associated labels.
+            This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.BaseScale.MinorTickSettingsProperty">
+            <summary>
+            Identifies the MinorTickSettings dependency property.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.ProcessTickSettingsChanged(MindFusion.Gauges.Wpf.TickSettings,MindFusion.Gauges.Wpf.TickSettings)">
+            <summary>
+            Performs the necessary processing when the value of one of the TickSettings
+            properties is changed.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.BaseScale.StartWidth">
+            <summary>
+            Gets or sets the width of the scale bar at its beginning.
+            This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.BaseScale.StartWidthProperty">
+            <summary>
+            Identifies the StartWidth dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.BaseScale.EndWidth">
+            <summary>
+            Gets or sets the width of the scale bar at its end.
+            This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.BaseScale.EndWidthProperty">
+            <summary>
+            Identifies the EndWidth dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.BaseScale.FunctionType">
+            <summary>
+            The type of the function used to calculate the distribution of values
+            along the scale. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.BaseScale.FunctionTypeProperty">
+            <summary>
+            Identifies the FunctionType dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.BaseScale.FunctionArgument">
+            <summary>
+            Gets or sets the argument passed to custom functions.
+            This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.BaseScale.FunctionArgumentProperty">
+            <summary>
+            Identifies the FunctionArgument dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.BaseScale.LogarithmBase">
+            <summary>
+            Gets or sets the logarithm base when FunctionType is set to Logarithmic.
+            This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.BaseScale.LogarithmBaseProperty">
+            <summary>
+            Identifies the LogarithmBase dependency property.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.GetScale(System.Windows.DependencyObject)">
+            <summary>
+            Gets the value of the BaseScale.Scale attached property for a given dependency object. 
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.SetScale(System.Windows.DependencyObject,MindFusion.Gauges.Wpf.BaseScale)">
+            <summary>
+            Sets the value of the BaseScale.Scale attached property for a given dependency object. 
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.BaseScale.ClearScale(System.Windows.DependencyObject)">
+            <summary>
+            Clears the value of the Scale.Scale attached property for a given dependency object. 
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.BaseScale.ScaleProperty">
+            <summary>
+            Gets or sets a parent Scale of a given dependency object.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.BaseScale.CustomFunction">
+            <summary>
+            Gets or sets the function to be used for distribution of values along
+            the scale when FunctionType is set to Custom.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.BaseScale.ReversedCustomFunction">
+            <summary>
+            Gets or sets the reversed version of the function specified through CustomFunction.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.BaseScale.EnableAnimation">
+            <summary>
+            Gets or sets a value indicating whether animations in the scale are enabled.
+            This is a dependency property.
+            </summary>
+            <remarks>
+            This property is useful to temporarily disable animations - during initialization
+            phases for example. Animations are always disabled in design-time.
+            </remarks>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.BaseScale.EnableAnimationProperty">
+            <summary>
+            Identifies the EnableAnimation dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.BaseScale.PointerAnimationDuration">
+            <summary>
+            Gets or sets the duration of the animation of animated pointers.
+            This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.BaseScale.PointerAnimationDurationProperty">
+            <summary>
+            Identifies the PointerAnimationDuration dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.BaseScale.PointerAnimationDecelerationRatio">
+            <summary>
+            Gets or sets the deceleration ratio of the animation of animated pointers.
+            This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.BaseScale.PointerAnimationDecelerationRatioProperty">
+            <summary>
+            Identifies the PointerAnimationDecelerationRatio dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.BaseScale.DefaultPointerStyle">
+            <summary>
+            Gets or sets the default style for pointers in this scale.
+            This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.BaseScale.DefaultPointerStyleProperty">
+            <summary>
+            Identifies the DefaultPointerStyle dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.BaseScale.LicenseKey">
+            <summary>
+            Gets or sets the license key of the control.
+            </summary>
+        </member>
+        <member name="E:MindFusion.Gauges.Wpf.BaseScale.PointerClicked">
+            <summary>
+            Occurs when a pointer within the scale is clicked with the mouse.
+            </summary>
+        </member>
+        <member name="E:MindFusion.Gauges.Wpf.BaseScale.RangeClicked">
+            <summary>
+            Occurs when a range within the scale is clicked with the mouse.
+            </summary>
+        </member>
+        <member name="E:MindFusion.Gauges.Wpf.BaseScale.ScaleGeometryClicked">
+            <summary>
+            Occurs when the scale geometry is clicked with the mouse.
+            </summary>
+        </member>
+        <member name="E:MindFusion.Gauges.Wpf.BaseScale.ScaleClicked">
+            <summary>
+            Occurs when the scale is clicked with the mouse.
+            </summary>
+        </member>
+        <member name="E:MindFusion.Gauges.Wpf.BaseScale.QueryLabelValue">
+            <summary>
+            Occurs when the labels in the scale are being generated in order
+            to associate custom values with them.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.BaseScale.initializationStage">
+            <summary>
+            A flag indicating whether the control is currently being initialized.
+            A value greater than 0 indicates that the control is initializing.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.BaseScale.tickContainer">
+            <summary>
+            A panel container for the scale ticks.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.BaseScale.tickContainerParent">
+            <summary>
+            The parent element of the tickContainer.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.BaseScale.rangeContainer">
+            <summary>
+            A panel container for the scale ranges.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.BaseScale.rangeContainerParent">
+            <summary>
+            The parent element of the rangeContainer.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.BaseScale.labelContainer">
+            <summary>
+            A panel container for the scale labels.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.BaseScale.labelContainerParent">
+            <summary>
+            The parent element of the labelContainer.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.BaseScale.pointerContainer">
+            <summary>
+            A panel container for the scale pointers.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.BaseScale.pointerContainerParent">
+            <summary>
+            The parent element of the pointerContainer.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.BaseScale.customFunction">
+            <summary>
+            The custom value distribution function.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.BaseScale.reversedCustomFunction">
+            <summary>
+            The reversed analogue to the custom function.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Gauges.Wpf.CenterPanel">
+            <summary>
+            A container which centers its children and makes them with square size.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.CenterPanel.MeasureOverride(System.Windows.Size)">
+            <summary>
+            FrameworkElement.MeasureOverride override.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.CenterPanel.ArrangeOverride(System.Windows.Size)">
+            <summary>
+            FrameworkElement.ArrangeOverride override.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Gauges.Wpf.CustomIntervalCollection">
+            <summary>
+            Represents an observable collection of CustomInterval objects.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Gauges.Wpf.DisplayType">
+            <summary>
+            Specifies a display condition.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.DisplayType.Auto">
+            <summary>
+            Indicates that the visibility of an element should be determined
+            automatically.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.DisplayType.Always">
+            <summary>
+            Indicates that the the element should always be displayed.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.DisplayType.Never">
+            <summary>
+            Indicates that the the element should always be hidden.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Gauges.Wpf.GaugeMouseEventArgs">
+            <summary>
+            Contains the arguments passed to mouse-related event handlers.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.GaugeMouseEventArgs.#ctor(System.Windows.Input.MouseButtonState,System.Windows.Input.MouseButtonState,System.Windows.Input.MouseButtonState,System.Int32,System.Windows.Controls.Control,System.Windows.Point,System.Double)">
+            <summary>
+            Initializes a new instance of the GaugeMouseEventArgs class.
+            </summary>
+            <param name="leftButton">
+            The state of the left mouse button.
+            </param>
+            <param name="middleButton">
+            The state of the middle mouse button.
+            </param>
+            <param name="rightButton">
+            The state of the right mouse button.
+            </param>
+            <param name="clickCount">
+            This number of times the mouse button was pressed.
+            </param>
+            <param name="element">
+            The clicked gauge element, if any.
+            </param>
+            <param name="position">
+            The position of the mouse relative to the clicked element.
+            </param>
+            <param name="value">
+            The gauge value corresponding to the clicked point.
+            </param>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.GaugeMouseEventArgs.LeftButton">
+            <summary>
+            Gets the current state of the left mouse button.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.GaugeMouseEventArgs.MiddleButton">
+            <summary>
+            Gets the current state of the middle mouse button.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.GaugeMouseEventArgs.RightButton">
+            <summary>
+            Gets the current state of the right mouse button.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.GaugeMouseEventArgs.ClickCount">
+            <summary>
+            Gets the number of times the button was clicked. 
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.GaugeMouseEventArgs.Element">
+            <summary>
+            Gets a reference to the clicked gauge element, if any.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.GaugeMouseEventArgs.Position">
+            <summary>
+            Gets the position of the mouse relative to the clicked element.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.GaugeMouseEventArgs.Value">
+            <summary>
+            Get the gauge value corresponding to the clicked point.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Gauges.Wpf.Led">
+            <summary>
+            A LED-like control with a glow effect. This control is suitable for
+            gauge indicators.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Led.ThisType">
+            <summary>
+            A read-only field containing the type of this class.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.Led.#cctor">
+            <summary>
+            Static constructor.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.Led.#ctor">
+            <summary>
+            Initializes a new instance of the Led class.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.Led.GlowColor">
+            <summary>
+            Gets or sets the glow color of the control.
+            This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Led.GlowColorProperty">
+            <summary>
+            Identifies the GlowColor dependency property.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Gauges.Wpf.ExtendedPropertyChangedEventArgs">
+            <summary>
+            Provides extended data for the INotifyPropertyChanged.PropertyChanged event.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.ExtendedPropertyChangedEventArgs.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the ExtendedPropertyChangedEventArgs class.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.ExtendedPropertyChangedEventArgs.#ctor(System.String,System.Boolean)">
+            <summary>
+            Initializes a new instance of the ExtendedPropertyChangedEventArgs class.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.ExtendedPropertyChangedEventArgs.RequiresUpdate">
+            <summary>
+            Gets a value indicating whether the property change should cause updates.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Gauges.Wpf.FunctionDelegate">
+            <summary>
+            Represents a user-defined method, which performs custom distribution
+            of values along the gauge scale.
+            </summary>
+            <param name="value">
+            The source parameter value.
+            </param>
+            <param name="argument">
+            An optional argument passed to the function. This is the value of
+            the FunctionArgument property of the BaseScale class.
+            </param>
+            <returns>
+            The function result.
+            </returns>
+        </member>
+        <member name="T:MindFusion.Gauges.Wpf.FunctionType">
+            <summary>
+            Indicates the type of function that will be used to distribute values
+            along the gauge scale.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.FunctionType.Linear">
+            <summary>
+            Specifies that the values will be distributed linearly.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.FunctionType.Logarithmic">
+            <summary>
+            Specifies a logarithmic function with base specified by the LogarithmBase property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.FunctionType.Custom">
+            <summary>
+            Specifies a user defined function, which will be supplied by the CustomFunction property.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Gauges.Wpf.Indicator">
+            <summary>
+            Represents a gauge element, which changes its appearance based on its current state.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Indicator.ThisType">
+            <summary>
+            A read-only field containing the type of this class.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.Indicator.#cctor">
+            <summary>
+            Static constructor.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.Indicator.#ctor">
+            <summary>
+            Initializes a new instance of the Indicator class.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.Indicator.UpdateCurrentState">
+            <summary>
+            Updates the value of the CurrentState property in response to a change
+            of the Value property or States colleciton.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.Indicator.CurrentState">
+            <summary>
+            Gets the state the indicator is currently in.
+            This is a dependency property.
+            </summary>
+            <remarks>
+            The value of this property is updated automatically to reflect the
+            current state of the indicator.
+            </remarks>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Indicator.CurrentStateProperty">
+            <summary>
+            Identifies the CurrentState dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.Indicator.DefaultState">
+            <summary>
+            Gets or sets the state to use when the indicator is not
+            in any of the defined states. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Indicator.DefaultStateProperty">
+            <summary>
+            Identifies the DefaultState dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.Indicator.Value">
+            <summary>
+            Gets or sets the value associated with this indicator. This is a dependency property.
+            </summary>
+            <remarks>
+            The value of the indicator determines its current state.</remarks>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Indicator.ValueProperty">
+            <summary>
+            Identifies the Value dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.Indicator.States">
+            <summary>
+            Gets or sets a collection of CustomInterval objects, which define various
+            states for the indicator. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Indicator.StatesProperty">
+            <summary>
+            Identifies the States dependency property.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.Indicator.GetActiveColor(MindFusion.Gauges.Wpf.CustomInterval)">
+            <summary>
+            Gets the value of the Indicator.ActiveColor attached property for a given dependency object.
+            </summary>
+            <param name="element">
+            The element from which the property value is read.
+            </param>
+            <returns>
+            The Indicator.ActiveColor value of the specified element.
+            </returns>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.Indicator.SetActiveColor(MindFusion.Gauges.Wpf.CustomInterval,System.Windows.Media.Color)">
+            <summary>
+            Sets the value of the Indicator.ActiveColor attached property for a given dependency object.
+            </summary>
+            <param name="element">
+            The element to which the property value is written.
+            </param>
+            <param name="value">
+            The new value for the Indicator.ActiveColor property of the specified element.
+            </param>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Indicator.ActiveColorProperty">
+            <summary>
+            Identifies the ActiveColor attached property.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Gauges.Wpf.LinearGauge">
+            <summary>
+            Represents a linear gauge control.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.LinearGauge.ThisType">
+            <summary>
+            A read-only field containing the type of this class.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.LinearGauge.#cctor">
+            <summary>
+            Static constructor.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.LinearGauge.#ctor">
+            <summary>
+            Initializes a new instance of the LinearGauge class.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.LinearGauge.Orientation">
+            <summary>
+            Gets or sets the orientation of the gauge. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.LinearGauge.OrientationProperty">
+            <summary>
+            Identifies the Orientation dependency property.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Gauges.Wpf.MajorTickSettings">
+            <summary>
+            Provides settings for the major ticks and labels in a gauge scale.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.MajorTickSettings.#ctor">
+            <summary>
+            Initializes a new instance of the MajorTickSettings class.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.MajorTickSettings.TickType">
+            <summary>
+            TickSettings.TickType override.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Gauges.Wpf.MiddleTickSettings">
+            <summary>
+            Provides settings for the middle ticks and labels in a gauge scale.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.MiddleTickSettings.#ctor">
+            <summary>
+            Initializes a new instance of the MiddleTickSettings class.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.MiddleTickSettings.TickType">
+            <summary>
+            TickSettings.TickType override.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Gauges.Wpf.MinorTickSettings">
+            <summary>
+            Provides settings for the minor ticks and labels in a gauge scale.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.MinorTickSettings.#ctor">
+            <summary>
+            Initializes a new instance of the MinorTickSettings class.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.MinorTickSettings.TickType">
+            <summary>
+            TickSettings.TickType override.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Gauges.Wpf.OvalGauge">
+            <summary>
+            Represents a circular gauge control.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.OvalGauge.ThisType">
+            <summary>
+            A read-only field containing the type of this class.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.OvalGauge.#cctor">
+            <summary>
+            Static constructor.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.OvalGauge.#ctor">
+            <summary>
+            Initializes a new instance of the OvalGauge class.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Gauges.Wpf.GeometryFactory">
+            <summary>
+            A factory class for various geometry objects.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.GeometryFactory.GetOutlineRadius(System.Double,System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            Calculates the radius of a non-uniform arc at the specified angle.
+            A non-uniform arc is a pseudo-circular arc which has different radii at both ends.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.GeometryFactory.Radians(System.Double)">
+            <summary>
+            Converts an angle, specified in degrees, to an angle specified in radians.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.GeometryFactory.CreateLinearGeometry(System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Boolean)">
+            <summary>
+            Generates a linear bar geometry with the specified parameters.
+            </summary>
+            <param name="centerX">
+            The x-coordinate of the generated geometry.
+            </param>
+            <param name="centerY">
+            The y-coordinate of the generated geometry.
+            </param>
+            <param name="startInnerOffset">
+            The start inner offset of the generated geometry relative to the specified center.
+            </param>
+            <param name="startOuterOffset">
+            The start outer offset of the generated geometry relative to the specified center.
+            </param>
+            <param name="endInnerOffset">
+            The end inner offset of the generated geometry relative to the specified center.
+            </param>
+            <param name="endOuterOffset">
+            The end outer offset of the generated geometry relative to the specified center.
+            </param>
+            <param name="length">
+            The length of the generated geometry.
+            </param>
+            <param name="isVertical">
+            A flag indicating whether the generated geometry is vertical.
+            </param>
+            <returns>
+            A PathGeometry representing a linear bar with the specified parameters.
+            </returns>
+            <remarks>
+            The generated geometry is a trapezium.
+            For example, a vertical linear geometry with centerX = 10, centerY = 10,
+            startInnerOffset = 0, startOuterOffset = 5, endInnerOffset = 0, endOuerOffset = 10,
+            length = 100; will be a trapezium with points (10, 110) (15, 110), (20, 10), (10, 10).
+            A horizontal lienar geometry with the above parameters will be a trapezium
+            with points (10, 10), (10, 15), (110, 20), (110, 10).
+            </remarks>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.GeometryFactory.CreateLinearGeometry(System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Generates a linear bar geometry with the specified parameters.
+            </summary>
+            <param name="centerX">
+            The x-coordinate of the generated geometry.
+            </param>
+            <param name="centerY">
+            The y-coordinate of the generated geometry.
+            </param>
+            <param name="startInnerOffset">
+            The start inner offset of the generated geometry relative to the specified center.
+            </param>
+            <param name="startOuterOffset">
+            The start outer offset of the generated geometry relative to the specified center.
+            </param>
+            <param name="endInnerOffset">
+            The end inner offset of the generated geometry relative to the specified center.
+            </param>
+            <param name="endOuterOffset">
+            The end outer offset of the generated geometry relative to the specified center.
+            </param>
+            <param name="length">
+            The length of the generated geometry.
+            </param>
+            <param name="isVertical">
+            A flag indicating whether the generated geometry is vertical.
+            </param>
+            <param name="capStart">
+            A flag indicating whether to draw a stroke at the start of the bar.
+            </param>
+            <param name="capEnd">
+            A flag indicating whether to draw a stroke at the end of the bar.
+            </param>
+            <param name="strokeInner">
+            A flag indicating whether to draw a stroke at the inner side of the bar.
+            </param>
+            <param name="strokeOuter">
+            A flag indicating whether to draw a stroke at the outer side of the bar.
+            </param>
+            <returns>
+            A PathGeometry representing a linear bar with the specified parameters.
+            </returns>
+            <remarks>
+            The generated geometry is a trapezium.
+            For example, a vertical linear geometry with centerX = 10, centerY = 10,
+            startInnerOffset = 0, startOuterOffset = 5, endInnerOffset = 0, endOuerOffset = 10,
+            length = 100; will be a trapezium with points (10, 110), (15, 110), (20, 10), (10, 10).
+            A horizontal lienar geometry with the above parameters will be a trapezium
+            with points (10, 10), (10, 15), (110, 20), (110, 10).
+            </remarks>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.GeometryFactory.CreateRadialGeometry(System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            Generates a radial bar geometry with the specified parameters.
+            </summary>
+            <param name="centerX">
+            The x-coordinate of the generated geometry.
+            </param>
+            <param name="centerY">
+            The y-coordinate of the generated geometry.
+            </param>
+            <param name="startInnerRadius">
+            The radius of the start point of the inner outline of the bar.
+            </param>
+            <param name="startOuterRadius">
+            The radius of the start point of the outer outline of the bar.
+            </param>
+            <param name="endInnerRadius">
+            The radius of the end point of the inner outline of the bar.
+            </param>
+            <param name="endOuterRadius">
+            The radius of the end point of the outer outline of the bar.
+            </param>
+            <param name="startAngle">
+            The start angle of the radial bar.
+            </param>
+            <param name="endAngle">
+            The end angle of the radial bar.
+            </param>
+            <returns>
+            A PathGeometry representing a radial bar with the specified parameters.
+            </returns>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.GeometryFactory.CreateRadialGeometry(System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Boolean,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Generates a radial bar geometry with the specified parameters.
+            </summary>
+            <param name="centerX">
+            The x-coordinate of the generated geometry.
+            </param>
+            <param name="centerY">
+            The y-coordinate of the generated geometry.
+            </param>
+            <param name="startInnerRadius">
+            The radius of the start point of the inner outline of the bar.
+            </param>
+            <param name="startOuterRadius">
+            The radius of the start point of the outer outline of the bar.
+            </param>
+            <param name="endInnerRadius">
+            The radius of the end point of the inner outline of the bar.
+            </param>
+            <param name="endOuterRadius">
+            The radius of the end point of the outer outline of the bar.
+            </param>
+            <param name="startAngle">
+            The start angle of the radial bar.
+            </param>
+            <param name="endAngle">
+            The end angle of the radial bar.
+            </param>
+            <param name="capStart">
+            A flag indicating whether to draw a stroke at the start of the bar.
+            </param>
+            <param name="capEnd">
+            A flag indicating whether to draw a stroke at the end of the bar.
+            </param>
+            <param name="strokeInner">
+            A flag indicating whether to draw a stroke at the inner curve of the bar.
+            </param>
+            <param name="strokeOuter">
+            A flag indicating whether to draw a stroke at the outer curve of the bar.
+            </param>
+            <returns>
+            A PathGeometry representing a radial bar with the specified parameters.
+            </returns>
+        </member>
+        <member name="T:MindFusion.Gauges.Wpf.LabelRotation">
+            <summary>
+            Indicates the rotation of a label within a scale.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.LabelRotation.None">
+            <summary>
+            Specifies no rotation.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.LabelRotation.Auto">
+            <summary>
+            Specifies that the labels are automatically rotated so that their
+            baseline always points downwards.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.LabelRotation.BaselineToCenter">
+            <summary>
+            Specifies that the labels are rotated so that their baseline points
+            towards the center of the scale.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.LabelRotation.BaselineAwayFromCenter">
+            <summary>
+            Specifies that the labels are rotated so that their baseline points
+            away from the center of the scale.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.LabelRotation.Sideways">
+            <summary>
+            Specifies that the labels are aligned sideways to the scale.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Gauges.Wpf.Alignment">
+            <summary>
+            Indicates an alignment of an object relative to the scale. In the descriptions
+            below 'outbound' refers to an element's outer outline, 'inbound' refers to an
+            element's inner outline and 'center' refers to en element's center, that is,
+            the middle of the inbound and outbound.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Alignment.InnerInside">
+            <summary>
+            Specifies that the outbound of an object is aligned with the inbound of the scale.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Alignment.InnerCenter">
+            <summary>
+            Specifies that the center of an object is aligned with the inbound of the scale.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Alignment.InnerOutside">
+            <summary>
+            Specifies that the inbound of an object is aligned with the inbound of the scale.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Alignment.OuterInside">
+            <summary>
+            Specifies that the outbound of an object is aligned with the outbound of the scale.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Alignment.OuterCenter">
+            <summary>
+            Specifies that the center of an object is aligned with the outbound of the scale.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Alignment.OuterOutside">
+            <summary>
+            Specifies that the inbound of an object is aligned with the outbound of the scale.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Alignment.CenterInside">
+            <summary>
+            Specifies that the outbound of an object is aligned with the center of the scale.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Alignment.TrueCenter">
+            <summary>
+            Specifies that the center of an object is aligned with the center of the scale.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Alignment.CenterOutside">
+            <summary>
+            Specifies that the inbound of an object is aligned with the center of the scale.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Gauges.Wpf.Length">
+            <summary>
+            Specifies distance expressed either absolutely, through pixels, or relatively,
+            through a percentage of the container's size.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.Length.#ctor(System.Double)">
+            <summary>
+            Initializes a new instance of the Length structure with the specified absolute value.
+            </summary>
+            <param name="absoluteValue">
+            A double specifying absolute length.
+            </param>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.Length.#ctor(System.Double,MindFusion.Gauges.Wpf.LengthType)">
+            <summary>
+            Initializes a new instance of the Length structure with the specified value and type.
+            </summary>
+            <param name="value">
+            A double specifying the initial length value.
+            </param>
+            <param name="type">
+            A member of the LengthType enumeration specifying the length type.
+            </param>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.Length.Equals(System.Object)">
+            <summary>
+            ValueType.Equals override. Compares an object to an instance of Length for equality.
+            </summary>
+            <param name="obj">
+            The object to compare.
+            </param>
+            <returns>
+            true if the lengths are equal; otherwise, false.
+            </returns>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.Length.ToString">
+            <summary>
+            Returns a string representation of this Length object.
+            </summary>
+            <returns>
+            A string representation of this Length.
+            </returns>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.Length.GetHashCode">
+            <summary>
+            Gets the hash code for this instance of Length object.
+            </summary>
+            <returns>
+            The hash code for this instance of Length.
+            </returns>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.Length.op_Inequality(MindFusion.Gauges.Wpf.Length,MindFusion.Gauges.Wpf.Length)">
+            <summary>
+            Compares two Length structures to determine if they are not equal.
+            </summary>
+            <param name="l1">
+            The first instance of Length to compare.
+            </param>
+            <param name="l2">
+            The second instance of Length to compare.
+            </param>
+            <returns>
+            true if the two instances of Length do not have the same
+            value and LengthType; otherwise, false.
+            </returns>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.Length.op_Equality(MindFusion.Gauges.Wpf.Length,MindFusion.Gauges.Wpf.Length)">
+            <summary>
+            Compares two Length structures for equality.
+            </summary>
+            <param name="l1">
+            The first instance of Length to compare.
+            </param>
+            <param name="l2">
+            The second instance of Length to compare.
+            </param>
+            <returns>
+            true if the two instances of Length have the same value
+            and LengthType; otherwise, false.
+            </returns>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.Length.Value">
+            <summary>
+            Gets or sets the value representing this length.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.Length.Type">
+            <summary>
+            Gets or sets a value indicating how to interpret Value.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Gauges.Wpf.LengthConverter">
+            <summary>
+            Represents a TypeConverter for Length objects.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.LengthConverter.CanConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Type)">
+            <summary>
+            LengthConverter.CanConvertFrom override.
+            </summary>
+            <param name="context">
+            An System.ComponentModel.ITypeDescriptorContext that provides a format context.
+            </param>
+            <param name="sourceType">
+            A System.Type that represents the type you want to convert from.
+            </param>
+            <returns>
+            true if this converter can perform the conversion; otherwise, false.
+            </returns>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.LengthConverter.CanConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Type)">
+            <summary>
+            TypeConverter.CanConvertTo override.
+            </summary>
+            <param name="context">
+            An System.ComponentModel.ITypeDescriptorContext that provides a format context.
+            </param>
+            <param name="destinationType">
+            A System.Type that represents the type you want to convert to.
+            </param>
+            <returns>
+            true if this converter can perform the conversion; otherwise, false.
+            </returns>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.LengthConverter.ConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object)">
+            <summary>
+            TypeConverter.ConvertFrom override.
+            </summary>
+            <param name="context">
+            An System.ComponentModel.ITypeDescriptorContext that provides a format context.
+            </param>
+            <param name="culture">
+            The System.Globalization.CultureInfo to use as the current culture.
+            </param>
+            <param name="value">
+            The System.Object to convert.
+            </param>
+            <returns>
+            An System.Object that represents the converted value.
+            </returns>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.LengthConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object,System.Type)">
+            <summary>
+            TypeConverter.ConvertTo override.
+            </summary>
+            <param name="context">
+            The System.Object to convert.
+            </param>
+            <param name="culture">
+            The System.Type to convert the value parameter to.
+            </param>
+            <param name="value">
+            An System.Object that represents the converted value.
+            </param>
+            <param name="destinationType">
+            The System.Type to convert the value parameter to.
+            </param>
+            <returns>
+            An System.Object that represents the converted value.
+            </returns>
+        </member>
+        <member name="T:MindFusion.Gauges.Wpf.LengthType">
+            <summary>
+            Indicates the type of the units of a Length object.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.LengthType.Absolute">
+            <summary>
+            Specifies absolute length, expressed in pixels.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.LengthType.Relative">
+            <summary>
+            Specifies relative length, expressed as a percentage of the container's size.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Gauges.Wpf.PercentConverter">
+            <summary>
+            Converts an amount of the specified converter parameter equal to the
+            percentage specified by the source value.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.PercentConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            IValueConverter.Convert implementation.
+            </summary>
+            <param name="value">
+            The value produced by the binding source.
+            </param>
+            <param name="targetType">
+            The type of the binding target property.
+            </param>
+            <param name="parameter">
+            The converter parameter to use.
+            </param>
+            <param name="culture">
+            The culture to use in the converter.
+            </param>
+            <returns>
+            A converted value. If the method returns null, the valid null value is used.
+            </returns>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.PercentConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            IValueConverter.ConvertBack implementation.
+            </summary>
+            <param name="value">
+            The value produced by the binding source.
+            </param>
+            <param name="targetType">
+            The type of the binding target property.
+            </param>
+            <param name="parameter">
+            The converter parameter to use.
+            </param>
+            <param name="culture">
+            The culture to use in the converter.
+            </param>
+            <returns>
+            A converted value. If the method returns null, the valid null value is used.
+            </returns>
+        </member>
+        <member name="T:MindFusion.Gauges.Wpf.Pointer">
+            <summary>
+            Represents a needle (or arrow) within a gauge scale.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Pointer.ThisType">
+            <summary>
+            A read-only field containing the type of this class.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.Pointer.#cctor">
+            <summary>
+            Static constructor.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.Pointer.#ctor">
+            <summary>
+            Initializes a new instance of the Pointer class.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.Pointer.MeasureOverride(System.Windows.Size)">
+            <summary>
+            Control.MeasureOverride override.
+            </summary>
+            <param name="constraint">
+            The maximum size that the method can return.
+            </param>
+            <returns>
+            The size of the control, up to the maximum specified by constraint.
+            </returns>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.Pointer.ArrangeOverride(System.Windows.Size)">
+            <summary>
+            Control.ArrangeOverride override.
+            </summary>
+            <param name="arrangeBounds">
+            The computed size that is used to arrange the content.
+            </param>
+            <returns>
+            The size of the control.
+            </returns>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.Pointer.OnMouseDown(System.Windows.Input.MouseButtonEventArgs)">
+            <summary>
+            UIElement.OnMouseDown override.
+            </summary>
+            <param name="e">
+            The System.Windows.Input.MouseButtonEventArgs that contains the event data.
+            This event data reports details about the mouse button that was pressed and
+            the handled state.
+            </param>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.Pointer.OnClicked(System.Windows.Input.MouseButtonEventArgs)">
+            <summary>
+            Raises the Clicked event.
+            </summary>
+            <param name="e">
+            An object, containing the event data.
+            </param>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.Pointer.InvalidateArrange(System.Windows.DependencyObject)">
+            <summary>
+            Invokes InvalidateArrange on the specified Pointer.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.Pointer.InvalidateMeasure(System.Windows.DependencyObject)">
+            <summary>
+            Invokes InvalidateMeasure on the specified Pointer.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.Pointer.OnValueChanged(MindFusion.Gauges.Wpf.ValueChangedEventArgs{System.Double})">
+            <summary>
+            Raises the ValueChanged event.
+            </summary>
+            <param name="e">
+            An object, containing the event data.
+            </param>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.Pointer.Value">
+            <summary>
+            Gets or sets the value this pointer points to. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Pointer.ValueProperty">
+            <summary>
+            Identifies the Value dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.Pointer.HasValueChanged">
+            <summary>
+            Gets a value indicating whether the pointer is currently changing value.
+            </summary>
+            <remarks>
+            This property is checked when animating the pointer. Pointers only animate
+            when the value of this property is true.
+            </remarks>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.Pointer.IsAnimated">
+            <summary>
+            Gets or sets a value indicating whether the pointer should animate when its
+            position changes. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Pointer.IsAnimatedProperty">
+            <summary>
+            Identifies the IsAnimated dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.Pointer.IsInteractive">
+            <summary>
+            Gets or sets a value indicating whether the pointer position
+            should be affected by user interactions. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Pointer.IsInteractiveProperty">
+            <summary>
+            Identifies the IsInteractive dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.Pointer.PointerWidth">
+            <summary>
+            Gets or sets the width of the pointer. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Pointer.PointerWidthProperty">
+            <summary>
+            Identifies the PointerWidth dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.Pointer.PointerHeight">
+            <summary>
+            Gets or sets the height of the pointer. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Pointer.PointerHeightProperty">
+            <summary>
+            Identifies the PointerHeight dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.Pointer.PointerOffset">
+            <summary>
+            Gets or sets the offset of the pointer along the direction it points to.
+            This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Pointer.PointerOffsetProperty">
+            <summary>
+            Identifies the PointerOffset dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.Pointer.Alignment">
+            <summary>
+            Gets or sets the alignment of the pointer relative to the scale.
+            This is a dependency property.
+            </summary>
+            <remarks>
+            This property is ignored in oval gauges where the pointer is always pinned
+            to the center of the gauge.
+            </remarks>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Pointer.AlignmentProperty">
+            <summary>
+            Identifies the Alignment dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.Pointer.IsDiscrete">
+            <summary>
+            Gets or sets a value indicating whether the pointer value can be changed only discretely.
+            In other words, the pointer Value can be only integer. This is a dependency property.
+            </summary>
+            <remarks>
+            This property can be useful when implementing analog-style pointers, which can move
+            only discretely.
+            </remarks>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Pointer.IsDiscreteProperty">
+            <summary>
+            Identifies the IsDiscrete dependency property.
+            </summary>
+        </member>
+        <member name="E:MindFusion.Gauges.Wpf.Pointer.ValueChanged">
+            <summary>
+            Occurs when the Value of this pointer changes, either programmatically
+            or interactively.
+            </summary>
+        </member>
+        <member name="E:MindFusion.Gauges.Wpf.Pointer.Clicked">
+            <summary>
+            Occurs when the pointer is clicked with the mouse.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Gauges.Wpf.QueryLabelValueEventArgs">
+            <summary>
+            Provides data for the QueryLabelValue event.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.QueryLabelValueEventArgs.#ctor">
+            <summary>
+            Initializes a new instance of the QueryLabelValueEventArgs class.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.QueryLabelValueEventArgs.CalculatedLabelValue">
+            <summary>
+            Gets the value, which has been calculated for the label and
+            which will be used if no custom value is provided.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.QueryLabelValueEventArgs.Settings">
+            <summary>
+            Gets the TickSettings object which specifies the settings of the label.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.QueryLabelValueEventArgs.NewValue">
+            <summary>
+            Gets or sets the new value to associate with the label.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Gauges.Wpf.Range">
+            <summary>
+            Represents a range within a gauge scale.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Range.ThisType">
+            <summary>
+            A read-only field containing the type of this class.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.Range.#cctor">
+            <summary>
+            Static constructor.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.Range.#ctor">
+            <summary>
+            Initializes a new instance of the Range class.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.Range.MeasureOverride(System.Windows.Size)">
+            <summary>
+            Control.MeasureOverride override.
+            </summary>
+            <param name="constraint">
+            The maximum size that the method can return.
+            </param>
+            <returns>
+            The size of the control, up to the maximum specified by constraint.
+            </returns>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.Range.ArrangeOverride(System.Windows.Size)">
+            <summary>
+            Control.ArrangeOverride override.
+            </summary>
+            <param name="arrangeBounds">
+            The computed size that is used to arrange the content.
+            </param>
+            <returns>
+            The size of the control.
+            </returns>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.Range.OnMouseDown(System.Windows.Input.MouseButtonEventArgs)">
+            <summary>
+            UIElement.OnMouseDown override.
+            </summary>
+            <param name="e">
+            The System.Windows.Input.MouseButtonEventArgs that contains the event data.
+            This event data reports details about the mouse button that was pressed and
+            the handled state.
+            </param>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.Range.OnClicked(System.Windows.Input.MouseButtonEventArgs)">
+            <summary>
+            Raises the Clicked event.
+            </summary>
+            <param name="e">
+            An object, containing the event data.
+            </param>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.Range.MinValue">
+            <summary>
+            Gets or sets the start value of this range. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Range.MinValueProperty">
+            <summary>
+            Identifies the MinValue dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.Range.MaxValue">
+            <summary>
+            Gets or sets the end value of this range. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Range.MaxValueProperty">
+            <summary>
+            Identifies the MaxValue dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.Range.Alignment">
+            <summary>
+            Gets or sets the alignment of this range relative to the scale it is
+            associated with. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Range.AlignmentProperty">
+            <summary>
+            Identifies the Alignment dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.Range.StartWidth">
+            <summary>
+            Gets or sets the width of this range at its start. This is a
+            dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Range.StartWidthProperty">
+            <summary>
+            Identifies the StartWidth dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.Range.EndWidth">
+            <summary>
+            Gets or sets the width of this range at its end. This is a
+            dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Range.EndWidthProperty">
+            <summary>
+            Identifies the EndWidth dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.Range.Offset">
+            <summary>
+            Gets or sets the offset of the range from the position calculated
+            according to its alignment. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Range.OffsetProperty">
+            <summary>
+            Identifies the Offset dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.Range.Fill">
+            <summary>
+            Gets or sets the fill brush of this range. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Range.FillProperty">
+            <summary>
+            Identifies the Fill dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.Range.Stroke">
+            <summary>
+            Gets or sets the stroke of this range. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Range.StrokeProperty">
+            <summary>
+            Identifies the Stroke dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.Range.StrokeThickness">
+            <summary>
+            Gets or sets the stroke thickness of this range. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Range.StrokeThicknessProperty">
+            <summary>
+            Identifies the StrokeThickness dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.Range.CapStart">
+            <summary>
+            Gets or sets a value indicating whether to draw a stroke the beginning of
+            this range. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Range.CapStartProperty">
+            <summary>
+            Identifies the CapStart dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.Range.CapEnd">
+            <summary>
+            Gets or sets a value indicating whether to draw a stroke the beginning of
+            this range. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Range.CapEndProperty">
+            <summary>
+            Identifies the CapEnd dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.Range.StrokeInside">
+            <summary>
+            Gets or sets a value indicating whether to draw a stroke at the inside of
+            this range. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Range.StrokeInsideProperty">
+            <summary>
+            Identifies the StrokeInside dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.Range.StrokeOutside">
+            <summary>
+            Gets or sets a value indicating whether to draw a stroke at the outside of
+            this range. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Range.StrokeOutsideProperty">
+            <summary>
+            Identifies the StrokeOutside dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.Range.AutoSize">
+            <summary>
+            Gets or sets a value indicating whether the start and end width of the
+            range will be automatically adjusted to match the width of the scale.
+            This is a dependency property.
+            </summary>
+            <remarks>
+            If this property is set to true the values of StartWidth and EndWidth
+            properties are ignored.
+            </remarks>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Range.AutoSizeProperty">
+            <summary>
+            Identifies the AutoSize dependency property.
+            </summary>
+        </member>
+        <member name="E:MindFusion.Gauges.Wpf.Range.Clicked">
+            <summary>
+            Occurs when the pointer is clicked with the mouse.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Gauges.Wpf.OvalScale">
+            <summary>
+            Represents a radial scale.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.OvalScale.ThisType">
+            <summary>
+            A read-only field containing the type of this class.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.OvalScale.#cctor">
+            <summary>
+            Static constructor.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.OvalScale.#ctor">
+            <summary>
+            Initializes a new instance of the OvalScale class.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.OvalScale.MeasureOverride(System.Windows.Size)">
+            <summary>
+            BaseScale.MeasureOverride override.
+            </summary>
+            <param name="constraint">
+            The maximum size that the method can return.
+            </param>
+            <returns>
+            The size of the control, up to the maximum specified by constraint.
+            </returns>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.OvalScale.GetValueFromPoint(System.Windows.Point)">
+            <summary>
+            BaseScale.GetValueFromPoint override.
+            </summary>
+            <param name="point">
+            The point to test.
+            </param>
+            <returns>
+            The value from the scale, corresponding to the point, possibly MinValue or
+            MaxValue if the specified point cannot be associated with a value.
+            </returns>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.OvalScale.GetAbsoluteValueFromPoint(System.Windows.Point)">
+            <summary>
+            BaseScale.GetAbsoluteValueFromPoint override.
+            </summary>
+            <param name="point">
+            The point to test
+            </param>
+            <returns>
+            The value from the scale corresponding to the point.
+            </returns>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.OvalScale.GetInnerOutlineOffset(System.Double)">
+            <summary>
+            Calculates the width of the scale geometry at the specified angle.
+            For example if the start width of the scale is 10 and its end width
+            is 20, calling this method for an angle representing the middle
+            of the scale geometry will yield 15.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.OvalScale.GetAngleFromPoint(System.Windows.Point)">
+            <summary>
+            Calculates the angle corresponding to the specified point.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.OvalScale.GetValueFromAngle(System.Double,System.Boolean)">
+            <summary>
+            Calculates the value corresponding to the specified angle.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.OvalScale.GetAngleFromValue(System.Double)">
+            <summary>
+            Calculates the angle corresponding to the specified value.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.OvalScale.GetAbsoluteLength(MindFusion.Gauges.Wpf.Length)">
+            <summary>
+            Calculates the absolute length corresponding to the specified argument,
+            relative to the current scale.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.OvalScale.AlignBasePoint(MindFusion.Gauges.Wpf.Length,MindFusion.Gauges.Wpf.Alignment,System.Double,System.Windows.Size)">
+            <summary>
+            Aligns the base point according to the specified settings.
+            </summary>
+            <param name="offset">
+            The offset of the point from the outside outline of the scale. The offset
+            is applied inwards, that is, positive offset moves the point to the center.
+            </param>
+            <param name="alignment">
+            The alignment of the base point relative to the scale.
+            </param>
+            <param name="angle">
+            The rotation angle of the base point.
+            </param>
+            <param name="size">
+            The size of the object being aligned, (0, 0) for points.
+            </param>
+            <returns>
+            The aligned base point.
+            </returns>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.OvalScale.DistanceFromCenter(System.Windows.Point)">
+            <summary>
+            Returns the distance of the specified point from the scale center.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.OvalScale.UpdateScaleGeometry">
+            <summary>
+            Rebuilds the scale path.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.OvalScale.CalculateAbsoluteLength(MindFusion.Gauges.Wpf.Length)">
+            <summary>
+            BaseScale.CalculateAbsoluteLength override.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.OvalScale.MeasurePointer(MindFusion.Gauges.Wpf.Pointer,System.Windows.Size)">
+            <summary>
+            BaseScale.MeasurePointer override.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.OvalScale.ArrangePointer(MindFusion.Gauges.Wpf.Pointer)">
+            <summary>
+            BaseScale.ArrangePointer override.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.OvalScale.MeasureTick(MindFusion.Gauges.Wpf.Tick,System.Windows.Size)">
+            <summary>
+            BaseScale.MeasureTick override.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.OvalScale.ArrangeTick(MindFusion.Gauges.Wpf.Tick)">
+            <summary>
+            BaseScale.ArrangeTick override.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.OvalScale.ArrangeLabel(MindFusion.Gauges.Wpf.TickLabel)">
+            <summary>
+            BaseScale.ArrangeLabel override.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.OvalScale.MeasureRange(MindFusion.Gauges.Wpf.Range,System.Windows.Size)">
+            <summary>
+            BaseScale.MeasureRange override.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.OvalScale.CreateRangeGeometry(MindFusion.Gauges.Wpf.Range)">
+            <summary>
+            BaseScale.CreateRangeGeometry override.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.OvalScale.ScaleRelativeRadius">
+            <summary>
+            Gets or sets the radius of the scale relative to the scale bounds.
+            A value of 0.5 indicates that the radius is half the size of the scale.
+            This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.OvalScale.ScaleRelativeRadiusProperty">
+            <summary>
+            Identifies the ScaleRelativeRadius dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.OvalScale.ScaleRelativeCenter">
+            <summary>
+            Gets or sets the center of the scale relative to the scale bounds.
+            A value of (0.5, 0.5) indicates the center of the bounds, a value
+            of (0, 0) indicates the top-left corner.
+            This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.OvalScale.ScaleRelativeCenterProperty">
+            <summary>
+            Identifies the ScaleRelativeCenter dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.OvalScale.Offset">
+            <summary>
+            Gets or sets the distance between the outline of the scale and the outline of
+            the gauge control which contains it. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.OvalScale.OffsetProperty">
+            <summary>
+            Identifies the Offset dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.OvalScale.StartAngle">
+            <summary>
+            Gets or sets the start angle of the scale. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.OvalScale.StartAngleProperty">
+            <summary>
+            Identifies the StartAngle dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.OvalScale.EndAngle">
+            <summary>
+            Gets or sets the end angle of the scale. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.OvalScale.EndAngleProperty">
+            <summary>
+            Identifies the EndAngle dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.OvalScale.AnimateThroughSmallerArc">
+            <summary>
+            Gets or sets a value indicating whether animations are performed through the
+            smaller of the two arcs even though the animated element may cross outside of
+            the scale. This is a dependency property.
+            </summary>
+            <remarks>
+            Setting this property to false immediately discards all current pointer animations
+            and sets the position of the pointers corresponding to their current value.
+            </remarks>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.OvalScale.AnimateThroughSmallerArcProperty">
+            <summary>
+            Identifies the AnimateThroughSmallerArc dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.OvalScale.BasePoint">
+            <summary>
+            Gets the baseline point. This is the point at the outer outline of the scale,
+            corresponding to the angle of 0 degrees.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.OvalScale.scaleRadius">
+            <summary>
+            The radius of the scale.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.OvalScale.scaleHalfSize">
+            <summary>
+            The half size of the scale. Usually the same as radius unless
+            the radius is set to a value different than 0.5.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.OvalScale.scaleCenter">
+            <summary>
+            The center of the scale, usually (r, r) where r is the radius.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.OvalScale.scaleSize">
+            <summary>
+            The size of the scale.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Gauges.Wpf.LinearScale">
+            <summary>
+            Represents a linear scale.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.LinearScale.ThisType">
+            <summary>
+            A read-only field containing the type of this class.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.LinearScale.#cctor">
+            <summary>
+            Static constructor.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.LinearScale.#ctor">
+            <summary>
+            Initializes a new instance of the LinearScale class.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.LinearScale.MeasureOverride(System.Windows.Size)">
+            <summary>
+            BaseScale.MeasureOverride override.
+            </summary>
+            <param name="constraint">
+            The maximum size that the method can return.
+            </param>
+            <returns>
+            The size of the control, up to the maximum specified by constraint.
+            </returns>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.LinearScale.GetValueFromPoint(System.Windows.Point)">
+            <summary>
+            BaseScale.GetValueFromPoint override.
+            </summary>
+            <param name="point">
+            The point to test.
+            </param>
+            <returns>
+            The value from the scale, corresponding to the point, possibly MinValue or
+            MaxValue if the specified point cannot be associated with a value.
+            </returns>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.LinearScale.GetAbsoluteValueFromPoint(System.Windows.Point)">
+            <summary>
+            BaseScale.GetAbsoluteValueFromPoint override.
+            </summary>
+            <param name="point">
+            The point to test
+            </param>
+            <returns>
+            The value from the scale corresponding to the point.
+            </returns>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.LinearScale.GetValueFromDistance(System.Double,System.Boolean)">
+            <summary>
+            Calculates the value corresponding to the specified distance from
+            the origin of the scale.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.LinearScale.GetDistanceFromValue(System.Double)">
+            <summary>
+            Returns the distance from the origin of the scale to the point
+            representing the specified value.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.LinearScale.UpdateScaleGeometry">
+            <summary>
+            Rebuilds the scale path.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.LinearScale.MeasurePointer(MindFusion.Gauges.Wpf.Pointer,System.Windows.Size)">
+            <summary>
+            BaseScale.MeasurePointer override.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.LinearScale.ArrangePointer(MindFusion.Gauges.Wpf.Pointer)">
+            <summary>
+            BaseScale.ArrangePointer override.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.LinearScale.MeasureTick(MindFusion.Gauges.Wpf.Tick,System.Windows.Size)">
+            <summary>
+            BaseScale.MeasureTick override.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.LinearScale.GetOutlineOffset(System.Double)">
+            <summary>
+            Calculates the width of the scale geometry at the specified value.
+            For example if the start width of the scale is 10 and its end width
+            is 20, calling this method for a value representing the middle
+            of the scale geometry will yield 15.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.LinearScale.GetDistanceFromPoint(System.Windows.Point)">
+            <summary>
+            Calculates the angle corresponding to the specified point.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.LinearScale.ArrangeTick(MindFusion.Gauges.Wpf.Tick)">
+            <summary>
+            BaseScale.ArrangeTick override.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.LinearScale.IsLeftAlignment(MindFusion.Gauges.Wpf.Alignment,System.Double)">
+            <summary>
+            Checks whether the specified alignment is to the left of (in horizontal scale)
+            or above (in vertical scale) the scale. The offset is used only in the TrueCenter
+            case. Positive offsets in this case yield true, negative offsets yield false,
+            zero offset yields null.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.LinearScale.ArrangeLabel(MindFusion.Gauges.Wpf.TickLabel)">
+            <summary>
+            BaseScale.ArrangeLabel override.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.LinearScale.MeasureRange(MindFusion.Gauges.Wpf.Range,System.Windows.Size)">
+            <summary>
+            BaseScale.MeasureRange override.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.LinearScale.CreateRangeGeometry(MindFusion.Gauges.Wpf.Range)">
+            <summary>
+            BaseScale.CreateRangeGeometry override.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.LinearScale.CalculateAbsoluteLength(MindFusion.Gauges.Wpf.Length)">
+            <summary>
+            BaseScale.CalculateAbsoluteLength override.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.LinearScale.Left">
+            <summary>
+            Gets or sets the distance between the left of this scale and the left
+            of its container. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.LinearScale.LeftProperty">
+            <summary>
+            Identifies the Left dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.LinearScale.Top">
+            <summary>
+            Gets or sets the distance between the top of the scale and the top
+            of its container. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.LinearScale.TopProperty">
+            <summary>
+            Identifies the Top dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.LinearScale.ScaleLength">
+            <summary>
+            Gets or sets the length of the scale. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.LinearScale.ScaleLengthProperty">
+            <summary>
+            Identifies the ScaleLength dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.LinearScale.Orientation">
+            <summary>
+            Gets or sets the orientation of the scale. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.LinearScale.OrientationProperty">
+            <summary>
+            Identifies the Orientation dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.LinearScale.ScaleAlignment">
+            <summary>
+            Gets or sets the alignment of the scale. This is a dependency property.
+            </summary>
+            <remarks>
+            All Inner* values align a vertical scale to the left side and a horizontal
+            scale to the top side of the control. All Outer* values align a vertical
+            scale to the right side and a horizontal scale to the bottom side of the
+            control. All Center* values center the scale along its length.
+            </remarks>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.LinearScale.ScaleAlignmentProperty">
+            <summary>
+            Identifies the ScaleAlignment dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.LinearScale.BasePoint">
+            <summary>
+            Gets the baseline point. This is the (left, top) point in a horizontal scale and
+            (left, bottom) point in a vertical scale.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.LinearScale.AbsoluteWidth">
+            <summary>
+            Gets the max thickness of the scale along all its length.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.LinearScale.AbsoluteLength">
+            <summary>
+            Gets the total length of the scale - the span where ticks and labels
+            should be distributed. This is the width in a horizontal scale and the
+            height in a vertical scale.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.LinearScale.AbsoluteStartWidth">
+            <summary>
+            Gets the absolute start width of the scale, calculated according to
+            the current scale size.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.LinearScale.AbsoluteEndWidth">
+            <summary>
+            Gets the absolute end width of the scale, calculated according to
+            the current scale size.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.LinearScale.AbsoluteLeft">
+            <summary>
+            Gets the absolute left side coordinate of the scale, calculated according to
+            the current scale size.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.LinearScale.AbsoluteTop">
+            <summary>
+            Gets the absolute top side coordinate of the scale, calculated according to
+            the current scale size.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.LinearScale.IsVertical">
+            <summary>
+            Gets a value indicating whether the scale is vertical.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Gauges.Wpf.ThicknessConverter">
+            <summary>
+            Converts Thickness values to double values.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.ThicknessConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            IValueConverter.Convert implementation.
+            </summary>
+            <param name="value">
+            The value produced by the binding source.
+            </param>
+            <param name="targetType">
+            The type of the binding target property.
+            </param>
+            <param name="parameter">
+            The converter parameter to use.
+            </param>
+            <param name="culture">
+            The culture to use in the converter.
+            </param>
+            <returns>
+            A converted value. If the method returns null, the valid null value is used.
+            </returns>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.ThicknessConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            IValueConverter.ConvertBack implementation.
+            </summary>
+            <param name="value">
+            The value produced by the binding source.
+            </param>
+            <param name="targetType">
+            The type of the binding target property.
+            </param>
+            <param name="parameter">
+            The converter parameter to use.
+            </param>
+            <param name="culture">
+            The culture to use in the converter.
+            </param>
+            <returns>
+            A converted value. If the method returns null, the valid null value is used.
+            </returns>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Tick.ThisType">
+            <summary>
+            A read-only field containing the type of this class.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.Tick.#ctor">
+            <summary>
+            Initializes a new instance of the Tick class.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.Tick.#ctor(MindFusion.Gauges.Wpf.BaseScale,MindFusion.Gauges.Wpf.TickSettings)">
+            <summary>
+            Initializes a new instance of the Tick class.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.Tick.ToString">
+            <summary>
+            Object.ToString override.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.Tick.MeasureOverride(System.Windows.Size)">
+            <summary>
+            FrameworkElement.MeasureOverride override.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.Tick.ArrangeOverride(System.Windows.Size)">
+            <summary>
+            FrameworkElement.ArrangeOverride override.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.Tick.OnMouseDown(System.Windows.Input.MouseButtonEventArgs)">
+            <summary>
+            UIElement.OnMouseDown override.
+            </summary>
+            <param name="e">
+            The System.Windows.Input.MouseButtonEventArgs that contains the event data.
+            This event data reports details about the mouse button that was pressed and
+            the handled state.
+            </param>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.Tick.OnClicked(System.Windows.Input.MouseButtonEventArgs)">
+            <summary>
+            Raises the Clicked event.
+            </summary>
+            <param name="e">
+            An object, containing the event data.
+            </param>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.Tick.Value">
+            <summary>
+            Gets or sets the value represented by the tick.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.Tick.RawValue">
+            <summary>
+            Gets or sets the value associated with this tick before it was processed
+            by any value distribution functions.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.Tick.Settings">
+            <summary>
+            Gets the settings associated with the tick.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.Tick.Stroke">
+            <summary>
+            Gets or sets the stroke of this tick. This is a dependency property.
+            </summary>
+            <remarks>
+            This property is usually set to the value of the Stroke property of
+            the corresponding TickSettings object unless the tick uses a custom stroke.
+            </remarks>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Tick.StrokeProperty">
+            <summary>
+            Identifies the Stroke dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.Tick.StrokeThickness">
+            <summary>
+            Gets or sets the stroke thickness of this tick. This is a dependency property.
+            </summary>
+            <remarks>
+            This property is usually set to the value of the Stroke property of
+            the corresponding TickSettings object unless the tick uses a custom stroke thickness.
+            </remarks>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Tick.StrokeThicknessProperty">
+            <summary>
+            Identifies the StrokeThickness dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.Tick.Fill">
+            <summary>
+            Gets or sets the fill of this tick. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.Tick.FillProperty">
+            <summary>
+            Identifies the Fill dependency property.
+            </summary>
+        </member>
+        <member name="E:MindFusion.Gauges.Wpf.Tick.Clicked">
+            <summary>
+            Occurs when the pointer is clicked with the mouse.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickLabel.ThisType">
+            <summary>
+            A read-only field containing the type of this class.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.TickLabel.#ctor">
+            <summary>
+            Initializes a new instance of the TickLabel class.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.TickLabel.#ctor(MindFusion.Gauges.Wpf.BaseScale,MindFusion.Gauges.Wpf.TickSettings)">
+            <summary>
+            Initializes a new instance of the TickLabel class.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.TickLabel.MeasureOverride(System.Windows.Size)">
+            <summary>
+            FrameworkElement.MeasureOverride override.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.TickLabel.ArrangeOverride(System.Windows.Size)">
+            <summary>
+            FrameworkElement.ArrangeOverride override.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.TickLabel.Value">
+            <summary>
+            Gets the value associated with this label.
+            This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickLabel.ValueProperty">
+            <summary>
+            Identifies the Value dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.TickLabel.RawValue">
+            <summary>
+            Gets or sets the value associated with this label before it was processed
+            by any value distribution functions. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickLabel.RawValueProperty">
+            <summary>
+            Identifies the RawValue dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.TickLabel.ActualFontSize">
+            <summary>
+            Gets or sets the actual size of the font of this label.
+            This is a dependency property.
+            </summary>
+            <remarks>
+            The value of this property is calculated from the FontSize property of
+            the associated TickSettings, based on the size of the containing scale.
+            </remarks>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickLabel.ActualFontSizeProperty">
+            <summary>
+            Identifies the ActualFontSize dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.TickLabel.Settings">
+            <summary>
+            Gets the TickSettings associated with this label.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Gauges.Wpf.TickSettings">
+            <summary>
+            Provides settings for the ticks and labels in a gauge scale.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickSettings.ThisType">
+            <summary>
+            A read-only field containing the type of this class.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.TickSettings.#cctor">
+            <summary>
+            Static constructor.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.TickSettings.#ctor">
+            <summary>
+            Initializes a new instance of the TickSettings class.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.TickSettings.OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs)">
+            <summary>
+            Raises the PropertyChanged event.
+            </summary>
+            <param name="e">
+            An object, containing the event data.
+            </param>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.TickSettings.RaisePropertyChanged(System.Windows.DependencyObject,System.String)">
+            <summary>
+            Raises the PropertyChanged event on the specified TickSettings object.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.TickSettings.RaisePropertyChanged(System.Windows.DependencyObject,System.String,System.Boolean)">
+            <summary>
+            Raises the PropertyChanged event on the specified TickSettings object.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.TickSettings.TickType">
+            <summary>
+            Gets the type of ticks this object applies to.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.TickSettings.Count">
+            <summary>
+            Gets or sets the number of ticks and labels. This is a dependency property.
+            </summary>
+            <remarks>
+            This property is mutually exclusive with the Step property. If both are
+            specified the Step property will take precedence.
+            </remarks>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickSettings.CountProperty">
+            <summary>
+            Identifies the Count dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.TickSettings.Step">
+            <summary>
+            Gets or sets the value between adjacent ticks and labels. This is a dependency property.
+            </summary>
+            <remarks>
+            This property is mutually exclusive with the Count property. If both are
+            specified the Step property will take precedence.
+            </remarks>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickSettings.StepProperty">
+            <summary>
+            Identifies the Step dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.TickSettings.TickWidth">
+            <summary>
+            Gets or sets the width of a tick. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickSettings.TickWidthProperty">
+            <summary>
+            Identifies the TickWidth dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.TickSettings.TickHeight">
+            <summary>
+            Gets or sets the height of a tick. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickSettings.TickHeightProperty">
+            <summary>
+            Identifies the TickHeight dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.TickSettings.Fill">
+            <summary>
+            Gets or sets the fill brush of the ticks. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickSettings.FillProperty">
+            <summary>
+            Identifies the Fill dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.TickSettings.Stroke">
+            <summary>
+            Gets or sets the stroke brush of the ticks. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickSettings.StrokeProperty">
+            <summary>
+            Identifies the Stroke dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.TickSettings.StrokeThickness">
+            <summary>
+            Gets or sets the thickness of tick strokes. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickSettings.StrokeThicknessProperty">
+            <summary>
+            Identifies the StrokeThickness dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.TickSettings.ShowTicks">
+            <summary>
+            Gets or sets a value indicating whether the ticks are visible.
+            This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickSettings.ShowTicksProperty">
+            <summary>
+            Identifies the ShowTicks dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.TickSettings.ShowLabels">
+            <summary>
+            Gets or sets a value indicating whether the labels are visible.
+            This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickSettings.ShowLabelsProperty">
+            <summary>
+            Identifies the ShowLabels dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.TickSettings.LabelFormat">
+            <summary>
+            Gets or sets the format for label texts.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickSettings.LabelFormatProperty">
+            <summary>
+            Identifies the LabelFormat dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.TickSettings.LabelOffset">
+            <summary>
+            Gets or sets the offset of the labels relative to their calculated position.
+            This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickSettings.LabelOffsetProperty">
+            <summary>
+            Identifies the LabelOffset dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.TickSettings.TickOffset">
+            <summary>
+            Gets or sets the offset of he ticks relative to their calculated position.
+            This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickSettings.TickOffsetProperty">
+            <summary>
+            Identifies the TickOffset dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.TickSettings.LabelRotation">
+            <summary>
+            Gets or sets the rotation mode of the labels. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickSettings.LabelRotationProperty">
+            <summary>
+            Identifies the LabelRotation dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.TickSettings.FontSize">
+            <summary>
+            Gets or sets the font size of the labels. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickSettings.FontSizeProperty">
+            <summary>
+            Identifies the FontSize dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.TickSettings.FontWeight">
+            <summary>
+            Gets or sets the font weight of the labels. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickSettings.FontWeightProperty">
+            <summary>
+            Identifies the FontWeight dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.TickSettings.LabelForeground">
+            <summary>
+            Gets or sets the brush used to paint label texts.
+            This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickSettings.LabelForegroundProperty">
+            <summary>
+            Identifies the LabelForeground dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.TickSettings.TickAlignment">
+            <summary>
+            Gets or sets the alignment of the ticks relative to the scale.
+            This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickSettings.TickAlignmentProperty">
+            <summary>
+            Identifies the TickAlignment dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.TickSettings.LabelAlignment">
+            <summary>
+            Gets or sets the alignment of the labels relative to the scale.
+            This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickSettings.LabelAlignmentProperty">
+            <summary>
+            Identifies the LabelAlignment dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.TickSettings.TickTemplate">
+            <summary>
+            Gets or sets the DataTemplate to use for tick representation.
+            This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickSettings.TickTemplateProperty">
+            <summary>
+            Identifies the TickTemplate dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.TickSettings.TickShape">
+            <summary>
+            Gets or sets the shape of the ticks. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickSettings.TickShapeProperty">
+            <summary>
+            Identifies the TickShape dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.TickSettings.EffectiveTickTemplate">
+            <summary>
+            Gets or sets the actual DataTemplate that will be used for tick presentation.
+            This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickSettings.EffectiveTickTemplateProperty">
+            <summary>
+            Identifies the EffectiveTickTemplate dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.TickSettings.LabelTemplate">
+            <summary>
+            Gets or sets the DataTemplate to use for label representation.
+            This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickSettings.LabelTemplateProperty">
+            <summary>
+            Identifies the LabelTemplate dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.TickSettings.ShowMaxValueTick">
+            <summary>
+            Gets or sets a value indicating whether to display a tick for the
+            MaxValue of the scale. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickSettings.ShowMaxValueTickProperty">
+            <summary>
+            Identifies the ShowMaxValueTick dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.TickSettings.CustomIntervals">
+            <summary>
+            Gets or sets a collection with CustomInterval objects, which can be used to
+            customize the appearance of the ticks in a particular interval.
+            This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickSettings.CustomIntervalsProperty">
+            <summary>
+            Identifies the CustomIntervals dependency property.
+            </summary>
+        </member>
+        <member name="E:MindFusion.Gauges.Wpf.TickSettings.PropertyChanged">
+            <summary>
+            Raised when a property value changes.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Gauges.Wpf.TickShape">
+            <summary>
+            Indicates the shape of a scale tick.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickShape.None">
+            <summary>
+            Specifies an empty shape, that is, the tick is not displayed.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickShape.Custom">
+            <summary>
+            Specifies a custom shape.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickShape.Ellipse">
+            <summary>
+            Specifies an elliptical shape.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickShape.Rectangle">
+            <summary>
+            Specifies a rectangular shape.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickShape.RoundRect">
+            <summary>
+            Specifies a rounded rectangle as a shape.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickShape.Rhombus">
+            <summary>
+            Specifies a rhombus as a shape.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickShape.Line">
+            <summary>
+            Specifies a line as a shape.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickShape.Triangle">
+            <summary>
+            Specifies a triangular shape.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickShape.Arrow1">
+            <summary>
+            Specifies an arrow shape.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickShape.Arrow2">
+            <summary>
+            Specifies an arrow shape.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickShape.Arrow3">
+            <summary>
+            Specifies an arrow shape.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Gauges.Wpf.TickType">
+            <summary>
+            Indicates the type of a scale tick.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickType.None">
+            <summary>
+            Specifies ticks of an unknown type.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickType.Major">
+            <summary>
+            Specifies a major tick.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickType.Middle">
+            <summary>
+            Specifies a middle tick.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.TickType.Minor">
+            <summary>
+            Specifies a minor tick.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Gauges.Wpf.CustomInterval">
+            <summary>
+            Represents an interval with associated custom values for fill, stroke and stroke thickness.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.CustomInterval.ThisType">
+            <summary>
+            A read-only field containing the type of this class.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.CustomInterval.#ctor">
+            <summary>
+            Initializes a new instance of the CustomInterval class.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.CustomInterval.Contains(System.Double)">
+            <summary>
+            Checks whether the specified value falls within this interval.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.CustomInterval.OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs)">
+            <summary>
+            Raises the PropertyChanged event.
+            </summary>
+            <param name="e">
+            An object, containing the event data.
+            </param>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.CustomInterval.MinValue">
+            <summary>
+            Gets or sets the start of this custom interval.
+            This is a dependency property.
+            </summary>
+            <remarks>
+            If this property is not set, negative infinity will be considered as the start of the interval.
+            </remarks>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.CustomInterval.MinValueProperty">
+            <summary>
+            Identifies the MinValue dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.CustomInterval.MaxValue">
+            <summary>
+            Gets or sets the end of this custom interval.
+            This is a dependency property.
+            </summary>
+            <remarks>
+            If this property is not set, positive infinity will be considered as the end of the interval.
+            </remarks>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.CustomInterval.MaxValueProperty">
+            <summary>
+            Identifies the MaxValue dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.CustomInterval.Fill">
+            <summary>
+            Gets or sets the brush to apply as a background of the elements
+            within the custom interval. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.CustomInterval.FillProperty">
+            <summary>
+            Identifies the Fill dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.CustomInterval.Stroke">
+            <summary>
+            Gets or sets the brush to apply as an outline of the elements
+            within the custom interval. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.CustomInterval.StrokeProperty">
+            <summary>
+            Identifies the Stroke dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.CustomInterval.StrokeThickness">
+            <summary>
+            Gets or sets the outline thickness of the elements
+            within the custom interval. This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.Gauges.Wpf.CustomInterval.StrokeThicknessProperty">
+            <summary>
+            Identifies the StrokeThickness dependency property.
+            </summary>
+        </member>
+        <member name="E:MindFusion.Gauges.Wpf.CustomInterval.PropertyChanged">
+            <summary>
+            Occurs when a property of the interval changes.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Gauges.Wpf.ValueChangedEventArgs`1">
+            <summary>
+            Contains the arguments passed to value change notification handlers.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.ValueChangedEventArgs`1.#ctor">
+            <summary>
+            Initializes a new instance of the ValueChangedEventArgs class.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.ValueChangedEventArgs`1.#ctor(`0,`0)">
+            <summary>
+            Initializes a new instance of the ValueChangedEventArgs class.
+            </summary>
+            <param name="oldValue">
+            The previous value of the changed property.
+            </param>
+            <param name="newValue">
+            The new value of the changed property.
+            </param>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.ValueChangedEventArgs`1.OldValue">
+            <summary>
+            Gets the previous value of the changed property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.Gauges.Wpf.ValueChangedEventArgs`1.NewValue">
+            <summary>
+            Gets the new value of the changed property.
+            </summary>
+        </member>
+        <member name="T:MindFusion.Gauges.Wpf.ValueChangedEventHandler`1">
+            <summary>
+            Represents the method that will handle value change notification events.
+            </summary>
+            <param name="sender">
+            The source of the event.
+            </param>
+            <param name="e">
+            A ValueChangedEventArgs&lt;T&gt; that contains the event data. 
+            </param>
+        </member>
+        <member name="T:MindFusion.Gauges.Wpf.VisibilityConverter">
+            <summary>
+            Converts boolean values to Visibility and vice versa.
+            </summary>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.VisibilityConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            IValueConverter.Convert implementation.
+            </summary>
+            <param name="value">
+            The value produced by the binding source.
+            </param>
+            <param name="targetType">
+            The type of the binding target property.
+            </param>
+            <param name="parameter">
+            The converter parameter to use.
+            </param>
+            <param name="culture">
+            The culture to use in the converter.
+            </param>
+            <returns>
+            A converted value. If the method returns null, the valid null value is used.
+            </returns>
+        </member>
+        <member name="M:MindFusion.Gauges.Wpf.VisibilityConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            IValueConverter.ConvertBack implementation.
+            </summary>
+            <param name="value">
+            The value produced by the binding source.
+            </param>
+            <param name="targetType">
+            The type of the binding target property.
+            </param>
+            <param name="parameter">
+            The converter parameter to use.
+            </param>
+            <param name="culture">
+            The culture to use in the converter.
+            </param>
+            <returns>
+            A converted value. If the method returns null, the valid null value is used.
+            </returns>
+        </member>
+        <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">
+            <summary>
+            GeneratedInternalTypeHelper
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
+            <summary>
+            CreateInstance
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            GetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            SetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
+            <summary>
+            CreateDelegate
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
+            <summary>
+            AddEventHandler
+            </summary>
+        </member>
+    </members>
+</doc>

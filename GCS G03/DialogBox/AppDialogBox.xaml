@@ -1,0 +1,105 @@
+﻿<Window
+    x:Class="GCS_G03.DialogBox.AppDialogBox"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:GCS_G03.DialogBox"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="AppDialogBox"
+    Width="350"
+    Height="200"
+    Background="Transparent"
+    WindowStyle="None"
+    mc:Ignorable="d">
+    <Border Background="#003049" CornerRadius="35">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Border
+                Grid.Row="1"
+                Margin="5,5,5,5"
+                CornerRadius="35"
+                Style="{DynamicResource DashItemSM}">
+
+                <Grid>
+                    <Border
+                        Name="bgmessagebox"
+                        Grid.Row="1"
+                        CornerRadius="35"
+                        Opacity="0.5" />
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="50" />
+                        </Grid.RowDefinitions>
+
+                        <Grid Margin="10,0,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock
+                                Name="TBContent"
+                                Grid.Row="0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom"
+                                FontSize="25"
+                                Foreground="White"
+                                Text="EXAMPLE" />
+
+                            <TextBlock
+                                Name="TBContent1"
+                                Grid.Row="1"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                FontSize="15"
+                                Foreground="White"
+                                Text="EXAMPLE" />
+                        </Grid>
+
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <Button
+                                Name="MessageOK"
+                                Grid.Column="0"
+                                Margin="40,5,40,5"
+                                Style="{DynamicResource RoundedButtonStyle}">
+                                <TextBlock Foreground="White" Text="YES" />
+                            </Button>
+
+                            <Button
+                                Name="MessageNO"
+                                Grid.Column="1"
+                                Margin="40,5,40,5"
+                                Style="{DynamicResource RoundedButtonStyle1}">
+                                <TextBlock Foreground="White" Text="CANCEL" />
+                            </Button>
+
+                            <Button
+                                Name="MessageOK1"
+                                Grid.Column="1"
+                                Margin="40,5,40,5"
+                                Style="{DynamicResource RoundedButtonStyle}"
+                                Visibility="Hidden">
+                                <TextBlock Foreground="White" Text="YES" />
+                            </Button>
+
+                        </Grid>
+
+                    </Grid>
+
+                </Grid>
+
+            </Border>
+
+        </Grid>
+    </Border>
+</Window>

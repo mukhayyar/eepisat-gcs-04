@@ -1,0 +1,1292 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MindFusion.RealTimeCharting.Wpf</name>
+    </assembly>
+    <members>
+        <member name="T:MindFusion.RealTimeCharting.Wpf.RealTimeChart">
+            <summary>
+            Represents a chart that can handle fast large amounts of data.
+            </summary>
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.RealTimeChart.#ctor">
+            <summary>
+            Initializes a new instance of the RealTimeChart.
+            </summary>
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.RealTimeChart.Commit">
+            <summary>
+            Updates the chart.
+            </summary>
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.RealTimeChart.Commit(System.Double)">
+            <summary>
+            Updates the chart with the newly dry smallest value at the X-axis.
+            </summary>
+            <param name="minAddedX">The smallest number at the X-axis.</param>
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.RealTimeChart.Commit(System.Int32)">
+            <summary>
+            Updates the chart.
+            </summary>
+            <param name="startIndex">The index of the first value 
+            inthe Series.Data to be updated.</param>
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.RealTimeChart.ClearCache">
+            <summary>
+            Clears the cache of the chart.
+            </summary>
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.RealTimeChart.OnApplyTemplate">
+            <summary>
+            FrameworkElement.ApplyTemplate override.
+            </summary>
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.RealTimeChart.IsTrial">
+            <summary>
+            Defines if this is the trial version
+            </summary>
+            <returns>true if this is trial; otherwise false.</returns>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.CornerRadius">
+            <summary>
+            Gets or sets the corner radius of the chart control's bounding rectangle.
+            This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.CornerRadiusProperty">
+            <summary>
+            Identifies the CornerRadius dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.ShowLegend">
+            <summary>
+            Gets or sets whether the chart has a legend.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.ShowLegendProperty">
+            <summary>
+            Identifies the ShowLegend dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.LegendOrientation">
+            <summary>
+            Gets or sets the orientation of the legend.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.LegendWidthProperty">
+            <summary>
+            Identifies the LegendWidth dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.LegendWidth">
+            <summary>
+            Gets or sets the width of the legend.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.LegendHeightProperty">
+            <summary>
+            Identifies the LegendHeight dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.LegendHeight">
+            <summary>
+            Gets or sets the height of the legend.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.LegendOrientationProperty">
+            <summary>
+            Identifies the LegendOrientation dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.SeriesCollection">
+            <summary>
+            Gets or sets the collection of Series for the chart.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.SeriesCollectionProperty">
+            <summary>
+            Identifies the SeriesCollection dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.YAxisCollection">
+            <summary>
+            Gets or sets the collection of YAxis-settings for the chart.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.YAxisCollectionProperty">
+            <summary>
+            Identifies the YAxisCollection dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.Y2AxisCollection">
+            <summary>
+            Gets or sets the collection of Y2Axis-settings for the chart.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.Y2AxisCollectionProperty">
+            <summary>
+            Identifies the YAxisCollection dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.XAxis">
+            <summary>
+            Gets or sets the settings for the X-axis.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.XAxisProperty">
+            <summary>
+            Identifies the XAxis dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.TooltipAxis">
+            <summary>
+            Gets or sets the YAxis used to calculate coordinates shown in the fallback tooltip.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.TooltipAxisProperty">
+            <summary>
+            Identifies the TooltipAxis dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.TooltipDistance">
+            <summary>
+            Gets or sets the distance of the tooltip to the element it refers to.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.GridAxis">
+            <summary>
+            Gets or sets the YAxis used to calculate grid spacing.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.GridAxisProperty">
+            <summary>
+            Identifies the GridAxis dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.FrameLeftThickness">
+            <summary>
+            Gets or sets the thickness of the left plot area frame.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.FrameLeftThicknessProperty">
+            <summary>
+            Identifies the FrameLeftThickness dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.FrameRightThickness">
+            <summary>
+            Gets or sets the thickness of the right plot area frame.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.FrameRightThicknessProperty">
+            <summary>
+            Identifies the FrameRightThickness dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.FrameTopThickness">
+            <summary>
+            Gets or sets the thickness of the top plot area frame.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.FrameTopThicknessProperty">
+            <summary>
+            Identifies the FrameTopThickness dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.FrameBottomThickness">
+            <summary>
+            Gets or sets the thickness of the bottom plot area frame.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.FrameBottomThicknessProperty">
+            <summary>
+            Identifies the FrameBottomThickness dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.LegendHorizontalAlignment">
+            <summary>
+            Gets or sets the horizontal alignment of the legend.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.LegendHorizontalAlignmentProperty">
+            <summary>
+            Identifies the LegendHorizontalAlignment dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.LegendVerticalAlignment">
+            <summary>
+            Gets or sets the vertical alignment of the legend.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.LegendVerticalAlignmentProperty">
+            <summary>
+            Identifies the LegendVerticalAlignment dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.TitleFontFamily">
+            <summary>
+            Gets or sets the font family of the chart title.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.TitleFontFamilyProperty">
+            <summary>
+            Identifies the TitleFontFamily dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.TitleFontSize">
+            <summary>
+            Gets or sets the font size of the chart title.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.TitleFontSizeProperty">
+            <summary>
+            Identifies the TitleFontSize dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.TitleHorizontalAlignment">
+            <summary>
+            Gets or sets the horizontal alignment of the title.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.TitleHorizontalAlignmentProperty">
+            <summary>
+            Identifies the TitleHorizontalAlignment dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.TitleVerticalAlignment">
+            <summary>
+            Gets or sets the vertical alignment of the title.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.TitleVerticalAlignmentProperty">
+            <summary>
+            Identifies the TitleVerticalAlignment dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.TitleText">
+            <summary>
+            Gets or sets the text of the chart title.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.TitleTextProperty">
+            <summary>
+            Identifies the TitleText dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.ScrollOffset">
+            <summary>
+            Gets or sets the scroll offset.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.ScrollOffsetProperty">
+            <summary>
+            Identifies the ScrollOffset dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.BitmapOffset">
+            <summary>
+            Gets or sets the bitmap cache scroll offset.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.BitmapOffsetProperty">
+            <summary>
+            Identifies the BitmapOffset dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.MajorGridSizeX">
+            <summary>
+            Gets or sets the numeric interval at which major grid lines 
+            parallel to the Y-axis are drawn.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.MajorGridSizeXProperty">
+            <summary>
+            Identifies the MajorGridSizeX dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.MinorGridSizeX">
+            <summary>
+            Gets or sets the numeric interval at which minor grid lines 
+            parallel to the Y-axis are drawn.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.MinorGridSizeXProperty">
+            <summary>
+            Identifies the MinorGridSizeX dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.MajorGridSizeY">
+            <summary>
+            Gets or sets the numeric interval at which major grid lines 
+            parallel to the Y-axis are drawn.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.MajorGridSizeYProperty">
+            <summary>
+            Identifies the MajorGridSizeY dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.MinorGridSizeY">
+            <summary>
+            Gets or sets the numeric interval at which minor grid lines 
+            parallel to the Y-axis are drawn.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.MinorGridSizeYProperty">
+            <summary>
+            Identifies the MinorGridSizeY dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.MajorGridStroke">
+            <summary>
+            Gets or sets the brush used for drawing major grid lines.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.MajorGridStrokeProperty">
+            <summary>
+            Identifies the MajorGridStroke dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.MinorGridStroke">
+            <summary>
+            Gets or sets the brush used for drawing minor grid lines.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.MinorGridStrokeProperty">
+            <summary>
+            Identifies the MinorGridStroke dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.MinorGridStrokeThickness">
+            <summary>
+            Gets or sets the thickness of the brush used 
+            for drawing minor grid lines.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.MinorGridStrokeThicknessProperty">
+            <summary>
+            Identifies the MinorGridStrokeThickness dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.MajorGridStrokeThickness">
+            <summary>
+            Gets or sets the thickness of the brush 
+            for drawing major grid lines.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.MajorGridStrokeThicknessProperty">
+            <summary>
+            Identifies the MajorGridStrokeThickness dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.TooltipVisibility">
+            <summary>
+            Gets or sets whether tooltips are drawn.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.TooltipVisibilityProperty">
+            <summary>
+            Identifies the TooltipVisibility dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.FallbackTooltipBackground">
+            <summary>
+            Gets or sets the tooltip background brush.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.TooltipBackgroundProperty">
+            <summary>
+            Identifies the FallbackTooltipBackground dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.ShowFallbackTooltip">
+            <summary>
+            Gets or sets whether the fallback tooltip is shown.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.LegendBackground">
+            <summary>
+            Gets or sets the legend background brush.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.LegendBackgroundProperty">
+            <summary>
+            Identifies the LegendBackground dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.LegendBorderBrush">
+            <summary>
+            Gets or sets the legend border brush.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.LegendBorderBrushProperty">
+            <summary>
+            Identifies the LegendBorderBrush dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.ShowCrosshairs">
+            <summary>
+            Gets or sets whether the crosshairs are visible.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.ShowCrosshairsProperty">
+            <summary>
+            Identifies the ShowCrosshairs dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.RealTimeChart.FastScrollMode">
+            <summary>
+            Gets or sets whether the chart should automatically scroll
+            when provided data exceeds current max. value shown on axis.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.RealTimeChart.FastScrollModeProperty">
+            <summary>
+            Identifies the FastScrollMode dependency property.
+            </summary>
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.RealTimeChart.OnPreviewMouseDown(System.Windows.Input.MouseButtonEventArgs)">
+            <summary>
+            Raises the OnPreviewMouseDown event.
+            </summary>
+            <param name="e">A MouseButtonEventArgs object that provides data for the event. </param>
+        </member>
+        <member name="E:MindFusion.RealTimeCharting.Wpf.RealTimeChart.YAxisClicked">
+            <summary>
+            Declares the YAxisClicked event.
+            </summary>
+        </member>
+        <member name="T:MindFusion.RealTimeCharting.Wpf.AxisEventArgs">
+            <summary>
+            Provides data for the YAxisClicked event.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.AxisEventArgs.Axis">
+            <summary>
+            Gets or sets the axis that was clicked.
+            </summary>
+        </member>
+        <member name="T:MindFusion.RealTimeCharting.Wpf.AxisRenderer">
+            <summary>
+            Renders an Y-axis based on its settings. 
+            </summary>
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.AxisRenderer.#ctor">
+            <summary>
+            Initializes a new instance of the AxisRenderer class.
+            </summary>
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.AxisRenderer.MeasureOverride(System.Windows.Size)">
+            <summary>
+            Panel.MeasureOverride
+            </summary>
+            <param name="availableSize">The size available for this panel.</param>
+            <returns>The size needed by this panel.</returns>
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.AxisRenderer.OnRender(System.Windows.Media.DrawingContext)">
+            <summary>
+            OnRender override.
+            </summary>
+            <param name="drawingContext">The DrawingContext to use for axis rendering.</param>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.AxisRenderer.YAxis">
+            <summary>
+            Gets or sets the settings for the Y-Axis.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.AxisRenderer.YAxisProperty">
+            <summary>
+            Identifies the YAxis dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.AxisRenderer.XAxis">
+            <summary>
+            Gets or sets the settings for the X-Axis used for calculating
+            the location of the Y-axis.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.AxisRenderer.XAxisProperty">
+            <summary>
+            Identifies the XAxis dependency property.
+            </summary>
+        </member>
+        <member name="T:MindFusion.RealTimeCharting.Wpf.DoubleToGridLengthConverter">
+            <summary>
+            Converts a double value to a GridLength value.
+            </summary>
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.DoubleToGridLengthConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            IValueConverter.Convert override
+            </summary>
+            <param name="value">The value to convert.</param>
+            <param name="targetType">The target type for the conversion.</param>
+            <param name="parameter">A parameter to use when converting.</param>
+            <param name="culture">The culture.</param>
+            <returns>The converted value.</returns>
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.DoubleToGridLengthConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            IValueConverter.ConvertBack override.
+            </summary>
+            <param name="value">The value to convert.</param>
+            <param name="targetType">The target type.</param>
+            <param name="parameter">A parameter to be used by the conversion.</param>
+            <param name="culture">The culture.</param>
+            <returns>The converted value.</returns>
+        </member>
+        <member name="T:MindFusion.RealTimeCharting.Wpf.DoubleToThicknessConverter">
+            <summary>
+            Converts a double value to a Thickness value.
+            </summary>
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.DoubleToThicknessConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            IValueConverter.Convert override
+            </summary>
+            <param name="value">The value to convert.</param>
+            <param name="targetType">The target type for the conversion.</param>
+            <param name="parameter">A parameter to use when converting.</param>
+            <param name="culture">The culture.</param>
+            <returns>The converted value.</returns>
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.DoubleToThicknessConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            IValueConverter.ConvertBack override.
+            </summary>
+            <param name="value">The value to convert.</param>
+            <param name="targetType">The target type.</param>
+            <param name="parameter">A parameter to be used by the conversion.</param>
+            <param name="culture">The culture.</param>
+            <returns>The converted value.</returns>
+        </member>
+        <member name="T:MindFusion.RealTimeCharting.Wpf.HitTestResult">
+            <summary>
+            Represents a Series returned when hit testing.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.HitTestResult.Series">
+            <summary>
+            The Series hit by the mouse.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.HitTestResult.Index">
+            <summary>
+            The index in the Series of the hit element.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.HitTestResult.Value">
+            <summary>
+            The value of the hit element.
+            </summary>
+        </member>
+        <member name="T:MindFusion.RealTimeCharting.Wpf.UniformStackPanell">
+            <summary>
+            Represents a panel that splits horizontal space equally among its children.
+            </summary>
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.UniformStackPanell.#ctor">
+            <summary>
+            Initializes a new instance of the UniformStackPanell class.
+            </summary>
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.UniformStackPanell.MeasureOverride(System.Windows.Size)">
+            <summary>
+            Panel.MeasureOverride
+            </summary>
+            <param name="availableSize">The available size.</param>
+            <returns>The size used by the element.</returns> 
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.UniformStackPanell.ArrangeOverride(System.Windows.Size)">
+            <summary>
+            Panel.ArrangeOverride implementation.
+            </summary>
+            <param name="finalSize">The final available size for the panel.</param>
+            <returns>The size actually used.</returns>
+        </member>
+        <member name="T:MindFusion.RealTimeCharting.Wpf.LegendSymbolRenderer">
+            <summary>
+            Converts a Series object to a Geometry based 
+            on the Series.ScatterType property
+            </summary>
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.LegendSymbolRenderer.MeasureOverride(System.Windows.Size)">
+            <summary>
+            FrameworkElement.MeasureOverride
+            </summary>
+            <param name="availableSize">The size available for this element.</param>
+            <returns>The size needed by this element.</returns>
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.LegendSymbolRenderer.OnRender(System.Windows.Media.DrawingContext)">
+            <summary>
+            Renders the legend symbol.
+            </summary>
+            <param name="drawingContext">The drawing contect used for rendering.</param>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.LegendSymbolRenderer.Series">
+            <summary>
+            Gets or sets the collection of Series to mark 
+            in the legend.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.LegendSymbolRenderer.SeriesProperty">
+            <summary>
+            Identifies the Series dependency property.
+            </summary>
+        </member>
+        <member name="T:MindFusion.RealTimeCharting.Wpf.PlotArea">
+            <summary>
+            Represents the plot area of the chart.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.PlotArea.Chart">
+            <summary>
+            Gets or sets the Chart object.
+            </summary>	
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.PlotArea.#ctor">
+            <summary>
+            Initializes a new instance of the PlotArea class.
+            </summary>
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.PlotArea.Commit">
+            <summary>
+            Updates the plot area.
+            </summary>
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.PlotArea.Commit(System.Double)">
+            <summary>
+            Updates the plot area with the new smallest value at the X-axis.
+            </summary>
+            <param name="minAddedX">The smallest number at the X-axis.</param>
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.PlotArea.Commit(System.Double,System.Int32,System.Boolean)">
+            <summary>
+            Updates the plot area with the new smallest value at the X-axis. 
+            </summary>
+            <param name="minAddedX">The smallest number at the X-axis</param>
+            <param name="startIndex">The index of the first point in the 
+            chart series to be updated.</param>
+            <param name="drawSeries">Indicates if series are drawn.</param>
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.PlotArea.OnRender(System.Windows.Media.DrawingContext)">
+            <summary>
+            FrameworkElement.OnRender override.
+            </summary>
+            <param name="drawingContext">The DrawingContext to use when rendering the plot area.</param>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.PlotArea.XAxis">
+            <summary>
+            Gets or sets the settings for the X-axis.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.PlotArea.XAxisProperty">
+            <summary>
+            Identifies the XAxis dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.PlotArea.SeriesCollection">
+            <summary>
+            Gets or sets the collection of Series for the plot area.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.PlotArea.SeriesCollectionProperty">
+            <summary>
+            Identifies the SeriesCollection dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.PlotArea.BitmapOffset">
+            <summary>
+            Gets or sets the bitmap cache scroll offset.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.PlotArea.BitmapOffsetProperty">
+            <summary>
+            Identifies the BitmapOffset dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.PlotArea.ScrollOffset">
+            <summary>
+            Gets or sets the scroll offset.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.PlotArea.ScrollOffsetProperty">
+            <summary>
+            Identifies the ScrollOffset dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.PlotArea.MousePosition">
+            <summary>
+            Gets or sets the position of the mouse over the plot area.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.PlotArea.MousePositionProperty">
+            <summary>
+            Identifies the MousePosition dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.PlotArea.DataPoint">
+            <summary>
+            Gets or sets the data point that corresponds
+            to the location of the mouse.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.PlotArea.DataPointProperty">
+            <summary>
+            Identifies the DataPoint dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.PlotArea.CrosshairsDataPoint">
+            <summary>
+            Gets or sets the data point that corresponds
+            to the location of the crosshairs.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.PlotArea.CrosshairsVisibility">
+            <summary>
+            Gets or sets the visibility of the crosshairs.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.PlotArea.CrosshairsVisibilityProperty">
+            <summary>
+            Identifies the CrosshairsVisibility dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.PlotArea.CrosshairsDataPointProperty">
+            <summary>
+            Identifies the CrosshairsDataPoint dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.PlotArea.ToolTipVisibility">
+            <summary>
+            Gets or sets whether the tool tip is visible.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.PlotArea.ToolTipVisibilityProperty">
+            <summary>
+            Identifies the ToolTipVisibility dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.PlotArea.TooltipBackground">
+            <summary>
+            Gets or sets the tooltip background brush.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.PlotArea.TooltipBackgroundProperty">
+            <summary>
+            Identifies the TooltipBackground dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.PlotArea.TooltipStroke">
+            <summary>
+            Gets or sets the stroke for the tooltip.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.PlotArea.TooltipStrokeProperty">
+            <summary>
+            Identifies the TooltipStroke dependency property.
+            </summary>
+        </member>
+        <member name="T:MindFusion.RealTimeCharting.Wpf.PointToStringConverter">
+            <summary>
+            Converts a Point value to a string.
+            </summary>
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.PointToStringConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            IValueConverter.Convert override
+            </summary>
+            <param name="value">The value to convert.</param>
+            <param name="targetType">The target type for the conversion.</param>
+            <param name="parameter">A parameter to use when converting.</param>
+            <param name="culture">The culture.</param>
+            <returns>The converted value.</returns>
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.PointToStringConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            IValueConverter.ConvertBack override.
+            </summary>
+            <param name="value">The value to convert.</param>
+            <param name="targetType">The target type.</param>
+            <param name="parameter">A parameter to be used by the conversion.</param>
+            <param name="culture">The culture.</param>
+            <returns>The converted value.</returns>
+        </member>
+        <member name="T:MindFusion.RealTimeCharting.Wpf.PointToThicknessConverter">
+            <summary>
+            Converts a Point value to a Thickness value.
+            </summary>
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.PointToThicknessConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            IValueConverter.Convert override
+            </summary>
+            <param name="value">The value to convert.</param>
+            <param name="targetType">The target type for the conversion.</param>
+            <param name="parameter">A parameter to use when converting.</param>
+            <param name="culture">The culture.</param>
+            <returns>The converted value.</returns>
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.PointToThicknessConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            IValueConverter.ConvertBack override.
+            </summary>
+            <param name="value">The value to convert.</param>
+            <param name="targetType">The target type.</param>
+            <param name="parameter">A parameter to be used by the conversion.</param>
+            <param name="culture">The culture.</param>
+            <returns>The converted value.</returns>
+        </member>
+        <member name="T:MindFusion.RealTimeCharting.Wpf.Axis">
+            <summary>
+            Defines settings for a chart axis.
+            </summary>
+        </member>
+        <member name="E:MindFusion.RealTimeCharting.Wpf.Axis.PropertyChanged">
+            <summary>
+            PropertyChanged event handler.
+            </summary> 
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.Axis.#ctor">
+            <summary>
+            Initializes a new instance of the Axes class.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Axis.LabelFormatProvider">
+            <summary>
+            Gets or sets custom IFormatProvider for the axis labels
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Axis.Title">
+            <summary>
+            Gets or sets the title for this Axes.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Axis.TitleBrush">
+            <summary>
+            Gets or sets the brush for the title of the axis.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Axis.TitleRotationAngle">
+            <summary>
+            Gets or sets the rotation angle of the title label.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Axis.TitleOffset">
+            <summary>
+            Gets or sets the offset for the title.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Axis.TitleFontFamily">
+            <summary>
+            Gets or sets the font family for the axes title.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Axis.TitleFontSize">
+            <summary>
+            Gets or sets the size of the font for the axes title.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Axis.Origin">
+            <summary>
+            Gets or sets the numeric value, at which this axes is crossed 
+            by the other axes.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Axis.Length">
+            <summary>
+            Gets or sets the length of the axes as a numeric value.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Axis.Interval">
+            <summary>
+            Gets or sets the interval between two adjacent 
+            values at the axis.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Axis.LabelFormat">
+            <summary>
+            Gets or sets the format of the axes labels.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Axis.LabelFontFamily">
+            <summary>
+            Gets or sets the font family for the axes labels.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Axis.LabelFontSize">
+            <summary>
+            Gets the size of the label font.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Axis.LabelHorizontalAlignment">
+            <summary>
+            Gets or sets the horizontal alignment of the labels.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Axis.PinLabels">
+            <summary>
+            Gets or sets whether chart labels are pinned to the axes.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Axis.TickLength">
+            <summary>
+            Gets or sets the length of the axis ticks.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Axis.DrawLabels">
+            <summary>
+            Gets or sets whether labels are drawn at the axis.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Axis.LabelOrigin">
+            <summary>
+            Gets or sets the numeric value of the first label at the axis.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Axis.LabelOffset">
+            <summary>
+            Gets or sets the offset of the labels to the axis. 
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Axis.LabelBrush">
+            <summary>
+            Gets or sets the brush for the labels of the axis.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Axis.VerticalAlignment">
+            <summary>
+            Gets or sets the vertical alignment of the labels.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Axis.Background">
+            <summary>
+            Gets or sets the background for the axis.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Axis.Stroke">
+            <summary>
+            Gets or sets the stroke for the axis.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Axis.Visibility">
+            <summary>
+            Gets or sets the visibility for the axis.
+            </summary>
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.Axis.OnPropertyChanged(System.String)">
+            <summary>
+            Raises the PropertyChanged event for the 
+            specified property.
+            </summary>
+            <param name="name">The name of the property that has changed.</param> 
+        </member>
+        <member name="T:MindFusion.RealTimeCharting.Wpf.ChartToLegendVisibilityConverter">
+            <summary>
+            Converts a bool value to Visibility value. 
+            </summary>
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.ChartToLegendVisibilityConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            IValueConverter.Convert override
+            </summary>
+            <param name="value">The value to convert.</param>
+            <param name="targetType">The target type for the conversion.</param>
+            <param name="parameter">A parameter to use when converting.</param>
+            <param name="culture">The culture.</param>
+            <returns>The converted value.</returns>
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.ChartToLegendVisibilityConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            IValueConverter.ConvertBack override.
+            </summary>
+            <param name="value">The value to convert.</param>
+            <param name="targetType">The target type.</param>
+            <param name="parameter">A parameter to be used by the conversion.</param>
+            <param name="culture">The culture.</param>
+            <returns>The converted value.</returns>
+        </member>
+        <member name="T:MindFusion.RealTimeCharting.Wpf.SeriesCollection">
+            <summary>
+            Contains all series in the chart.
+            </summary>
+        </member>
+        <member name="T:MindFusion.RealTimeCharting.Wpf.YAxisCollection">
+            <summary>
+            Contains all Y-axes in the chart.
+            </summary>
+        </member>
+        <member name="T:MindFusion.RealTimeCharting.Wpf.Legend">
+            <summary>
+            Represents a legend in the chart.
+            </summary>
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.Legend.#cctor">
+            <summary>
+            Initializes a new instance of the Legend class.
+            </summary>
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.Legend.#ctor">
+            <summary>
+            Initializes a new instance of the Legend class.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Legend.Orientation">
+            <summary>
+            Gets or sets the orientation of the legend.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.Legend.OrientationProperty">
+            <summary>
+            Identifies the Orientation dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Legend.CornerRadius">
+            <summary>
+            Gets or sets the corner radius of the legend.  
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.Legend.CornerRadiusProperty">
+            <summary>
+            Identifies the CornerRadius dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Legend.LabelFontFamily">
+            <summary>
+            Gets or sets the font family for the legend labels.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.Legend.LabelFontFamilyProperty">
+            <summary>
+            Identifies the LabelFontFamily dependency property.
+            </summary>
+        </member>
+        <member name="T:MindFusion.RealTimeCharting.Wpf.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="T:MindFusion.RealTimeCharting.Wpf.ScatterType">
+            <summary>
+            Provides various scatter types.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.ScatterType.Circle">
+            <summary>
+            Scatters are drawn as circles.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.ScatterType.Diamond">
+            <summary>
+            Scatters are drawn as diamonds.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.ScatterType.None">
+            <summary>
+            No scatters are drawn.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.ScatterType.Square">
+            <summary>
+            Scatters are drawn as squares.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.ScatterType.Triangle">
+            <summary>
+            Scatters are drawn as triangles.
+            </summary>
+        </member>
+        <member name="T:MindFusion.RealTimeCharting.Wpf.Series">
+            <summary>
+            Represents a series in the RealTimeChart.
+            </summary>
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.Series.#ctor(MindFusion.RealTimeCharting.Wpf.Axis)">
+            <summary>
+            Initializes a new instance of the Series class 
+            bound to the given Y-axis.
+            </summary>
+            <param name="yAxis">The Y-axis this series is bound to.</param>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Series.Visible">
+            <summary>
+            Gets or sets whether the series should be drawn.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.Series.VisibleProperty">
+            <summary>
+            Identifies the Visible dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Series.ScatterType">
+            <summary>
+            Gets or sets a value specifying the scatter shapes to display for the values in this series.
+            This is a dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.Series.ScatterTypeProperty">
+            <summary>
+            Identifies the ScatterType dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Series.Fill">
+            <summary>
+            Gets or sets the fill for the series.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.Series.FillProperty">
+            <summary>
+            Identifies the Stroke dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Series.Stroke">
+            <summary>
+            Gets or sets the stroke for the series.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.Series.StrokeProperty">
+            <summary>
+            Identifies the Stroke dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Series.ScatterStroke">
+            <summary>
+            Gets or sets the stroke for the series' scatters.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.Series.ScatterStrokeProperty">
+            <summary>
+            Identifies the ScatterStroke dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Series.Title">
+            <summary>
+            Gets or sets the title for the series.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.Series.TitleProperty">
+            <summary>
+            Identifies the Title dependency property.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.Series.TitleFontFamilyProperty">
+            <summary>
+            Identifies the TitleFontFamily dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Series.TitleFontFamily">
+            <summary>
+            Gets or sets the font family for the series title.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Series.TitleFontSize">
+            <summary>
+            Gets or sets the font for the series title.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.Series.TitleFontSizeProperty">
+            <summary>
+            Identifies the TitleFontSize dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Series.TitleFontWeight">
+            <summary>
+            Gets or sets the font weight for the series title.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.Series.TitleFontWeightProperty">
+            <summary>
+            Identifies the TitleFontWeight dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Series.TooltipBackground">
+            <summary>
+            Gets or sets the tooltip background brush.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.Series.TooltipBackgroundProperty">
+            <summary>
+            Identifies the TooltipBackground dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Series.TooltipStroke">
+            <summary>
+            Gets or sets the tooltip text brush.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.Series.TooltipStrokeProperty">
+            <summary>
+            Identifies the TooltipStroke dependency property.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Series.LegendBackground">
+            <summary>
+            Gets or sets the legend background brush.
+            </summary>
+        </member>
+        <member name="F:MindFusion.RealTimeCharting.Wpf.Series.LegendBackgroundProperty">
+            <summary>
+            Identifies the LegendBackground dependency property.
+            </summary>
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.Series.OnDataChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Raises the DataChanged event.
+            </summary>
+            <param name="d">The ChartSeries that raised the event.</param>
+            <param name="e">DependencyPropertyChangedEventArgs that contains data for the event.</param>
+        </member>
+        <member name="E:MindFusion.RealTimeCharting.Wpf.Series.DataChanged">
+            <summary>
+            Occurs when series data was changed.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Series.Data">
+            <summary>
+            Gets or sets the Data for the Series.
+            </summary>
+        </member>
+        <member name="P:MindFusion.RealTimeCharting.Wpf.Series.YAxis">
+            <summary>
+            Gets the Y-axis.
+            </summary>
+        </member>
+        <member name="T:MindFusion.RealTimeCharting.Wpf.SeriesToGeometryConverter">
+            <summary>
+            Converts a Series object to a Geometry based on the Series.ScatterType property.
+            </summary>
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.SeriesToGeometryConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            IValueConverter.Convert override
+            </summary>
+            <param name="value">The value to convert.</param>
+            <param name="targetType">The target type for the conversion.</param>
+            <param name="parameter">A parameter to use when converting.</param>
+            <param name="culture">The culture.</param>
+            <returns>The converted value.</returns>
+        </member>
+        <member name="M:MindFusion.RealTimeCharting.Wpf.SeriesToGeometryConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            IValueConverter.ConvertBack override.
+            </summary>
+            <param name="value">The value to convert.</param>
+            <param name="targetType">The target type.</param>
+            <param name="parameter">A parameter to be used by the conversion.</param>
+            <param name="culture">The culture.</param>
+            <returns>The converted value.</returns>
+        </member>
+    </members>
+</doc>

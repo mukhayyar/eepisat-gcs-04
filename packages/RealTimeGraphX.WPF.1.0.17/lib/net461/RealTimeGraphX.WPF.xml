@@ -1,0 +1,503 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RealTimeGraphX.WPF</name>
+    </assembly>
+    <members>
+        <member name="T:RealTimeGraphX.WPF.ExtensionMethods">
+            <summary>
+            Contains a collection of extension methods.
+            </summary>
+        </member>
+        <member name="M:RealTimeGraphX.WPF.ExtensionMethods.ToGdiColor(System.Windows.Media.Color)">
+            <summary>
+            Converts this WPF color to a GDI color.
+            </summary>
+            <param name="color">The color.</param>
+            <returns></returns>
+        </member>
+        <member name="M:RealTimeGraphX.WPF.ExtensionMethods.ToGdiBrush(System.Windows.Media.Brush)">
+            <summary>
+            Converts this WPF brush to a GDI brush.
+            </summary>
+            <param name="brush">The brush.</param>
+            <returns></returns>
+        </member>
+        <member name="M:RealTimeGraphX.WPF.ExtensionMethods.IsInDesignMode(System.Windows.DependencyObject)">
+            <summary>
+            Determines whether this dependency object is running in design mode.
+            </summary>
+            <param name="obj">The object.</param>
+        </member>
+        <member name="T:RealTimeGraphX.WPF.WpfGraphAxisControl">
+            <summary>
+            Represents a horizontal/vertical graph axis component.
+            </summary>
+            <seealso cref="T:RealTimeGraphX.WPF.WpfGraphComponentBase" />
+        </member>
+        <member name="M:RealTimeGraphX.WPF.WpfGraphAxisControl.#cctor">
+            <summary>
+            Initializes the <see cref="T:RealTimeGraphX.WPF.WpfGraphAxisControl"/> class.
+            </summary>
+        </member>
+        <member name="P:RealTimeGraphX.WPF.WpfGraphAxisControl.Orientation">
+            <summary>
+            Gets or sets the control orientation.
+            </summary>
+        </member>
+        <member name="P:RealTimeGraphX.WPF.WpfGraphAxisControl.ItemTemplate">
+            <summary>
+            Gets or sets the tick item template.
+            </summary>
+        </member>
+        <member name="P:RealTimeGraphX.WPF.WpfGraphAxisControl.Items">
+            <summary>
+            Gets or sets the tick items.
+            </summary>
+        </member>
+        <member name="P:RealTimeGraphX.WPF.WpfGraphAxisControl.Ticks">
+            <summary>
+            Gets or sets the number of ticks to display on the control.
+            </summary>
+        </member>
+        <member name="P:RealTimeGraphX.WPF.WpfGraphAxisControl.StringFormat">
+            <summary>
+            Gets or sets the string format which is used to format the ticks value.
+            </summary>
+        </member>
+        <member name="M:RealTimeGraphX.WPF.WpfGraphAxisControl.OnApplyTemplate">
+            <summary>
+            When overridden in a derived class, is invoked whenever application code or internal processes call <see cref="M:System.Windows.FrameworkElement.ApplyTemplate" />.
+            </summary>
+        </member>
+        <member name="M:RealTimeGraphX.WPF.WpfGraphAxisControl.OnTicksChanged">
+            <summary>
+            Called when the <see cref="P:RealTimeGraphX.WPF.WpfGraphAxisControl.Ticks"/> property has changed.
+            </summary>
+        </member>
+        <member name="M:RealTimeGraphX.WPF.WpfGraphAxisControl.OnVirtualRangeChanged(System.Object,RealTimeGraphX.EventArguments.RangeChangedEventArgs)">
+            <summary>
+            Handles the <see cref="E:RealTimeGraphX.IGraphController.VirtualRangeChanged"/> event.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The event arguments.</param>
+        </member>
+        <member name="T:RealTimeGraphX.WPF.WpfGraphAxisPanel">
+            <summary>
+            Represents a panel that will align its children in an axis labels like arrangement.
+            </summary>
+            <seealso cref="T:System.Windows.Controls.Grid" />
+        </member>
+        <member name="P:RealTimeGraphX.WPF.WpfGraphAxisPanel.Orientation">
+            <summary>
+            Gets or sets the panel orientation.
+            </summary>
+        </member>
+        <member name="M:RealTimeGraphX.WPF.WpfGraphAxisPanel.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:RealTimeGraphX.WPF.WpfGraphAxisPanel"/> class.
+            </summary>
+        </member>
+        <member name="M:RealTimeGraphX.WPF.WpfGraphAxisPanel.VerticalAxisPanel_Loaded(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Handles the Loaded event of the VerticalAxisGrid control.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:RealTimeGraphX.WPF.WpfGraphAxisPanel.UpdatePanel">
+            <summary>
+            Updates the panel.
+            </summary>
+        </member>
+        <member name="T:RealTimeGraphX.WPF.WpfGraphAxisTickData">
+            <summary>
+            Represents a graph axis data point tick value wrapper.
+            </summary>
+        </member>
+        <member name="P:RealTimeGraphX.WPF.WpfGraphAxisTickData.IsFirst">
+            <summary>
+            Gets or sets a value indicating whether this tick is the first tick.
+            </summary>
+        </member>
+        <member name="P:RealTimeGraphX.WPF.WpfGraphAxisTickData.IsLast">
+            <summary>
+            Gets or sets a value indicating whether this tick is the last tick.
+            </summary>
+        </member>
+        <member name="P:RealTimeGraphX.WPF.WpfGraphAxisTickData.IsCenter">
+            <summary>
+            Gets or sets a value indicating whether this tick is not the first or last.
+            </summary>
+        </member>
+        <member name="P:RealTimeGraphX.WPF.WpfGraphAxisTickData.IsEven">
+            <summary>
+            Gets or sets a value indicating whether this tick index is even.
+            </summary>
+        </member>
+        <member name="P:RealTimeGraphX.WPF.WpfGraphAxisTickData.IsOdd">
+            <summary>
+            Gets a value indicating whether this tick index is odd.
+            </summary>
+        </member>
+        <member name="P:RealTimeGraphX.WPF.WpfGraphAxisTickData.Data">
+            <summary>
+            Gets or sets the actual graph data point.
+            </summary>
+        </member>
+        <member name="P:RealTimeGraphX.WPF.WpfGraphAxisTickData.DisplayText">
+            <summary>
+            Gets or sets the display text.
+            </summary>
+        </member>
+        <member name="P:RealTimeGraphX.WPF.WpfGraphAxisTickData.Value">
+            <summary>
+            Gets the <see cref="P:RealTimeGraphX.WPF.WpfGraphAxisTickData.Data">Data Point</see> value.
+            </summary>
+        </member>
+        <member name="T:RealTimeGraphX.WPF.WpfGraphGridLines">
+            <summary>
+            Represents a graph grid lines component.
+            </summary>
+            <seealso cref="!:RealTimeGraphX.GraphSurfaceComponentBase" />
+        </member>
+        <member name="P:RealTimeGraphX.WPF.WpfGraphGridLines.Rows">
+            <summary>
+            Gets or sets the number of grid rows.
+            </summary>
+        </member>
+        <member name="P:RealTimeGraphX.WPF.WpfGraphGridLines.Columns">
+            <summary>
+            Gets or sets the number of grid columns.
+            </summary>
+        </member>
+        <member name="P:RealTimeGraphX.WPF.WpfGraphGridLines.VerticalItems">
+            <summary>
+            Gets or sets the vertical items.
+            </summary>
+        </member>
+        <member name="P:RealTimeGraphX.WPF.WpfGraphGridLines.HorizontalItems">
+            <summary>
+            Gets or sets the horizontal items.
+            </summary>
+        </member>
+        <member name="M:RealTimeGraphX.WPF.WpfGraphGridLines.#cctor">
+            <summary>
+            Initializes the <see cref="T:RealTimeGraphX.WPF.WpfGraphGridLines"/> class.
+            </summary>
+        </member>
+        <member name="M:RealTimeGraphX.WPF.WpfGraphGridLines.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:RealTimeGraphX.WPF.WpfGraphGridLines"/> class.
+            </summary>
+        </member>
+        <member name="M:RealTimeGraphX.WPF.WpfGraphGridLines.GridLines_Loaded(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Handles the Loaded event of the GridLines control.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:RealTimeGraphX.WPF.WpfGraphGridLines.UpdateGridLines">
+            <summary>
+            Updates the grid lines.
+            </summary>
+        </member>
+        <member name="T:RealTimeGraphX.WPF.WpfGraphComponentBase">
+            <summary>
+            Represents a graph component base class.
+            </summary>
+            <seealso cref="T:System.Windows.Controls.Control" />
+        </member>
+        <member name="P:RealTimeGraphX.WPF.WpfGraphComponentBase.Controller">
+            <summary>
+            Gets or sets the graph controller.
+            </summary>
+        </member>
+        <member name="M:RealTimeGraphX.WPF.WpfGraphComponentBase.OnControllerChanged(RealTimeGraphX.IGraphController,RealTimeGraphX.IGraphController)">
+            <summary>
+            Called when the controller has changed.
+            </summary>
+            <param name="oldController">The old controller.</param>
+            <param name="newController">The new controller.</param>
+        </member>
+        <member name="M:RealTimeGraphX.WPF.WpfGraphComponentBase.OnVirtualRangeChanged(System.Object,RealTimeGraphX.EventArguments.RangeChangedEventArgs)">
+            <summary>
+            Handles the <see cref="E:RealTimeGraphX.IGraphController.VirtualRangeChanged"/> event.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The event arguments.</param>
+        </member>
+        <member name="M:RealTimeGraphX.WPF.WpfGraphComponentBase.InvokeUI(System.Action)">
+            <summary>
+            Invokes the specified method on the component dispatcher.
+            </summary>
+            <param name="action">The action.</param>
+        </member>
+        <member name="T:RealTimeGraphX.WPF.WpfGraphDataSeries">
+            <summary>
+            Represents a WPF <see cref="T:RealTimeGraphX.IGraphDataSeries">data series</see>.
+            </summary>
+            <seealso cref="T:RealTimeGraphX.GraphObject" />
+            <seealso cref="T:RealTimeGraphX.IGraphDataSeries" />
+        </member>
+        <member name="P:RealTimeGraphX.WPF.WpfGraphDataSeries.GdiStroke">
+            <summary>
+            Gets the GDI stroke color.
+            </summary>
+        </member>
+        <member name="P:RealTimeGraphX.WPF.WpfGraphDataSeries.GdiFill">
+            <summary>
+            Gets the GDI fill brush.
+            </summary>
+        </member>
+        <member name="P:RealTimeGraphX.WPF.WpfGraphDataSeries.GdiPen">
+            <summary>
+            Gets or sets the GDI pen.
+            </summary>
+        </member>
+        <member name="P:RealTimeGraphX.WPF.WpfGraphDataSeries.Name">
+            <summary>
+            Gets or sets the series name.
+            </summary>
+        </member>
+        <member name="P:RealTimeGraphX.WPF.WpfGraphDataSeries.StrokeThickness">
+            <summary>
+            Gets or sets the stroke thickness.
+            </summary>
+        </member>
+        <member name="P:RealTimeGraphX.WPF.WpfGraphDataSeries.IsVisible">
+            <summary>
+            Gets or sets a value indicating whether this series should be visible.
+            </summary>
+        </member>
+        <member name="P:RealTimeGraphX.WPF.WpfGraphDataSeries.Stroke">
+            <summary>
+            Gets or sets the series stroke color.
+            </summary>
+        </member>
+        <member name="P:RealTimeGraphX.WPF.WpfGraphDataSeries.Fill">
+            <summary>
+            Gets or sets the series fill brush.
+            </summary>
+        </member>
+        <member name="M:RealTimeGraphX.WPF.WpfGraphDataSeries.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:RealTimeGraphX.WPF.WpfGraphDataSeries"/> class.
+            </summary>
+        </member>
+        <member name="P:RealTimeGraphX.WPF.WpfGraphDataSeries.UseFill">
+            <summary>
+            Gets or sets a value indicating whether to fill the series.
+            </summary>
+        </member>
+        <member name="P:RealTimeGraphX.WPF.WpfGraphDataSeries.CurrentValue">
+            <summary>
+            Gets the current value.
+            </summary>
+        </member>
+        <member name="T:RealTimeGraphX.WPF.WpfGraphController`2">
+            <summary>
+            Represents a WPF <see cref="T:RealTimeGraphX.GraphController`3">graph controller</see>.
+            </summary>
+            <typeparam name="TXDataPoint">The type of the x data point.</typeparam>
+            <typeparam name="TYDataPoint">The type of the y data point.</typeparam>
+            <seealso cref="!:RealTimeGraphX.GraphController&lt;RealTimeGraphX.WPF.WpfGraphDataSeries, TXDataPoint, TYDataPoint&gt;" />
+        </member>
+        <member name="T:RealTimeGraphX.WPF.WpfGraphSurface">
+            <summary>
+            Represents a WPF <see cref="T:RealTimeGraphX.IGraphSurface`1">graph surface</see>.
+            </summary>
+            <seealso cref="T:System.Windows.Controls.Control" />
+            <seealso cref="!:RealTimeGraphX.IGraphSurface&lt;RealTimeGraphX.WPF.WpfGraphDataSeries&gt;" />
+        </member>
+        <member name="E:RealTimeGraphX.WPF.WpfGraphSurface.SurfaceSizeChanged">
+            <summary>
+            Occurs when the surface size has changed.
+            </summary>
+        </member>
+        <member name="E:RealTimeGraphX.WPF.WpfGraphSurface.ZoomRectChanged">
+            <summary>
+            Occurs when the surface zoom rectangle has changed.
+            </summary>
+        </member>
+        <member name="P:RealTimeGraphX.WPF.WpfGraphSurface.Image">
+            <summary>
+            Gets or sets current graph rendered image.
+            </summary>
+        </member>
+        <member name="P:RealTimeGraphX.WPF.WpfGraphSurface.Controller">
+            <summary>
+            Gets or sets the graph controller.
+            </summary>
+        </member>
+        <member name="P:RealTimeGraphX.WPF.WpfGraphSurface.DisplayToolTip">
+            <summary>
+            Gets or sets a value indicating whether to display a tool tip with the current cursor value.
+            </summary>
+        </member>
+        <member name="P:RealTimeGraphX.WPF.WpfGraphSurface.ToolTipTemplate">
+            <summary>
+            Gets or sets the tool tip template.
+            </summary>
+        </member>
+        <member name="M:RealTimeGraphX.WPF.WpfGraphSurface.#cctor">
+            <summary>
+            Initializes the <see cref="T:RealTimeGraphX.WPF.WpfGraphSurface"/> class.
+            </summary>
+        </member>
+        <member name="M:RealTimeGraphX.WPF.WpfGraphSurface.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:RealTimeGraphX.WPF.WpfGraphSurface"/> class.
+            </summary>
+        </member>
+        <member name="M:RealTimeGraphX.WPF.WpfGraphSurface.OnApplyTemplate">
+            <summary>
+            When overridden in a derived class, is invoked whenever application code or internal processes call <see cref="M:System.Windows.FrameworkElement.ApplyTemplate" />.
+            </summary>
+        </member>
+        <member name="M:RealTimeGraphX.WPF.WpfGraphSurface.OnSelectionCanvasMouseMove(System.Object,System.Windows.Input.MouseEventArgs)">
+            <summary>
+            Called when the mouse moves over the zoom/pan selection canvas.
+            </summary>
+            <param name="sender">The sender.</param>
+            <param name="e">The <see cref="T:System.Windows.Input.MouseEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:RealTimeGraphX.WPF.WpfGraphSurface.OnApplyToolTip(System.Windows.Point)">
+            <summary>
+            Called when the tool tip position and content are being set.
+            </summary>
+            <param name="position">The position.</param>
+        </member>
+        <member name="M:RealTimeGraphX.WPF.WpfGraphSurface.OnSelectionCanvasMouseEnter(System.Object,System.Windows.Input.MouseEventArgs)">
+            <summary>
+            Called when the mouse has entered the active graph area.
+            </summary>
+            <param name="sender">The sender.</param>
+            <param name="e">The <see cref="T:System.Windows.Input.MouseEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:RealTimeGraphX.WPF.WpfGraphSurface.OnSelectionCanvasMouseLeave(System.Object,System.Windows.Input.MouseEventArgs)">
+            <summary>
+            Called when the mouse has left the active graph area.
+            </summary>
+            <param name="sender">The sender.</param>
+            <param name="e">The <see cref="T:System.Windows.Input.MouseEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:RealTimeGraphX.WPF.WpfGraphSurface.OnSelectionCanvasMouseUp(System.Object,System.Windows.Input.MouseButtonEventArgs)">
+            <summary>
+            Called when the mouse released from the zoom/pan selection canvas.
+            </summary>
+            <param name="sender">The sender.</param>
+            <param name="e">The <see cref="T:System.Windows.Input.MouseButtonEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:RealTimeGraphX.WPF.WpfGraphSurface.OnSelectionCanvasMouseDown(System.Object,System.Windows.Input.MouseButtonEventArgs)">
+            <summary>
+            Called when the mouse pressed on the zoom/pan selection canvas.
+            </summary>
+            <param name="sender">The sender.</param>
+            <param name="e">The <see cref="T:System.Windows.Input.MouseButtonEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:RealTimeGraphX.WPF.WpfGraphSurface.OnControllerChanged(RealTimeGraphX.IGraphController{RealTimeGraphX.WPF.WpfGraphDataSeries},RealTimeGraphX.IGraphController{RealTimeGraphX.WPF.WpfGraphDataSeries})">
+            <summary>
+            Called when the <see cref="P:RealTimeGraphX.WPF.WpfGraphSurface.Controller"/> property has changed.
+            </summary>
+            <param name="oldController">The old controller.</param>
+            <param name="newController">The new controller.</param>
+        </member>
+        <member name="M:RealTimeGraphX.WPF.WpfGraphSurface.BeginDraw">
+            <summary>
+            Called before drawing has started.
+            </summary>
+        </member>
+        <member name="M:RealTimeGraphX.WPF.WpfGraphSurface.SetTransform(RealTimeGraphX.GraphTransform)">
+            <summary>
+            Applies transformation on the current pass.
+            </summary>
+            <param name="transform">The transform.</param>
+        </member>
+        <member name="M:RealTimeGraphX.WPF.WpfGraphSurface.DrawSeries(RealTimeGraphX.WPF.WpfGraphDataSeries,System.Collections.Generic.IEnumerable{System.Drawing.PointF})">
+            <summary>
+            Draws the stroke of the specified data series points.
+            </summary>
+            <param name="dataSeries">The data series.</param>
+            <param name="points">The points.</param>
+        </member>
+        <member name="M:RealTimeGraphX.WPF.WpfGraphSurface.FillSeries(RealTimeGraphX.WPF.WpfGraphDataSeries,System.Collections.Generic.IEnumerable{System.Drawing.PointF})">
+            <summary>
+            Fills the specified data series points.
+            </summary>
+            <param name="dataSeries">The data series.</param>
+            <param name="points">The points.</param>
+        </member>
+        <member name="M:RealTimeGraphX.WPF.WpfGraphSurface.EndDraw">
+            <summary>
+            Called when drawing has completed.
+            </summary>
+        </member>
+        <member name="M:RealTimeGraphX.WPF.WpfGraphSurface.GetSize">
+            <summary>
+            Returns the actual size of the surface.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RealTimeGraphX.WPF.WpfGraphSurface.GetZoomRect">
+            <summary>
+            Returns the current bounds of the zooming rectangle.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:RealTimeGraphX.WPF.WpfGraphSurface.WpfGraphSurface_SizeChanged(System.Object,System.Windows.SizeChangedEventArgs)">
+            <summary>
+            Handles the WPF Graph Surface Size Changed event.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The event arguments.</param>
+        </member>
+        <member name="T:RealTimeGraphX.WPF.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:RealTimeGraphX.WPF.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:RealTimeGraphX.WPF.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">
+            <summary>
+            GeneratedInternalTypeHelper
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
+            <summary>
+            CreateInstance
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            GetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            SetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
+            <summary>
+            CreateDelegate
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
+            <summary>
+            AddEventHandler
+            </summary>
+        </member>
+    </members>
+</doc>
