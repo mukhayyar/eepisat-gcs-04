@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\user\\Documents\\EEPISAT\\Software Eepisat-20220929T114035Z-001\\Software Eepisat\\GCS EEPISAT 04\\GCS EEPISAT 04\\GCS EEPISAT 04.csproj": {}
+    "C:\\Users\\user\\Documents\\EEPISAT\\eepisat-gcs-04\\GCS EEPISAT 04\\GCS EEPISAT 04.csproj": {}
   },
   "projects": {
-    "C:\\Users\\user\\Documents\\EEPISAT\\Software Eepisat-20220929T114035Z-001\\Software Eepisat\\GCS EEPISAT 04\\GCS EEPISAT 04\\GCS EEPISAT 04.csproj": {
+    "C:\\Users\\user\\Documents\\EEPISAT\\eepisat-gcs-04\\GCS EEPISAT 04\\GCS EEPISAT 04.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\user\\Documents\\EEPISAT\\Software Eepisat-20220929T114035Z-001\\Software Eepisat\\GCS EEPISAT 04\\GCS EEPISAT 04\\GCS EEPISAT 04.csproj",
+        "projectUniqueName": "C:\\Users\\user\\Documents\\EEPISAT\\eepisat-gcs-04\\GCS EEPISAT 04\\GCS EEPISAT 04.csproj",
         "projectName": "GCS EEPISAT 04",
-        "projectPath": "C:\\Users\\user\\Documents\\EEPISAT\\Software Eepisat-20220929T114035Z-001\\Software Eepisat\\GCS EEPISAT 04\\GCS EEPISAT 04\\GCS EEPISAT 04.csproj",
+        "projectPath": "C:\\Users\\user\\Documents\\EEPISAT\\eepisat-gcs-04\\GCS EEPISAT 04\\GCS EEPISAT 04.csproj",
         "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\user\\Documents\\EEPISAT\\Software Eepisat-20220929T114035Z-001\\Software Eepisat\\GCS EEPISAT 04\\GCS EEPISAT 04\\obj\\",
+        "outputPath": "C:\\Users\\user\\Documents\\EEPISAT\\eepisat-gcs-04\\GCS EEPISAT 04\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -43,6 +43,12 @@
       "frameworks": {
         "net6.0-windows7.0": {
           "targetAlias": "net6.0-windows",
+          "dependencies": {
+            "System.IO.Ports": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

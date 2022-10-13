@@ -62,6 +62,8 @@ namespace GCS_EEPISAT_04 {
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "6.0.9.0")]
         public static void Main() {
+            SplashScreen splashScreen = new SplashScreen("assets/eepisat-splashscreen.png");
+            splashScreen.Show(true);
             GCS_EEPISAT_04.App app = new GCS_EEPISAT_04.App();
             app.InitializeComponent();
             app.Run();

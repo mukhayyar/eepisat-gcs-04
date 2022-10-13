@@ -6,6 +6,46 @@
     <RootNamespace>GCS_EEPISAT_04</RootNamespace>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>GCS.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\CanSat.png" />
+    <None Remove="Assets\EEPISat-Logotype.png" />
+    <None Remove="Assets\EEPISat-SplashScreen.png" />
+    <None Remove="Assets\EEPISat.png" />
+    <None Remove="Assets\Flag.png" />
+    <None Remove="Assets\pens.png" />
+    <None Remove="Assets\Restart.png" />
+    <None Remove="Assets\Shutdown.png" />
+    <None Remove="Assets\Status Meter.png" />
+    <None Remove="Assets\Team.png" />
+    <None Remove="Assets\Time.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="GCS.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.IO.Ports" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\CanSat.png" />
+    <Resource Include="Assets\EEPISat-Logotype.png" />
+    <Resource Include="Assets\EEPISat.png" />
+    <Resource Include="Assets\Flag.png" />
+    <Resource Include="Assets\pens.png" />
+    <Resource Include="Assets\Restart.png" />
+    <Resource Include="Assets\Shutdown.png" />
+    <Resource Include="Assets\Status Meter.png" />
+    <Resource Include="Assets\Team.png" />
+    <Resource Include="Assets\Time.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <SplashScreen Include="Assets\EEPISat-SplashScreen.png" />
+  </ItemGroup>
 
 </Project>
