@@ -57,14 +57,14 @@
                 </Border>
                 <Border Grid.Column="1" ClipToBounds="True" Background="#292929" CornerRadius="20,20,20,20" Height="75" Canvas.Left="269" Canvas.Top="21" Width="408" HorizontalAlignment="Left" VerticalAlignment="Center">
                     <Canvas Background="Transparent">
-                        <TextBlock FontSize="14" FontWeight="Bold" TextAlignment="Center" Foreground="#FFFFFF" Canvas.Top="18" Width="399" HorizontalAlignment="Center" VerticalAlignment="Center" Canvas.Left="3"><Run Text="BAMANTARA EEPISAT | GROUND CONTROL STATION"/></TextBlock>
-                        <TextBlock FontSize="14" FontWeight="Bold" TextAlignment="Center" Foreground="#FFFFFF" Canvas.Top="44" Width="400" Canvas.Left="2" HorizontalAlignment="Center" VerticalAlignment="Top"><Run Text="POLITEKNIK ELEKTRONIKA NEGERI SURABAYA"/></TextBlock>
+                        <TextBlock FontSize="14" FontWeight="Bold" TextAlignment="Center" Foreground="#FFFFFF" Canvas.Top="16" Width="400" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="4"><Run Text="BAMANTARA EEPISAT | GROUND CONTROL STATION"/></TextBlock>
+                        <TextBlock FontSize="14" FontWeight="Bold" TextAlignment="Center" Foreground="#FFFFFF" Canvas.Top="42" Width="400" Canvas.Left="4" HorizontalAlignment="Center" VerticalAlignment="Top"><Run Text="POLITEKNIK ELEKTRONIKA NEGERI SURABAYA"/></TextBlock>
                     </Canvas>
                 </Border>
                 <Border Grid.Column="1" ClipToBounds="True" Background="#292929" CornerRadius="20,20,20,20" Height="75" Canvas.Left="691" Canvas.Top="21" Width="157" HorizontalAlignment="Left" VerticalAlignment="Center">
                     <Canvas Background="Transparent">
-                        <TextBlock FontSize="14" FontWeight="Bold" TextAlignment="Center" Foreground="#FFFFFF" Canvas.Top="31" Width="87" HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Left="67"><Run Text="INDONESIA"/></TextBlock>
-                        <Image Source="/Assets/Flag.png" Height="56" Width="57" HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Top="12" Canvas.Left="9"/>
+                        <TextBlock FontSize="14" FontWeight="Bold" TextAlignment="Center" Foreground="#FFFFFF" Canvas.Top="28" Width="87" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="66"><Run Text="INDONESIA"/></TextBlock>
+                        <Image Source="/Assets/Flag.png" Height="56" Width="56" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="10" Canvas.Left="10"/>
                     </Canvas>
                 </Border>
                 <Border Grid.Column="1" ClipToBounds="True" Background="#292929" CornerRadius="40,40,40,40" Height="75" Canvas.Left="874" Canvas.Top="21" Width="76" HorizontalAlignment="Left" VerticalAlignment="Center">
@@ -250,7 +250,7 @@
         </Border>
         <Border Grid.Column="1" ClipToBounds="True" Background="#222222" Margin="839,146,16,10" CornerRadius="20,20,20,20">
             <Canvas Background="Transparent">
-                <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" Foreground="#FFFFFF" Height="26" Canvas.Left="10" Canvas.Top="10" Width="211" HorizontalAlignment="Center" VerticalAlignment="Center"><Run Text="PROBE"/></TextBlock>
+                <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" Foreground="#FFFFFF" Height="26" Canvas.Left="10" Canvas.Top="10" Width="211" HorizontalAlignment="Center" VerticalAlignment="Center"><Run Text="MODE"/></TextBlock>
             </Canvas>
         </Border>
 
