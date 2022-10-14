@@ -101,47 +101,53 @@
                     </Grid.RowDefinitions>
                     <Border ClipToBounds="True" Background="#292929" Margin="10,10,119,10" CornerRadius="20,20,20,20">
                         <Canvas Background="Transparent">
-                            <TextBlock FontSize="10" FontWeight="Regular" Text="00" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="86" Canvas.Top="140" Height="15" Width="12" />
+                            <TextBlock FontSize="10" FontWeight="Regular" Text="00" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="116" Canvas.Top="89" Height="15" Width="12" />
 
-                            <Image Source="/Assets/MaxAltitude.png" Height="44" Width="28" Canvas.Top="27" Canvas.Left="17" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <TextBlock FontSize="10" FontWeight="Bold" Text="MAX ALTITUDE" Foreground="#FFFFFF" HorizontalAlignment="Center" Canvas.Top="14" VerticalAlignment="Top" Canvas.Left="56" />
-                            <TextBlock FontSize="10" FontWeight="Bold" Text="ALTITUDE" Foreground="#FFFFFF" Canvas.Top="50" Canvas.Left="69" HorizontalAlignment="Center" VerticalAlignment="Top" />
+                            <Image Source="/Assets/MaxAltitude.png" Height="44" Width="28" Canvas.Top="21" Canvas.Left="17" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                            <TextBlock FontSize="10" FontWeight="Bold" Text="MAX ALTITUDE" Foreground="#FFFFFF" HorizontalAlignment="Center" Canvas.Top="10" VerticalAlignment="Top" Canvas.Left="56" />
+                            <TextBlock FontSize="10" FontWeight="Bold" Text="ALTITUDE" Foreground="#FFFFFF" Canvas.Top="46" Canvas.Left="69" HorizontalAlignment="Center" VerticalAlignment="Top" />
                             <Viewbox HorizontalAlignment="Center" Height="13" Canvas.Left="72" Stretch="Fill" Canvas.Top="27" VerticalAlignment="Top" Width="40">
                                 <Grid Height="13.299999999999997" Width="40.16">
-                                    <TextBlock FontSize="10" FontWeight="Regular" Text="000.0" Foreground="#FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                                    <TextBlock FontSize="10" FontWeight="Bold" Text="m" Foreground="#FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="31,0,0,0" />
+                                    <TextBlock FontSize="10" FontWeight="Regular" Text="000.0" Foreground="#FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,-4,0,0" />
+                                    <TextBlock FontSize="10" FontWeight="Bold" Text="m" Foreground="#FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="31,-4,0,0" />
                                 </Grid>
                             </Viewbox>
-                            <Separator Height="14" Canvas.Top="40" Width="72" Canvas.Left="56" HorizontalAlignment="Center" VerticalAlignment="Top" />
-                            <Viewbox Height="13" Canvas.Left="72" Stretch="Fill" Canvas.Top="65" Width="40" HorizontalAlignment="Center" VerticalAlignment="Top">
+                            <Separator Height="14" Canvas.Top="34" Width="72" Canvas.Left="56" HorizontalAlignment="Center" VerticalAlignment="Top" />
+                            <Viewbox Height="13" Canvas.Left="72" Stretch="Fill" Canvas.Top="59" Width="40" HorizontalAlignment="Center" VerticalAlignment="Top">
                                 <Grid Height="13" Width="40">
                                     <TextBlock FontSize="10" FontWeight="Regular" Text="000.0" Foreground="#FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Center" />
                                     <TextBlock FontSize="10" FontWeight="Bold" Text="m" Foreground="#FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="31,0,0,0" />
                                 </Grid>
                             </Viewbox>
-                            <Image Source="/Assets/Voltage.png" Height="41" Width="27" Canvas.Top="85" Canvas.Left="15" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                            <Viewbox Height="14" Canvas.Left="72"  Canvas.Top="99" Width="63" HorizontalAlignment="Center" VerticalAlignment="Top">
-                                <Grid Height="13" Width="64">
-                                    <TextBlock FontSize="10" FontWeight="Regular" Text="000.0" Foreground="#FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                                    <TextBlock FontSize="10" FontWeight="Bold" Text="VOLT" Foreground="#FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="31,0,0,0" />
+                            <Image Source="/Assets/Voltage.png" Height="41" Width="27" Canvas.Top="78" Canvas.Left="15" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                            <Viewbox Height="26" Canvas.Left="40"  Canvas.Top="85" Width="52" HorizontalAlignment="Center" VerticalAlignment="Top">
+                                <Grid Height="28" Width="55">
+                                    <TextBlock FontSize="10" FontWeight="Regular" Text="000.0" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" />
+                                    <TextBlock FontSize="10" FontWeight="Bold" Text="VOLT" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,13,0,0" />
                                 </Grid>
                             </Viewbox>
-                            <Image Source="/Assets/Container.png" Height="35" Width="33" Canvas.Top="131" Canvas.Left="13" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                            <Image Source="/Assets/temperature.png" Height="35" Width="23" Canvas.Top="175" Canvas.Left="21" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <Viewbox Height="14" Canvas.Left="72"  Canvas.Top="99" Width="63" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <Grid Height="13" Width="64">
-                                    <TextBlock FontSize="10" FontWeight="Regular" Text="000.0" Foreground="#FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                                    <TextBlock FontSize="10" FontWeight="Bold" Text="VOLT" Foreground="#FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="31,0,0,0" />
-                                </Grid>
-                            </Viewbox>
-                            <Viewbox Height="14" Canvas.Left="72"  Canvas.Top="99" Width="63" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <Grid Height="13" Width="64">
-                                    <TextBlock FontSize="10" FontWeight="Regular" Text="000.0" Foreground="#FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                                    <TextBlock FontSize="10" FontWeight="Bold" Text="VOLT" Foreground="#FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="31,0,0,0" />
-                                </Grid>
-                            </Viewbox>
-                            <TextBlock FontSize="10" FontWeight="Regular" Text="0.0" Foreground="#FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Left="79" Canvas.Top="186" />
-                            <TextBlock FontSize="10" FontWeight="Bold" Text="ᴼC" Foreground="#FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Left="97" Canvas.Top="186" />
+                            <Image Source="/Assets/Container.png" Height="35" Width="33" Canvas.Top="79" Canvas.Left="76" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                            <Image Source="/Assets/temperature.png" Height="36" Width="23" Canvas.Top="119" Canvas.Left="47" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+
+                            <TextBlock FontSize="10" FontWeight="Regular" Text="0.0" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="74" Canvas.Top="130" />
+                            <TextBlock FontSize="10" FontWeight="Bold" Text="ᴼC" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="92" Canvas.Top="130" />
+                            <TextBlock FontSize="10" FontWeight="Bold" Text="TILT" Foreground="#FFFFFF" Canvas.Left="37" Canvas.Top="170" HorizontalAlignment="Center" VerticalAlignment="Top" />
+                            <Separator Height="4" Canvas.Top="181" Width="82" Canvas.Left="37" HorizontalAlignment="Center" VerticalAlignment="Top"></Separator>
+                            <TextBlock FontSize="10" FontWeight="Bold" Text="X" Foreground="#FFFFFF" Canvas.Left="43" Canvas.Top="185" HorizontalAlignment="Center" VerticalAlignment="Top" />
+                            <TextBlock FontSize="10" FontWeight="Bold" Text="Y" Foreground="#FFFFFF" Canvas.Left="43" Canvas.Top="202" HorizontalAlignment="Center" VerticalAlignment="Top" />
+                            <TextBlock FontSize="10" FontWeight="Bold" Text="VALUE" Foreground="#FFFFFF" Canvas.Left="88" Canvas.Top="170" HorizontalAlignment="Center" VerticalAlignment="Top" />
+                            <TextBlock FontSize="10" FontWeight="Regular" Text="0.00" Foreground="#FFFFFF" Canvas.Left="93" Canvas.Top="185" HorizontalAlignment="Center" VerticalAlignment="Top" />
+                            <TextBlock FontSize="10" FontWeight="Regular" Text="0.00" Foreground="#FFFFFF" Canvas.Left="93" Canvas.Top="202" HorizontalAlignment="Center" VerticalAlignment="Top" />
+                            <Separator Height="4" Canvas.Top="215" Width="43" Canvas.Left="73" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0,0">
+                                <Separator.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform/>
+                                        <SkewTransform/>
+                                        <RotateTransform Angle="-90.7"/>
+                                        <TranslateTransform/>
+                                    </TransformGroup>
+                                </Separator.RenderTransform>
+                            </Separator>
                         </Canvas>
                     </Border>
                     <Border ClipToBounds="True" Background="#292929" Margin="179,10,-50,125" CornerRadius="20,20,20,20">
