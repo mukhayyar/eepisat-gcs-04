@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GCS_EEPISAT_04"
+        xmlns:Wpf="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        xmlns:map="clr-namespace:MapControl;assembly=MapControl.WPF"
         mc:Ignorable="d"
         Background="#161616"
         WindowState="Maximized"
@@ -17,20 +19,21 @@
             <ColumnDefinition Width="280px"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Border ClipToBounds="True" Background="#222222" Margin="10,10,10,10" CornerRadius="20,20,20,20">
+        <Border Grid.Column="0" ClipToBounds="True" Background="#222222" Margin="10,10,10,10" CornerRadius="20,20,20,20">
             <Canvas Background="Transparent">
-                <Viewbox HorizontalAlignment="Left" Height="262" Canvas.Left="100"  Canvas.Top="304" VerticalAlignment="Center" Width="136">
-                    <Grid Height="255" Width="142">
-                        <TextBlock FontSize="20" FontWeight="Bold" TextAlignment="Left" Foreground="#FFFFFF" Height="26" Width="142" HorizontalAlignment="Center" VerticalAlignment="Top" Text="HOME"/>
-                        <TextBlock FontSize="20" FontWeight="Bold" TextAlignment="Left" Foreground="#FFFFFF" Height="26" Width="142" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,52,0,0"><Run Text="GRAPH"/></TextBlock>
-                        <TextBlock FontSize="20" FontWeight="Bold" TextAlignment="Left" Foreground="#FFFFFF" Height="26" Width="142" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,102,0,0"><Run Text="MAP"/></TextBlock>
-                        <TextBlock FontSize="20" FontWeight="Bold" TextAlignment="Left" Foreground="#FFFFFF" Height="26" Width="142" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,161,0,0"><Run Text="DATA CSV"/></TextBlock>
-                        <TextBlock FontSize="20" FontWeight="Bold" TextAlignment="Left" Foreground="#FFFFFF" Height="29" Width="142" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,216,0,0"><Run Text="3D"/></TextBlock>
-                    </Grid>
-                </Viewbox>
+                <TextBlock FontSize="20" FontWeight="Bold" TextAlignment="Left" Foreground="#FFFFFF" Height="26" Width="142" HorizontalAlignment="Left" VerticalAlignment="Center" Text="HOME" Canvas.Top="330" Canvas.Left="87"/>
+                <TextBlock FontSize="20" FontWeight="Bold" TextAlignment="Left" Foreground="#FFFFFF" Height="26" Width="142" HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Top="382" Canvas.Left="87"><Run Text="GRAPH"/></TextBlock>
+                <TextBlock FontSize="20" FontWeight="Bold" TextAlignment="Left" Foreground="#FFFFFF" Height="26" Width="142" HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Top="438" Canvas.Left="87"><Run Text="MAP"/></TextBlock>
+                <TextBlock FontSize="20" FontWeight="Bold" TextAlignment="Left" Foreground="#FFFFFF" Height="26" Width="142" HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Top="493" Canvas.Left="87"><Run Text="DATA CSV"/></TextBlock>
+                <Image Source="/Assets/Home_Menu.png" Height="40" Canvas.Left="28" Width="43" Canvas.Top="323" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                <Image Source="/Assets/Graph Menu.png" Height="40" Canvas.Left="28" Width="43" Canvas.Top="375" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Image Source="/Assets/Graph Menu.png" Height="40" Canvas.Left="28" Width="43" Canvas.Top="375" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Image Source="/Assets/Map.png" Height="40" Canvas.Left="28" Width="43" Canvas.Top="431" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                <Image Source="/Assets/Map.png" Height="40" Canvas.Left="28" Width="43" Canvas.Top="431" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Image Source="/Assets/CSVFolder.png" Height="40" Canvas.Left="28" Width="43" Canvas.Top="486" HorizontalAlignment="Center" VerticalAlignment="Top"/>
             </Canvas>
         </Border>
-        <Border ClipToBounds="True" Background="#292929" Margin="36,53,36,496" CornerRadius="20,20,20,20">
+        <Border Grid.Column="0" ClipToBounds="True" Background="#292929" Margin="36,53,36,496" CornerRadius="20,20,20,20">
             <Canvas Background="Transparent">
                 <Image Source="/Assets/team.png" Height="35" Canvas.Left="17" Width="57" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="26"/>
                 <Image Source="/Assets/time.png" Height="35" Canvas.Left="28" Width="34" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="89"/>
@@ -67,22 +70,16 @@
                         <Image Source="/Assets/Flag.png" Height="56" Width="56" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="10" Canvas.Left="10"/>
                     </Canvas>
                 </Border>
-                <Border Grid.Column="1" ClipToBounds="True" Background="#292929" CornerRadius="40,40,40,40" Height="75" Canvas.Left="874" Canvas.Top="21" Width="76" HorizontalAlignment="Left" VerticalAlignment="Center">
-                    <Canvas Background="Transparent" Margin="2,0,-2,0">
-                        <Border CornerRadius="20,20,20,20" HorizontalAlignment="Center" VerticalAlignment="Top" Height="60" Width="58" Canvas.Left="7" Canvas.Top="5">
-                            <Button Background="Transparent" BorderThickness="0" Name="RestartBtn" HorizontalAlignment="Center" VerticalAlignment="Center" Canvas.Top="4" Canvas.Left="9" Click="RestartOpenModal" Width="58">
-                                <Image Source="/Assets/Restart.png" Width="70"/>
-                            </Button>
-                        </Border>
-                    </Canvas>
-                </Border>
+                <Canvas Grid.Column="1" Background="Transparent" Height="76" Width="82" Canvas.Left="866" Canvas.Top="22" HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <Button Background="Transparent" BorderThickness="0" Name="RestartBtn" HorizontalAlignment="Left" VerticalAlignment="Center" Click="RestartOpenModal" Width="82" Height="75">
+                        <Image Source="/Assets/Restart.png" Width="76" Height="72"/>
+                    </Button>
+                </Canvas>
                 <Border Grid.Column="1" ClipToBounds="True" Background="#292929" CornerRadius="40,40,40,40" Height="75" Canvas.Left="962" Canvas.Top="21" Width="76" HorizontalAlignment="Left" VerticalAlignment="Center">
                     <Canvas Background="Transparent">
-                        <Border CornerRadius="20,20,20,20" Height="60" Width="62" Canvas.Left="7" Canvas.Top="8" HorizontalAlignment="Left" VerticalAlignment="Center">
-                            <Button Name="ShutdownButton" Background="Transparent" BorderThickness="0"  HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Top="4" Canvas.Left="11" Click="ShutdownOpenModal">
-                                <Image Source="/Assets/Shutdown.png" />
-                            </Button>
-                        </Border>
+                        <Button Name="ShutdownButton" Background="Transparent" BorderThickness="0"  HorizontalAlignment="Left" VerticalAlignment="Top" Click="ShutdownOpenModal" Height="75" Width="76">
+                            <Image Source="/Assets/Shutdown.png" />
+                        </Button>
                     </Canvas>
                 </Border>
             </Canvas>
@@ -101,9 +98,9 @@
                     </Grid.RowDefinitions>
                     <Border ClipToBounds="True" Background="#292929" Margin="10,10,119,10" CornerRadius="20,20,20,20">
                         <Canvas Background="Transparent">
-                            <TextBlock FontSize="10" FontWeight="Regular" Text="00" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="116" Canvas.Top="89" Height="15" Width="12" />
+                            <TextBlock FontSize="10" FontWeight="Regular" Text="00" Foreground="#FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="88" Canvas.Top="125" Height="15" Width="12" />
 
-                            <Image Source="/Assets/MaxAltitude.png" Height="44" Width="28" Canvas.Top="21" Canvas.Left="17" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                            <Image Source="/Assets/MaxAltitude.png" Height="44" Width="28" Canvas.Top="24" Canvas.Left="15" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             <TextBlock FontSize="10" FontWeight="Bold" Text="MAX ALTITUDE" Foreground="#FFFFFF" HorizontalAlignment="Center" Canvas.Top="10" VerticalAlignment="Top" Canvas.Left="56" />
                             <TextBlock FontSize="10" FontWeight="Bold" Text="ALTITUDE" Foreground="#FFFFFF" Canvas.Top="46" Canvas.Left="69" HorizontalAlignment="Center" VerticalAlignment="Top" />
                             <Viewbox HorizontalAlignment="Center" Height="13" Canvas.Left="72" Stretch="Fill" Canvas.Top="27" VerticalAlignment="Top" Width="40">
@@ -119,18 +116,15 @@
                                     <TextBlock FontSize="10" FontWeight="Bold" Text="m" Foreground="#FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="31,0,0,0" />
                                 </Grid>
                             </Viewbox>
-                            <Image Source="/Assets/Voltage.png" Height="41" Width="27" Canvas.Top="78" Canvas.Left="15" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                            <Viewbox Height="26" Canvas.Left="40"  Canvas.Top="85" Width="52" HorizontalAlignment="Center" VerticalAlignment="Top">
-                                <Grid Height="28" Width="55">
-                                    <TextBlock FontSize="10" FontWeight="Regular" Text="000.0" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" />
-                                    <TextBlock FontSize="10" FontWeight="Bold" Text="VOLT" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,13,0,0" />
-                                </Grid>
-                            </Viewbox>
-                            <Image Source="/Assets/Container.png" Height="35" Width="33" Canvas.Top="79" Canvas.Left="76" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                            <Image Source="/Assets/temperature.png" Height="36" Width="23" Canvas.Top="119" Canvas.Left="47" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                            <Image Source="/Assets/Voltage.png" Height="44" Width="28" Canvas.Top="78" Canvas.Left="15" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
-                            <TextBlock FontSize="10" FontWeight="Regular" Text="0.0" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="74" Canvas.Top="130" />
-                            <TextBlock FontSize="10" FontWeight="Bold" Text="ᴼC" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="92" Canvas.Top="130" />
+                            <TextBlock FontSize="10" FontWeight="Regular" Text="000.0" Foreground="#FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Left="48" Canvas.Top="80" />
+                            <TextBlock FontSize="10" FontWeight="Bold" Text="VOLT" Foreground="#FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Left="48" Canvas.Top="98" />
+                            <Image Source="/Assets/Probe.png" Height="44" Width="28" Canvas.Top="119" Canvas.Left="45" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                            <Image Source="/Assets/temperature.png" Height="44" Width="28" Canvas.Top="80" Canvas.Left="88" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+                            <TextBlock FontSize="10" FontWeight="Regular" Text="0.0" Foreground="#FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="121" Canvas.Top="80" />
+                            <TextBlock FontSize="10" FontWeight="Bold" Text="ᴼC" Foreground="#FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="121" Canvas.Top="93" />
                             <TextBlock FontSize="10" FontWeight="Bold" Text="TILT" Foreground="#FFFFFF" Canvas.Left="37" Canvas.Top="170" HorizontalAlignment="Center" VerticalAlignment="Top" />
                             <Separator Height="4" Canvas.Top="181" Width="82" Canvas.Left="37" HorizontalAlignment="Center" VerticalAlignment="Top"></Separator>
                             <TextBlock FontSize="10" FontWeight="Bold" Text="X" Foreground="#FFFFFF" Canvas.Left="43" Canvas.Top="185" HorizontalAlignment="Center" VerticalAlignment="Top" />
@@ -152,7 +146,7 @@
                     </Border>
                     <Border ClipToBounds="True" Background="#292929" Margin="179,10,-50,125" CornerRadius="20,20,20,20">
                         <Canvas Background="Transparent">
-                            <Image Source="/Assets/GPS.png" Height="41" Width="36" Canvas.Top="10" Canvas.Left="58" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                            <Image Source="/Assets/GPSNew.png" Height="41" Width="36" Canvas.Top="10" Canvas.Left="58" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                             <TextBlock FontWeight="Bold" FontSize="10" Text="TIME" Foreground="#FFFFFF" Canvas.Left="64" Canvas.Top="51" HorizontalAlignment="Center" VerticalAlignment="Top" />
                             <TextBlock FontWeight="Regular" FontSize="10" Text="00:00:00.00" Foreground="#FFFFFF" Canvas.Left="51" Canvas.Top="64" HorizontalAlignment="Center" VerticalAlignment="Top" />
                             <Viewbox HorizontalAlignment="Center" Height="26" Canvas.Left="64" Stretch="Fill" Canvas.Top="79" VerticalAlignment="Top" Width="23">
@@ -215,11 +209,16 @@
                             <Border ClipToBounds="True" CornerRadius="20,20,20,20" Background="#FFFFFF" VerticalAlignment="Top" Width="289" Canvas.Left="19" Canvas.Top="117" Height="33" HorizontalAlignment="Center">
                                 <TextBox Name="commandBox" BorderThickness="0" TextAlignment="Left" HorizontalAlignment="Center" Background="Transparent" Width="254" Margin="0,10,0,0" />
                             </Border>
+
                             <TextBlock FontSize="16" FontWeight="Bold" Foreground="#FFFFFF" TextAlignment="Left" Background="Transparent" Width="147" Canvas.Left="64" Canvas.Top="5" HorizontalAlignment="Left" VerticalAlignment="Center"><Run Text="COMMAND - CMD"/></TextBlock>
+                            <Image Source="/Assets/Command Prompt.png" Height="24" Width="25" Canvas.Top="4" Canvas.Left="28" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
                         </Canvas>
                     </Border>
                     <Border Grid.Row="2" ClipToBounds="True" Background="#292929" Margin="10,5,-50,0" CornerRadius="20,20,20,20">
                         <Canvas Background="Transparent">
+                            <Image Source="/Assets/Serial Control.png" Height="24" Width="25" Canvas.Top="2" Canvas.Left="28" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+
                             <TextBlock FontSize="16" FontWeight="Bold" Foreground="#FFFFFF" TextAlignment="Left" HorizontalAlignment="Left" Background="Transparent" Width="137" Canvas.Left="66" Canvas.Top="3" VerticalAlignment="Center"><Run Text="SERIAL CONTROL"/></TextBlock>
                             <Border ClipToBounds="True" CornerRadius="20,20,20,20" Background="#FFFFFF" VerticalAlignment="Top" Width="289" Canvas.Left="19" Canvas.Top="29" Height="89" HorizontalAlignment="Center">
                                 <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled">
@@ -235,28 +234,118 @@
                         <ColumnDefinition Width="280"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                 </Grid>
-                <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" Foreground="#FFFFFF" Height="26" Canvas.Left="16" Canvas.Top="10" Width="360" HorizontalAlignment="Left" VerticalAlignment="Center"><Run Text="CONTAINER"/></TextBlock>
+                <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" Foreground="#FFFFFF" Height="26" Canvas.Left="16" Canvas.Top="10" Width="360" HorizontalAlignment="Left" VerticalAlignment="Center"><Run Text="SENSOR AND COMMAND"/></TextBlock>
             </Canvas>
 
         </Border>
         <Border Grid.Column="1" ClipToBounds="True" Background="#222222" Margin="422,146,278,10" CornerRadius="20,20,20,20">
             <Canvas Background="Transparent">
-                <Grid Canvas.Left="26" Canvas.Top="32" HorizontalAlignment="Center" Height="550" VerticalAlignment="Top" Width="340">
+                <Grid Canvas.Left="23" Canvas.Top="10" HorizontalAlignment="Left" Height="585" VerticalAlignment="Top" Width="340">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="250"></RowDefinition>
-                        <RowDefinition Height="150"></RowDefinition>
-                        <RowDefinition Height="150"></RowDefinition>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition Height="220"></RowDefinition>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition Height="155"></RowDefinition>
+                        <RowDefinition Height="135"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="280"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0" FontSize="16" FontWeight="Bold" TextAlignment="Center" Foreground="#FFFFFF" Height="26" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top"><Run Text="3D ATTITUDE MODEL"/></TextBlock>
+                    <Grid/>
+                    <TextBlock Grid.Row="1" FontSize="16" FontWeight="Bold" TextAlignment="Center" Foreground="#FFFFFF" Height="26" VerticalAlignment="Top" Margin="0,219,-60,0" Grid.RowSpan="2"><Run Text="ACCELEROMETER REAL-TIME CHART"/></TextBlock>
+                    <Wpf:CartesianChart Grid.Row="2" Width="260" HorizontalAlignment="Left" Margin="20,24,0,6" Grid.RowSpan="2"/>
+                    <Grid Margin="0,189,-60,1" Grid.Row="1">
+                        <Slider Height = "30" HorizontalAlignment = "Center" Name = "slider1" 
+                         VerticalAlignment = "Center" Width = "340"  
+                         Maximum = "360" 
+                        Value="{Binding ElementName=rotate, Path=Angle}" />
+                    </Grid>
+                    <Viewport3D x:Name="viewport3D1" Margin="0,29,-60,46" Grid.RowSpan="2">
+
+                        <Viewport3D.Camera>
+                            <PerspectiveCamera x:Name="camMain" Position="6 5 4" LookDirection="-6 -5 -4"/>
+                        </Viewport3D.Camera>
+
+                        <ModelVisual3D>
+                            <ModelVisual3D.Content>
+                                <DirectionalLight x:Name="dirLightMain" Direction="-1,-1,-1"/>
+                            </ModelVisual3D.Content>
+                        </ModelVisual3D>
+
+                        <ModelVisual3D x:Name="MyModel">
+                            <ModelVisual3D.Content>
+                                <GeometryModel3D>
+
+                                    <GeometryModel3D.Geometry>
+                                        <MeshGeometry3D x:Name="meshMain"
+                        Positions = "0,0,0 1,0,0 0,1,0 1,1,0 0,0,1 1,0,1 0,1,1 0,1,1"  
+                        TriangleIndices = "2 3 1  3 1 0  7 1 3  7 5 1  6 5 7  6 4 5  6 2 0                         2 0 4  2 7 3  2 6 7  0 1 5  0 5 4"/>
+                                    </GeometryModel3D.Geometry>
+
+                                    <GeometryModel3D.Material>
+                                        <DiffuseMaterial x:Name="matDiffuseMain" Brush="Bisque"/>
+                                    </GeometryModel3D.Material>
+
+                                </GeometryModel3D>
+                            </ModelVisual3D.Content>
+
+                            <ModelVisual3D.Transform>
+                                <RotateTransform3D>
+                                    <RotateTransform3D.Rotation>
+                                        <AxisAngleRotation3D x:Name="rotate" Axis = "1 2 1"/>
+                                    </RotateTransform3D.Rotation>
+                                </RotateTransform3D>
+                            </ModelVisual3D.Transform>
+
+                        </ModelVisual3D>
+                    </Viewport3D>
                 </Grid>
-                <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" Foreground="#FFFFFF" Height="26" Canvas.Left="16" Canvas.Top="10" Width="360" HorizontalAlignment="Center" VerticalAlignment="Top"><Run Text="PROBE"/></TextBlock>
             </Canvas>
         </Border>
         <Border Grid.Column="1" ClipToBounds="True" Background="#222222" Margin="839,146,16,10" CornerRadius="20,20,20,20">
             <Canvas Background="Transparent">
-                <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" Foreground="#FFFFFF" Height="26" Canvas.Left="10" Canvas.Top="10" Width="211" HorizontalAlignment="Center" VerticalAlignment="Center"><Run Text="MODE"/></TextBlock>
+                <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Width="230">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"></RowDefinition>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition Height="60"></RowDefinition>
+                        <RowDefinition Height="160"></RowDefinition>
+                        <RowDefinition Height="140"></RowDefinition>
+                        <RowDefinition Height="140"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" FontSize="16" FontWeight="Bold" TextAlignment="Center" Foreground="#FFFFFF" Height="26" Canvas.Left="10" Canvas.Top="10" Width="211" HorizontalAlignment="Center" VerticalAlignment="Center"><Run Text="MODE"/></TextBlock>
+
+                    <TextBlock Grid.Row="1" FontSize="16" FontWeight="Bold" TextAlignment="Left" Foreground="#FFFFFF" Height="26" Canvas.Left="10" Canvas.Top="53" Width="107" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="17,0,0,0"><Run Text="SIMULATION"/></TextBlock>
+                    <StackPanel Grid.Row="1" HorizontalAlignment="Left" Canvas.Left="142" Orientation="Vertical" Canvas.Top="56" VerticalAlignment="Center" Margin="142,0,0,0">
+                        <ToggleButton x:Name="SimToggleBtn" Click="SimToggleBtn_click" Checked="SimToggleBtn_checked" Unchecked="SimToggleBtn_Unchecked" Height="20" Width="74"/>
+                    </StackPanel>
+                    <TextBlock Grid.Row="2" FontSize="16" FontWeight="Bold" TextAlignment="Left" Foreground="#FFFFFF" Height="26" Width="106" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="17,0,0,0"><Run Text="FLIGHT"/></TextBlock>
+                    <Border Grid.Row="2" ClipToBounds="True" CornerRadius="10,10,10,10" Background="#C12C2C" VerticalAlignment="Center" Width="76" Canvas.Left="142" Canvas.Top="81" Height="22" HorizontalAlignment="Left" Margin="142,0,0,0">
+                        <TextBlock FontSize="16" FontWeight="Bold" Foreground="#292929" TextAlignment="Center" HorizontalAlignment="Center" Background="Transparent" Width="82" Margin="0,0,0,0"><Run Text="disable"/></TextBlock>
+                    </Border>
+                    <TextBlock Text="SERIAL PORT SETTING"  FontSize="18" FontWeight="Bold" TextAlignment="Center" Foreground="#FFFFFF" Height="29" Width="196" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0" Grid.Row="4" />
+                    <Image Grid.Row="5" Source="/Assets/Disconnected.png" Height="96" Width="103" Canvas.Top="2" Canvas.Left="28" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                </Grid>
+
+
+                <TextBlock x:Name="T1" Text="Checked Event" FontSize="16" Canvas.Left="71" Canvas.Top="550" HorizontalAlignment="Left" VerticalAlignment="Top" ></TextBlock>
+                <TextBlock x:Name="T2" Text="UnChecked Event" FontSize="16" Canvas.Left="61" Canvas.Top="576" HorizontalAlignment="Left" VerticalAlignment="Top" ></TextBlock>
+
+                <Viewbox Grid.Row="4" HorizontalAlignment="Center" Canvas.Left="11" Stretch="Fill" Canvas.Top="246" VerticalAlignment="Center" Width="207">
+                    <Grid Height="30" Width="205">
+                        <ComboBox x:Name="SerialCOM" Width="105" Height="30" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="100,0,0,0"/>
+                        <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" Foreground="#FFFFFF" Height="26" Width="89" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-5,-1,0,0"><Run Text="COMPORT"/></TextBlock>
+                    </Grid>
+                </Viewbox>
+                <Viewbox Grid.Row="4" HorizontalAlignment="Left" Canvas.Left="11" Stretch="Fill" Canvas.Top="291" VerticalAlignment="Center" Width="207">
+                    <Grid Height="30" Width="205">
+                        <ComboBox x:Name="BaudrateCOM" Width="105" Height="30" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="100,0,0,0"/>
+                        <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" Foreground="#FFFFFF" Height="26" Width="84" HorizontalAlignment="Left" VerticalAlignment="Center"><Run Text="BAUDRATE"/></TextBlock>
+                    </Grid>
+                </Viewbox>
             </Canvas>
         </Border>
 

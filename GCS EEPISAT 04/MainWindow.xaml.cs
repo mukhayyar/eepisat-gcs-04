@@ -14,6 +14,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO.Ports;
 using System.Threading;
+// using OPCWPFDashboard;
+using LiveCharts;
+using LiveCharts.Wpf;
 
 namespace GCS_EEPISAT_04
 {
@@ -24,6 +27,55 @@ namespace GCS_EEPISAT_04
     {
         static bool _continue;
         static SerialPort _serialPort;
+
+        // left menu
+        uint teamId;
+        enum state
+        {
+            LAUNCH_WAIT,
+            ASCENT,
+            ROCKET_SEPARATION,
+            DESCENT,
+            HS_RELEASED,
+            LANDED,
+            MAST_RAISED
+        }
+        string missionTime;
+
+        // rocket telemetry
+        uint packetCount;
+        enum mode
+        {
+            S,
+            F
+        }
+        int altitude_r;
+        enum hs_status
+        {
+            P,
+            N
+        }
+        enum pc_status
+        {
+            C,
+            N
+        }
+        enum mast_status
+        {
+            M,
+            N
+        }
+        double temperature;
+        double voltage;
+        string gps_time;
+        int gps_altitude;
+        double gps_latitude;
+        double gps_longitude;
+        uint gps_sats_count;
+        double tilt_x;
+        double tilt_y;
+        string cmd_echo;
+
 
         public MainWindow()
         {
@@ -122,6 +174,7 @@ namespace GCS_EEPISAT_04
             return portName;
         }
 
+
         public static int SetPortBaudRate(int defaultBaudRate)
         {
             string baudRate;
@@ -135,6 +188,31 @@ namespace GCS_EEPISAT_04
             }
 
             return int.Parse(baudRate);
+        }
+
+        public void listSerialComPort()
+        {
+
+        }
+
+        public void listSerialBaudRate()
+        {
+
+        }
+
+        private void SimToggleBtn_checked(object sender, RoutedEventArgs e)
+        {
+            T1.Foreground = new SolidColorBrush(Colors.Red);
+        }
+
+        private void SimToggleBtn_Unchecked(object sender, RoutedEventArgs e)
+        {
+            T2.Foreground = new SolidColorBrush(Colors.Blue);
+        }
+
+        private void SimToggleBtn_click(object sender, RoutedEventArgs e)
+        {
+            T2.Foreground = new SolidColorBrush(Colors.Blue);
         }
     }
 }
