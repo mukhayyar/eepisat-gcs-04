@@ -44,7 +44,7 @@
                                 <RowDefinition Height="60" />
                                 <RowDefinition Height="60" />
                             </Grid.RowDefinitions>
-                            <RadioButton x:Name="HomeMenu" Grid.Row="0" Click="homeNavClick" Style="{DynamicResource HomeMenu}" />
+                            <RadioButton x:Name="HomeMenu" Grid.Row="0" Click="homeNavClick" Style="{DynamicResource HomeMenu}" IsChecked="True"/>
                             <RadioButton x:Name="GraphMenu" Grid.Row="1" Click="graphNavClick" Style="{DynamicResource GraphMenu}" />
                             <RadioButton x:Name="MapMenu" Grid.Row="2" Click="mapNavClick" Style="{DynamicResource MapMenu}" />
                             <RadioButton x:Name="DataMenu" Grid.Row="3" Click="dataCsvNavClick" Style="{DynamicResource DataMenu}" />
@@ -293,7 +293,7 @@
                                 <CheckBox
                                 x:Name="FlightOnOffSwitch"
                                 Grid.Row="0"
-                                Margin="0,40,-7,0"
+                                Margin="0,40,-5,0"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Top"
                                 IsHitTestVisible="False"
@@ -318,7 +318,7 @@
                                 Grid.Row="0"
                                 Width="90"
                                 Height="28"
-                                Margin="0,80,5,0"
+                                Margin="0,80,10,0"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Top"
                                 Background="LimeGreen"
@@ -349,7 +349,7 @@
                                 Grid.Row="0"
                                 Width="120"
                                 Height="30"
-                                Margin="15,140,5,0"
+                                Margin="15,140,10,0"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Top"
                                 Background="White"
@@ -411,16 +411,16 @@
 
                                 <Border
                                 Grid.Row="2"
-                                Width="120"
+                                Width="110"
                                 Height="25"
-                                Margin="0,72,5,0"
+                                Margin="0,72,10,0"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Top"
                                 Background="White"
                                 CornerRadius="15">
                                     <ComboBox
                                     x:Name="ComportDropdown"
-                                    Width="100"
+                                    Width="85"
                                     Margin="0,2,0,2"
                                     VerticalAlignment="Top"
                                     HorizontalContentAlignment="Right"
@@ -442,16 +442,16 @@
 
                                 <Border
                                 Grid.Row="2"
-                                Width="120"
+                                Width="110"
                                 Height="25"
-                                Margin="0,112,5,0"
+                                Margin="0,112,10,0"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Top"
                                 Background="White"
                                 CornerRadius="15">
                                     <ComboBox
                                     x:Name="BaudrateDropdown"
-                                    Width="100"
+                                    Width="85"
                                     Margin="0,2,0,2"
                                     VerticalAlignment="Top"
                                     HorizontalContentAlignment="Right"
@@ -499,7 +499,11 @@
                                     Click="RestartPortBtn_Click"
                                     Style="{DynamicResource RestartPort}" />
                                 </Grid>
-
+                                <Label Grid.Row="4" Content="#BismillahJuaraSatu" Margin="0 5 0 0" VerticalAlignment="Top" Foreground="#FFFFFF" FontSize="15" FontWeight="Bold"/>
+                                <Label Grid.Row="4" Content="#DoaIbu" Margin="0 25 0 0" VerticalAlignment="Top" Foreground="#FFFFFF" FontSize="15" FontWeight="Bold"/>
+                                <Label Grid.Row="4" Content="#GarudaBeyondSkyline" Margin="0 5 0 0" VerticalAlignment="Center" Foreground="#FFFFFF" FontSize="15" FontWeight="Bold"/>
+                                <Label Grid.Row="4" Content="#GarudaKuJayaDiAngkasa" Margin="0 50 0 0" VerticalAlignment="Center" Foreground="#FFFFFF" FontSize="15" FontWeight="Bold"/>
+                                <Label Grid.Row="4" Content="#AdAstraPerAspera" Margin="0 0 0 -5" VerticalAlignment="Bottom" Foreground="#FFFFFF" FontSize="15" FontWeight="Bold"/>
                                 <!--#endregion-->
                             </Grid>
                         </Border>
