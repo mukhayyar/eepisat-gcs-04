@@ -6,349 +6,510 @@
         xmlns:local="clr-namespace:GCS_EEPISAT_04"
         xmlns:Wpf="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:map="clr-namespace:MapControl;assembly=MapControl.WPF"
+        xmlns:HelixToolkit="http://helix-toolkit.org/wpf"
         mc:Ignorable="d"
         Background="#161616"
         WindowState="Maximized"
         WindowStyle="None"
         Title="MainWindow" Height="768" Width="1366">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"></RowDefinition>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="280px"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Border Grid.Column="0" ClipToBounds="True" Background="#222222" Margin="10,10,10,10" CornerRadius="20,20,20,20">
-            <Canvas Background="Transparent">
-                <TextBlock FontSize="20" FontWeight="Bold" TextAlignment="Left" Foreground="#FFFFFF" Height="26" Width="142" HorizontalAlignment="Left" VerticalAlignment="Center" Text="HOME" Canvas.Top="330" Canvas.Left="87"/>
-                <TextBlock FontSize="20" FontWeight="Bold" TextAlignment="Left" Foreground="#FFFFFF" Height="26" Width="142" HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Top="382" Canvas.Left="87"><Run Text="GRAPH"/></TextBlock>
-                <TextBlock FontSize="20" FontWeight="Bold" TextAlignment="Left" Foreground="#FFFFFF" Height="26" Width="142" HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Top="438" Canvas.Left="87"><Run Text="MAP"/></TextBlock>
-                <TextBlock FontSize="20" FontWeight="Bold" TextAlignment="Left" Foreground="#FFFFFF" Height="26" Width="142" HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Top="493" Canvas.Left="87"><Run Text="DATA CSV"/></TextBlock>
-                <Image Source="/Assets/Home_Menu.png" Height="40" Canvas.Left="28" Width="43" Canvas.Top="323" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                <Image Source="/Assets/Graph Menu.png" Height="40" Canvas.Left="28" Width="43" Canvas.Top="375" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <Image Source="/Assets/Graph Menu.png" Height="40" Canvas.Left="28" Width="43" Canvas.Top="375" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <Image Source="/Assets/Map.png" Height="40" Canvas.Left="28" Width="43" Canvas.Top="431" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                <Image Source="/Assets/Map.png" Height="40" Canvas.Left="28" Width="43" Canvas.Top="431" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <Image Source="/Assets/CSVFolder.png" Height="40" Canvas.Left="28" Width="43" Canvas.Top="486" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-            </Canvas>
-        </Border>
-        <Border Grid.Column="0" ClipToBounds="True" Background="#292929" Margin="36,53,36,496" CornerRadius="20,20,20,20">
-            <Canvas Background="Transparent">
-                <Image Source="/Assets/team.png" Height="35" Canvas.Left="17" Width="57" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="26"/>
-                <Image Source="/Assets/time.png" Height="35" Canvas.Left="28" Width="34" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="89"/>
-                <Image Source="/Assets/Status Meter.png" Height="41" Canvas.Left="18" Width="54" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="153"/>
-                <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" Foreground="#FFFFFF" Canvas.Left="121" Canvas.Top="30" HorizontalAlignment="Left" VerticalAlignment="Top">1000</TextBlock>
-
-                <Viewbox Canvas.Left="77" Canvas.Top="85" HorizontalAlignment="Left" VerticalAlignment="Center">
-                    <Grid Height="46" Width="124">
-                        <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" Foreground="#FFFFFF" Margin="0,0,0,20"><Run Text="MISSION TIME"/></TextBlock>
-                        <TextBlock FontSize="16" FontWeight="Regular" TextAlignment="Center" Foreground="#FFFFFF" Margin="0,23,0,-3"><Run Text="00:00:00.00"/></TextBlock>
+    <Border Background="#161616">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="280" />
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <!--NavPanel-->
+            <Grid>
+                <Border Grid.Row="1" CornerRadius="30" Background="#222222" Margin="15 15 15 15">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="270"></RowDefinition>
+                            <RowDefinition Height="10"></RowDefinition>
+                            <RowDefinition Height="260"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0" Background="#292929" CornerRadius="30 30 30 30" Margin="20 20 20 20"/>
+                        <Image Grid.Row="0" Margin="40 40 0 0" HorizontalAlignment="Left" VerticalAlignment="Top" Source="/Assets/Team.png" Height="30"></Image>
+                        <Label Grid.Row="0" Margin="70 35 0 0" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Foreground="White" VerticalAlignment="Top" Content="1085"/>
+                        <Image Grid.Row="0" Margin="40 0 0 0" HorizontalAlignment="Left" VerticalAlignment="Center" Source="/Assets/Time.png" Height="53"></Image>
+                        <Label Grid.Row="0" Margin="70 0 0 45" HorizontalAlignment="Center" VerticalAlignment="Center" Content="MISSION TIME" FontSize="15" FontWeight="Bold" Foreground="White"/>
+                        <Label Grid.Row="0" Margin="70 0 0 0" HorizontalAlignment="Center" VerticalAlignment="Center" Content="00:00:00.00" FontSize="20" FontWeight="Regular" Foreground="White"/>
+                        <Image Grid.Row="0" Margin="40 20 0 50" HorizontalAlignment="Left" VerticalAlignment="Bottom" Source="/Assets/Status Meter.png" Height="35" Width="58"></Image>
+                        <Label Grid.Row="0" Margin="70 20 0 45" HorizontalAlignment="Center" VerticalAlignment="Bottom" Content="BOOT" FontSize="20" FontWeight="Bold" Foreground="White"/>
+                        <Border  Grid.Row="1" Background="#FFFFFF" Width="250" Height="5" CornerRadius="2" />
+                        <Grid Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top" Width="200" Margin="0 15 0 0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="60" />
+                                <RowDefinition Height="60" />
+                                <RowDefinition Height="60" />
+                                <RowDefinition Height="60" />
+                            </Grid.RowDefinitions>
+                            <RadioButton x:Name="HomeMenu" Grid.Row="0" Click="homeNavClick" Style="{DynamicResource HomeMenu}" />
+                            <RadioButton x:Name="GraphMenu" Grid.Row="1" Click="graphNavClick" Style="{DynamicResource GraphMenu}" />
+                            <RadioButton x:Name="MapMenu" Grid.Row="2" Click="mapNavClick" Style="{DynamicResource MapMenu}" />
+                            <RadioButton x:Name="DataMenu" Grid.Row="3" Click="dataCsvNavClick" Style="{DynamicResource DataMenu}" />
+                        </Grid>
+                        <Label Grid.Row="3" Content="Laptop Battery Status :" Foreground="#FFFFFF" FontWeight="Bold" FontSize="15" HorizontalAlignment="Center" Margin="0 10 0 0"/>
+                        <Viewbox Grid.Row="3" Width="80" Height="100">
+                            <StackPanel Orientation="Vertical">
+                                <Border Background="#00c000" CornerRadius="2,2,0,0" Padding="2" Width="20" Height="7" Margin="0,-2,0,-2"/>
+                                <Border BorderBrush="#00c000" BorderThickness="2" CornerRadius="5" Padding="2" Width="50" Height="100">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Border x:Name="batteryPercentage" Height="50" Grid.Row="1" Background="#00c000" CornerRadius="2" Padding="2" />
+                                    </Grid>
+                                </Border>
+                            </StackPanel>
+                        </Viewbox>
+                        <Label x:Name="lblBatteryStatus" Grid.Row="3" Content="70%" Foreground="#FFFFFF" FontWeight="Bold" FontSize="14" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0 0 0 10"/>
                     </Grid>
-                </Viewbox>
-                <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" Foreground="#FFFFFF" Canvas.Left="111" Canvas.Top="161" HorizontalAlignment="Left" VerticalAlignment="Top">STATUS</TextBlock>
-            </Canvas>
-        </Border>
-        <Border Grid.Column="1" ClipToBounds="True" Background="#222222" Margin="10,10,10,639" CornerRadius="20,20,20,20">
-            <Canvas Background="Transparent" Margin="0,0,10,0">
-                <Border Grid.Column="1" ClipToBounds="True" Background="#292929" CornerRadius="20,20,20,20" Height="75" Canvas.Left="34" Canvas.Top="21" Width="230" HorizontalAlignment="Center" VerticalAlignment="Top">
-                    <Canvas Background="Transparent">
-                        <Image Source="/Assets/CanSat.png" Height="57" Canvas.Left="14" Width="57" HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Top="10"/>
-                        <Image Source="/Assets/pens.png" Height="57" Canvas.Left="88" Width="58" HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Top="10"/>
-                        <Image Source="/Assets/EEPISat.png" Height="57" Canvas.Left="167" Width="57" HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Top="10"/>
-                    </Canvas>
                 </Border>
-                <Border Grid.Column="1" ClipToBounds="True" Background="#292929" CornerRadius="20,20,20,20" Height="75" Canvas.Left="269" Canvas.Top="21" Width="408" HorizontalAlignment="Left" VerticalAlignment="Center">
-                    <Canvas Background="Transparent">
-                        <TextBlock FontSize="14" FontWeight="Bold" TextAlignment="Center" Foreground="#FFFFFF" Canvas.Top="16" Width="400" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="4"><Run Text="BAMANTARA EEPISAT | GROUND CONTROL STATION"/></TextBlock>
-                        <TextBlock FontSize="14" FontWeight="Bold" TextAlignment="Center" Foreground="#FFFFFF" Canvas.Top="42" Width="400" Canvas.Left="4" HorizontalAlignment="Center" VerticalAlignment="Top"><Run Text="POLITEKNIK ELEKTRONIKA NEGERI SURABAYA"/></TextBlock>
-                    </Canvas>
-                </Border>
-                <Border Grid.Column="1" ClipToBounds="True" Background="#292929" CornerRadius="20,20,20,20" Height="75" Canvas.Left="691" Canvas.Top="21" Width="157" HorizontalAlignment="Left" VerticalAlignment="Center">
-                    <Canvas Background="Transparent">
-                        <TextBlock FontSize="14" FontWeight="Bold" TextAlignment="Center" Foreground="#FFFFFF" Canvas.Top="28" Width="87" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="66"><Run Text="INDONESIA"/></TextBlock>
-                        <Image Source="/Assets/Flag.png" Height="56" Width="56" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="10" Canvas.Left="10"/>
-                    </Canvas>
-                </Border>
-                <Canvas Grid.Column="1" Background="Transparent" Height="76" Width="82" Canvas.Left="866" Canvas.Top="22" HorizontalAlignment="Left" VerticalAlignment="Top">
-                    <Button Background="Transparent" BorderThickness="0" Name="RestartBtn" HorizontalAlignment="Left" VerticalAlignment="Center" Click="RestartOpenModal" Width="82" Height="75">
-                        <Image Source="/Assets/Restart.png" Width="76" Height="72"/>
-                    </Button>
-                </Canvas>
-                <Border Grid.Column="1" ClipToBounds="True" Background="#292929" CornerRadius="40,40,40,40" Height="75" Canvas.Left="962" Canvas.Top="21" Width="76" HorizontalAlignment="Left" VerticalAlignment="Center">
-                    <Canvas Background="Transparent">
-                        <Button Name="ShutdownButton" Background="Transparent" BorderThickness="0"  HorizontalAlignment="Left" VerticalAlignment="Top" Click="ShutdownOpenModal" Height="75" Width="76">
-                            <Image Source="/Assets/Shutdown.png" />
-                        </Button>
-                    </Canvas>
-                </Border>
-            </Canvas>
-        </Border>
-
-
-
-
-        <Border Grid.Column="1" ClipToBounds="True" Background="#222222" Margin="10,146,683,10" CornerRadius="20,20,20,20">
-            <Canvas Background="Transparent">
-                <Grid Canvas.Left="26" Canvas.Top="32" HorizontalAlignment="Center" Height="570" VerticalAlignment="Top" Width="340">
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="250"></RowDefinition>
-                        <RowDefinition Height="160"></RowDefinition>
-                        <RowDefinition Height="160"></RowDefinition>
+                        <RowDefinition Height="150"></RowDefinition>
+                        <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
-                    <Border ClipToBounds="True" Background="#292929" Margin="10,10,119,10" CornerRadius="20,20,20,20">
-                        <Canvas Background="Transparent">
-                            <TextBlock FontSize="10" FontWeight="Regular" Text="00" Foreground="#FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="88" Canvas.Top="125" Height="15" Width="12" />
-
-                            <Image Source="/Assets/MaxAltitude.png" Height="44" Width="28" Canvas.Top="24" Canvas.Left="15" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <TextBlock FontSize="10" FontWeight="Bold" Text="MAX ALTITUDE" Foreground="#FFFFFF" HorizontalAlignment="Center" Canvas.Top="10" VerticalAlignment="Top" Canvas.Left="56" />
-                            <TextBlock FontSize="10" FontWeight="Bold" Text="ALTITUDE" Foreground="#FFFFFF" Canvas.Top="46" Canvas.Left="69" HorizontalAlignment="Center" VerticalAlignment="Top" />
-                            <Viewbox HorizontalAlignment="Center" Height="13" Canvas.Left="72" Stretch="Fill" Canvas.Top="27" VerticalAlignment="Top" Width="40">
-                                <Grid Height="13.299999999999997" Width="40.16">
-                                    <TextBlock FontSize="10" FontWeight="Regular" Text="000.0" Foreground="#FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,-4,0,0" />
-                                    <TextBlock FontSize="10" FontWeight="Bold" Text="m" Foreground="#FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="31,-4,0,0" />
+                    <Border Grid.Row="0" CornerRadius="30" Background="#222222" Margin="15 15 15 10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition Width="170"></ColumnDefinition>
+                                <ColumnDefinition Width="110"></ColumnDefinition>
+                                <ColumnDefinition Width="110"></ColumnDefinition>
+                                <ColumnDefinition Width="20"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0" CornerRadius="20" Background="#292929" Margin="15 10 15 10">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="90"></ColumnDefinition>
+                                        <ColumnDefinition Width="90"></ColumnDefinition>
+                                        <ColumnDefinition Width="90"></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Grid.Column="0" Source="/Assets/CanSat.png" Style="{DynamicResource Icon}" />
+                                    <Image Grid.Column="1" Source="/Assets/pens.png" Style="{DynamicResource Icon}" />
+                                    <Image Grid.Column="2" Source="/Assets/EEPISat.png" Style="{DynamicResource Icon}" />
+                                    <Label Grid.Column="3" Margin="0 25 0 0" Content="BAMANTARA EEPISAT | GROUND CONTROL STATION" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="13"/>
+                                    <Label Grid.Column="3" Margin="0 0 0 25" Content="POLITEKNIK ELEKTRONIKA NEGERI SURABAYA" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontWeight="Bold" FontSize="14"/>
                                 </Grid>
-                            </Viewbox>
-                            <Separator Height="14" Canvas.Top="34" Width="72" Canvas.Left="56" HorizontalAlignment="Center" VerticalAlignment="Top" />
-                            <Viewbox Height="13" Canvas.Left="72" Stretch="Fill" Canvas.Top="59" Width="40" HorizontalAlignment="Center" VerticalAlignment="Top">
-                                <Grid Height="13" Width="40">
-                                    <TextBlock FontSize="10" FontWeight="Regular" Text="000.0" Foreground="#FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                                    <TextBlock FontSize="10" FontWeight="Bold" Text="m" Foreground="#FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="31,0,0,0" />
+                            </Border>
+                            <Border Grid.Column="1" CornerRadius="30" Background="#292929" Margin="5 10 5 10">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="5"></ColumnDefinition>
+                                        <ColumnDefinition Width="50"></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition Width="5"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Grid.Column="1" Source="/Assets/Flag.png" Style="{DynamicResource IconItemList}" />
+                                    <Label Grid.Column="2" Content="INDONESIA" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="16"/>
                                 </Grid>
-                            </Viewbox>
-                            <Image Source="/Assets/Voltage.png" Height="44" Width="28" Canvas.Top="78" Canvas.Left="15" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-
-                            <TextBlock FontSize="10" FontWeight="Regular" Text="000.0" Foreground="#FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Left="48" Canvas.Top="80" />
-                            <TextBlock FontSize="10" FontWeight="Bold" Text="VOLT" Foreground="#FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Left="48" Canvas.Top="98" />
-                            <Image Source="/Assets/Probe.png" Height="44" Width="28" Canvas.Top="119" Canvas.Left="45" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <Image Source="/Assets/temperature.png" Height="44" Width="28" Canvas.Top="80" Canvas.Left="88" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-
-                            <TextBlock FontSize="10" FontWeight="Regular" Text="0.0" Foreground="#FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="121" Canvas.Top="80" />
-                            <TextBlock FontSize="10" FontWeight="Bold" Text="ᴼC" Foreground="#FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="121" Canvas.Top="93" />
-                            <TextBlock FontSize="10" FontWeight="Bold" Text="TILT" Foreground="#FFFFFF" Canvas.Left="37" Canvas.Top="170" HorizontalAlignment="Center" VerticalAlignment="Top" />
-                            <Separator Height="4" Canvas.Top="181" Width="82" Canvas.Left="37" HorizontalAlignment="Center" VerticalAlignment="Top"></Separator>
-                            <TextBlock FontSize="10" FontWeight="Bold" Text="X" Foreground="#FFFFFF" Canvas.Left="43" Canvas.Top="185" HorizontalAlignment="Center" VerticalAlignment="Top" />
-                            <TextBlock FontSize="10" FontWeight="Bold" Text="Y" Foreground="#FFFFFF" Canvas.Left="43" Canvas.Top="202" HorizontalAlignment="Center" VerticalAlignment="Top" />
-                            <TextBlock FontSize="10" FontWeight="Bold" Text="VALUE" Foreground="#FFFFFF" Canvas.Left="88" Canvas.Top="170" HorizontalAlignment="Center" VerticalAlignment="Top" />
-                            <TextBlock FontSize="10" FontWeight="Regular" Text="0.00" Foreground="#FFFFFF" Canvas.Left="93" Canvas.Top="185" HorizontalAlignment="Center" VerticalAlignment="Top" />
-                            <TextBlock FontSize="10" FontWeight="Regular" Text="0.00" Foreground="#FFFFFF" Canvas.Left="93" Canvas.Top="202" HorizontalAlignment="Center" VerticalAlignment="Top" />
-                            <Separator Height="4" Canvas.Top="215" Width="43" Canvas.Left="73" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0,0">
-                                <Separator.RenderTransform>
-                                    <TransformGroup>
-                                        <ScaleTransform/>
-                                        <SkewTransform/>
-                                        <RotateTransform Angle="-90.7"/>
-                                        <TranslateTransform/>
-                                    </TransformGroup>
-                                </Separator.RenderTransform>
-                            </Separator>
-                        </Canvas>
+                            </Border>
+                            <Border Grid.Column="2" CornerRadius="30" Background="#292929" Margin="5 10 5 10">
+                                <Button x:Name="RestartBtn" Click="restartBtnClick" Style="{DynamicResource ResetBtn}"/>
+                            </Border>
+                            <Border Grid.Column="3" CornerRadius="30" Background="#292929" Margin="5 10 5 10">
+                                <Button x:Name="ShutdownBtn" Click="shutdownBtnClick" Style="{DynamicResource ShutdownBtn}"/>
+                            </Border>
+                        </Grid>
                     </Border>
-                    <Border ClipToBounds="True" Background="#292929" Margin="179,10,-50,125" CornerRadius="20,20,20,20">
-                        <Canvas Background="Transparent">
-                            <Image Source="/Assets/GPSNew.png" Height="41" Width="36" Canvas.Top="10" Canvas.Left="58" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <TextBlock FontWeight="Bold" FontSize="10" Text="TIME" Foreground="#FFFFFF" Canvas.Left="64" Canvas.Top="51" HorizontalAlignment="Center" VerticalAlignment="Top" />
-                            <TextBlock FontWeight="Regular" FontSize="10" Text="00:00:00.00" Foreground="#FFFFFF" Canvas.Left="51" Canvas.Top="64" HorizontalAlignment="Center" VerticalAlignment="Top" />
-                            <Viewbox HorizontalAlignment="Center" Height="26" Canvas.Left="64" Stretch="Fill" Canvas.Top="79" VerticalAlignment="Top" Width="23">
-                                <Grid Height="26.299999999999997" Width="23.406666666666666">
-                                    <TextBlock FontWeight="Bold" FontSize="10" Text="SATS" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" />
-                                    <TextBlock FontWeight="Regular" FontSize="10" Text="00" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,13,0,0" />
-                                </Grid>
-                            </Viewbox>
-
-                        </Canvas>
-                    </Border>
-                    <Border ClipToBounds="True" Background="#292929" Margin="179,136,-50,10" CornerRadius="20,20,20,20">
-                        <Canvas Background="Transparent">
-                            <Viewbox Height="26" Canvas.Left="36" Canvas.Top="10" Width="79" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                <Grid Height="26" Width="79">
-                                    <TextBlock FontWeight="Bold" FontSize="10" TextAlignment="Center" Text="LONGITUDE" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" Width="79" />
-                                    <TextBlock FontWeight="Regular" FontSize="10" Text="0.0000" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,13,0,0" />
-                                </Grid>
-                            </Viewbox>
-                            <Viewbox Height="26" Canvas.Left="36" Canvas.Top="10" Width="79" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <Grid Height="26" Width="79">
-                                    <TextBlock FontWeight="Bold" FontSize="10" TextAlignment="Center" Text="LONGITUDE" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" Width="79" />
-                                    <TextBlock FontWeight="Regular" FontSize="10" Text="0.0000" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,13,0,0" />
-                                </Grid>
-                            </Viewbox>
-                            <Viewbox Height="26" Canvas.Left="36" Canvas.Top="39" Width="79" HorizontalAlignment="Center" VerticalAlignment="Top">
-                                <Grid Height="26" Width="79">
-                                    <TextBlock FontWeight="Bold" FontSize="10" TextAlignment="Center" Text="LATITUDE" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" Width="79" />
-                                    <TextBlock FontWeight="Regular" FontSize="10" Text="0.0000" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,13,0,0" />
-                                </Grid>
-                            </Viewbox>
-                            <Viewbox Height="26" Canvas.Left="36" Canvas.Top="39" Width="79" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <Grid Height="26" Width="79">
-                                    <TextBlock FontWeight="Bold" FontSize="10" TextAlignment="Center" Text="LATITUDE" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" Width="79" />
-                                    <TextBlock FontWeight="Regular" FontSize="10" Text="0.0000" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,13,0,0" />
-                                </Grid>
-                            </Viewbox>
-                            <Viewbox Height="26" Canvas.Left="36" Canvas.Top="70" Width="79" HorizontalAlignment="Center" VerticalAlignment="Top">
-                                <Grid Height="26" Width="79">
-                                    <TextBlock FontWeight="Bold" FontSize="10" TextAlignment="Center" Text="ALTITUDE" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" Width="79" />
-                                    <Viewbox HorizontalAlignment="Center" Height="13" Margin="0,13,0,0" Stretch="Fill" VerticalAlignment="Top" Width="27">
-                                        <Grid Height="13.3" Width="27.133333333333333">
-                                            <TextBlock FontWeight="Regular" FontSize="10" Text="0.0" Foreground="#FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                                            <TextBlock FontWeight="Bold" FontSize="10" Text="m" Foreground="#FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="18,0,0,0" />
-
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="230"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" CornerRadius="30" Background="#222222" Margin="15 10 15 15">
+                            <TabControl x:Name="MainPage" Background="Transparent" BorderBrush="Transparent" ScrollViewer.CanContentScroll="True" SelectionChanged="MainPage_SelectionChanged">
+                                <TabControl.ItemContainerStyle>
+                                    <Style TargetType="{x:Type TabItem}">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </Style>
+                                </TabControl.ItemContainerStyle>
+                                <TabItem>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="410"></ColumnDefinition>
+                                            <ColumnDefinition Width="410"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid Grid.Column="0">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="280"></RowDefinition>
+                                                <RowDefinition Height="150"></RowDefinition>
+                                                <RowDefinition Height="150"></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Grid Grid.Row="0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid Grid.Column="0">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition></RowDefinition>
+                                                        <RowDefinition></RowDefinition>
+                                                    </Grid.RowDefinitions>
+                                                    <Border Grid.Row="0" CornerRadius="30" Background="#292929" Margin="15 15 15 5">
+                                                        <Grid>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="55"></RowDefinition>
+                                                                <RowDefinition Height="*"></RowDefinition>
+                                                            </Grid.RowDefinitions>
+                                                            <Image Grid.Row="0" Margin="0 10 0 0" Source="/Assets/GPSNew.png" Style="{DynamicResource IconItemList}" VerticalAlignment="Top" />
+                                                            <Label Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center" Content="TIME" FontWeight="Bold" FontSize="10" Foreground="#FFFFFF"/>
+                                                            <Label Grid.Row="1" Margin="10 10 10 10" VerticalAlignment="Top" HorizontalAlignment="Center" Content="00:00:00.00" FontWeight="Regular" FontSize="10" Foreground="#FFFFFF"/>
+                                                            <Label Grid.Row="1" Margin="0 10 0 0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="SATS" FontWeight="Bold" FontSize="10" Foreground="#FFFFFF"/>
+                                                            <Label Grid.Row="1" Margin="10 5 10 3" VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="00" FontWeight="Regular" FontSize="10" Foreground="#FFFFFF"/>
+                                                        </Grid>
+                                                    </Border>
+                                                    <Border Grid.Row="1" CornerRadius="30" Background="#292929" Margin="15 5 15 15">
+                                                        <Grid>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="40"></RowDefinition>
+                                                                <RowDefinition Height="40"></RowDefinition>
+                                                                <RowDefinition Height="40"></RowDefinition>
+                                                            </Grid.RowDefinitions>
+                                                            <Label Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Center" Content="LONGITUDE" FontWeight="Bold" FontSize="10" Foreground="#FFFFFF"/>
+                                                            <Label Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="0.00000" FontWeight="Regular" FontSize="10" Foreground="#FFFFFF"/>
+                                                            <Label Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center" Content="LATITUDE" FontWeight="Bold" FontSize="10" Foreground="#FFFFFF"/>
+                                                            <Label Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="0.00000" FontWeight="Regular" FontSize="10" Foreground="#FFFFFF"/>
+                                                            <Label Grid.Row="2" VerticalAlignment="Top" HorizontalAlignment="Center" Content="ALTITUDE" FontWeight="Bold" FontSize="10" Foreground="#FFFFFF"/>
+                                                            <Label Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="0.0" Margin="0 0 20 0" FontWeight="Regular" FontSize="10" Foreground="#FFFFFF"/>
+                                                            <Label Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="m" Margin="20 0 0 0" FontWeight="Bold" FontSize="10" Foreground="#FFFFFF"/>
+                                                        </Grid>
+                                                    </Border>
+                                                </Grid>
+                                                <Border Grid.Column="1" CornerRadius="30" Background="#292929" Margin="15 15 15 15">
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="70"></RowDefinition>
+                                                            <RowDefinition Height="60"></RowDefinition>
+                                                            <RowDefinition Height="60"></RowDefinition>
+                                                            <RowDefinition Height="20"></RowDefinition>
+                                                            <RowDefinition Height="30"></RowDefinition>
+                                                        </Grid.RowDefinitions>
+                                                        <Grid Grid.Row="0">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition></ColumnDefinition>
+                                                                <ColumnDefinition></ColumnDefinition>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Image Margin="20 10 10 10" Grid.Column="0" Source="/Assets/MaxAltitude.png" Style="{DynamicResource IconItemList}" HorizontalAlignment="Left" />
+                                                            <Grid Grid.Column="1">
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="40"></RowDefinition>
+                                                                    <RowDefinition></RowDefinition>
+                                                                </Grid.RowDefinitions>
+                                                                <Label Grid.Row="0" Margin="-40 7 0 -10" Content="Max Altitude" VerticalAlignment="Top" HorizontalAlignment="Center" FontWeight="Bold" FontSize="10" Foreground="#FFFFFF" />
+                                                                <Label Grid.Row="0" Margin="-55 17 0 0" Content="000.0" VerticalAlignment="Top" HorizontalAlignment="Center" FontWeight="Regular" FontSize="10" Foreground="#FFFFFF" />
+                                                                <Label Grid.Row="0" Margin="-10 17 0 0" Content="m" VerticalAlignment="Top" HorizontalAlignment="Center" FontWeight="Bold" FontSize="10" Foreground="#FFFFFF" />
+                                                                <Label Grid.Row="1" Margin="-40 -12 0 0" Content="Altitude" VerticalAlignment="Top" HorizontalAlignment="Center" FontWeight="Bold" FontSize="10" Foreground="#FFFFFF" />
+                                                                <Label Grid.Row="1" Margin="-50 -10 0 0" Content="0.0" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Regular" FontSize="10" Foreground="#FFFFFF" />
+                                                                <Label Grid.Row="1" Margin="-10 -10 0 0" Content="m" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="10" Foreground="#FFFFFF" />
+                                                            </Grid>
+                                                        </Grid>
+                                                        <Image Margin="20 0 0 10" Grid.Row="1" Source="/Assets/Voltage.png" Style="{DynamicResource IconItemList}" HorizontalAlignment="Left" />
+                                                        <Label Grid.Row="1" Margin="10 10 -30 0"  Content="VOLT" VerticalAlignment="Top" HorizontalAlignment="Center" FontWeight="Bold" FontSize="12" Foreground="#FFFFFF" />
+                                                        <Label Grid.Row="1" Margin="10 20 -30 0"  Content="0.0" VerticalAlignment="Top" HorizontalAlignment="Center" FontWeight="Regular" FontSize="12" Foreground="#FFFFFF" />
+                                                        <Image Margin="20 0 0 10" Grid.Row="2" Source="/Assets/Temperature.png" Style="{DynamicResource IconItemList}" HorizontalAlignment="Left" />
+                                                        <Label Grid.Row="2" Margin="10 10 -30 0"  Content="TEMP" VerticalAlignment="Top" HorizontalAlignment="Center" FontWeight="Bold" FontSize="12" Foreground="#FFFFFF" />
+                                                        <Label Grid.Row="2" Margin="10 20 -30 0"  Content="0.0" VerticalAlignment="Top" HorizontalAlignment="Center" FontWeight="Regular" FontSize="12" Foreground="#FFFFFF" />
+                                                        <Grid Grid.Row="3">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="50"></ColumnDefinition>
+                                                                <ColumnDefinition></ColumnDefinition>
+                                                                <ColumnDefinition></ColumnDefinition>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Label Grid.Column="1" Margin="0 -10 40 0" Content="X" VerticalAlignment="Top" HorizontalAlignment="Center" FontWeight="Bold" FontSize="15" Foreground="#FFFFFF" />
+                                                            <Label Grid.Column="2" Margin="0 -10 40 0" Content="Y" VerticalAlignment="Top" HorizontalAlignment="Center" FontWeight="Bold" FontSize="15" Foreground="#FFFFFF" />
+                                                        </Grid>
+                                                        <Grid Grid.Row="4">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="50"></ColumnDefinition>
+                                                                <ColumnDefinition></ColumnDefinition>
+                                                                <ColumnDefinition></ColumnDefinition>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Label Grid.Column="0" Margin="0 0 0 0" Content="TILT" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="15" Foreground="#FFFFFF" />
+                                                            <Label Grid.Column="1" Margin="0 0 30 0" Content="0.0" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Regular" FontSize="15" Foreground="#FFFFFF" />
+                                                            <Label Grid.Column="2" Margin="0 0 30 0" Content="0.0" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Regular" FontSize="15" Foreground="#FFFFFF" />
+                                                        </Grid>
+                                                        
+                                                    </Grid>
+                                                </Border>
+                                            </Grid>
+                                            <Border Grid.Row="1" CornerRadius="30" Background="#292929" Margin="15 10 15 5"></Border>
+                                            <Border Grid.Row="2" CornerRadius="30" Background="#292929" Margin="15 5 15 10"></Border>
                                         </Grid>
-                                    </Viewbox>
+                                        <Grid Grid.Column="1">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Border Grid.Row="0" CornerRadius="30" Background="#292929" Margin="15 15 15 15"></Border>
+                                            <Border Grid.Row="1" CornerRadius="30" Background="#292929" Margin="15 15 15 15"></Border>
+                                        </Grid>
+                                    </Grid>
+                                </TabItem>
+                                <TabItem>
+                                    <Label VerticalAlignment="Center" HorizontalAlignment="Center" Content="GRAPH" FontWeight="Bold" FontSize="20" Foreground="#FFFFFF"/>
+                                </TabItem>
+                                <TabItem>
+                                    <Label VerticalAlignment="Center" HorizontalAlignment="Center" Content="MENU" FontWeight="Bold" FontSize="20" Foreground="#FFFFFF"/>
+                                </TabItem>
+                                <TabItem>
+                                    <Label VerticalAlignment="Center" HorizontalAlignment="Center" Content="DATA" FontWeight="Bold" FontSize="20" Foreground="#FFFFFF"/>
+                                </TabItem>
+                            </TabControl>
+                        </Border>
+                        <Border Grid.Column="1" CornerRadius="30" Background="#222222" Margin="15 15 15 15">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="200" />
+                                    <RowDefinition Height="10" />
+                                    <RowDefinition Height="220" />
+                                    <RowDefinition Height="10" />
+                                    <RowDefinition Height="120" />
+                                </Grid.RowDefinitions>
+                                <Label
+                                Grid.Row="0"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Top"
+                                Content="MODE"
+                                FontSize="20"
+                                FontWeight="Bold"
+                                Foreground="White" />
 
+                                <Label
+                                Grid.Row="0"
+                                Margin="5,42,0,0"
+                                HorizontalContentAlignment="Left"
+                                VerticalContentAlignment="Top"
+                                Content="FLIGHT"
+                                FontSize="12"
+                                FontWeight="Bold"
+                                Foreground="White" />
+                                <CheckBox
+                                x:Name="FlightOnOffSwitch"
+                                Grid.Row="0"
+                                Margin="0,40,-7,0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                IsHitTestVisible="False"
+                                Style="{DynamicResource ModernSwitch}">
+                                    <CheckBox.Effect>
+                                        <DropShadowEffect BlurRadius="20" Opacity="0.6" />
+                                    </CheckBox.Effect>
+                                </CheckBox>
+
+                                <Label
+                                Grid.Row="0"
+                                Margin="5,82,0,0"
+                                HorizontalContentAlignment="Left"
+                                VerticalContentAlignment="Top"
+                                Content="SIMULATION"
+                                FontSize="12"
+                                FontWeight="Bold"
+                                Foreground="White" />
+
+                                <Border
+                                x:Name="SimulationStatusPane"
+                                Grid.Row="0"
+                                Width="90"
+                                Height="28"
+                                Margin="0,80,5,0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Background="LimeGreen"
+                                CornerRadius="13">
+                                    <Border.Effect>
+                                        <DropShadowEffect BlurRadius="8" Opacity="0.2" />
+                                    </Border.Effect>
+                                    <Label
+                                    x:Name="SimulationStatus"
+                                    HorizontalAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Content="ENABLE"
+                                    FontSize="12"
+                                    FontWeight="Bold"
+                                    Foreground="White" />
+                                </Border>
+
+                                <Button
+                                x:Name="ImportImageButton"
+                                Grid.Row="0"
+                                Width="60"
+                                Height="60"
+                                Margin="10,126,0,15"
+                                Click="ImportImageButton_Click"
+                                Style="{DynamicResource Export}" />
+
+                                <Border
+                                Grid.Row="0"
+                                Width="120"
+                                Height="30"
+                                Margin="15,140,5,0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Background="White"
+                                CornerRadius="15">
+                                    <TextBox
+                                    x:Name="csvTextBox"
+                                    Width="100"
+                                    Height="25"
+                                    Margin="0,2,0,2"
+                                    Background="White"
+                                    BorderThickness="0"
+                                    TextWrapping="Wrap" />
+                                    <Border.Effect>
+                                        <DropShadowEffect BlurRadius="8" Opacity="0.2" />
+                                    </Border.Effect>
+                                </Border>
+
+                                <!--#endregion-->
+
+                                <!--#region separator-->
+                                <Border
+                                Grid.Row="1"
+                                Width="230"
+                                Height="2"
+                                Background="White"
+                                CornerRadius="2" />
+                                <!--#endregion-->
+
+                                <!--#region Serial Port Setting-->
+
+                                <Label
+                                Grid.Row="2"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Top"
+                                Content="SERIAL PORT"
+                                FontSize="20"
+                                FontWeight="Bold"
+                                Foreground="White" />
+
+                                <Label
+                                Grid.Row="2"
+                                Margin="0,20,0,0"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Top"
+                                Content="SETTING"
+                                FontSize="20"
+                                FontWeight="Bold"
+                                Foreground="White" />
+
+                                <Label
+                                Grid.Row="2"
+                                Margin="5,73,0,0"
+                                HorizontalContentAlignment="Left"
+                                VerticalContentAlignment="Top"
+                                Content="COMPORT"
+                                FontSize="12"
+                                FontWeight="Bold"
+                                Foreground="White" />
+
+                                <Border
+                                Grid.Row="2"
+                                Width="120"
+                                Height="25"
+                                Margin="0,72,5,0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Background="White"
+                                CornerRadius="15">
+                                    <ComboBox
+                                    x:Name="ComportDropdown"
+                                    Width="100"
+                                    Margin="0,2,0,2"
+                                    VerticalAlignment="Top"
+                                    HorizontalContentAlignment="Right"
+                                    Background="White"
+                                    BorderThickness="0"
+                                    FontSize="13"
+                                    ItemsSource="{Binding}" />
+                                </Border>
+
+                                <Label
+                                Grid.Row="2"
+                                Margin="5,113,0,0"
+                                HorizontalContentAlignment="Left"
+                                VerticalContentAlignment="Top"
+                                Content="BAUDRATE"
+                                FontSize="12"
+                                FontWeight="Bold"
+                                Foreground="White" />
+
+                                <Border
+                                Grid.Row="2"
+                                Width="120"
+                                Height="25"
+                                Margin="0,112,5,0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Background="White"
+                                CornerRadius="15">
+                                    <ComboBox
+                                    x:Name="BaudrateDropdown"
+                                    Width="100"
+                                    Margin="0,2,0,2"
+                                    VerticalAlignment="Top"
+                                    HorizontalContentAlignment="Right"
+                                    Background="White"
+                                    BorderThickness="0"
+                                    FontSize="13" />
+                                </Border>
+
+                                <Grid
+                                Grid.Row="2"
+                                Width="200"
+                                Height="90"
+                                Margin="0,140,0,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="20" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Button
+                                    x:Name="ConnectPortBtn"
+                                    Grid.Column="0"
+                                    Width="90"
+                                    Height="90"
+                                    Click="ConnectPortBtn_Click"
+                                    Style="{DynamicResource ConnectPort}" />
+
+                                    <Button
+                                    x:Name="DisconnectPortBtn"
+                                    Grid.Column="0"
+                                    Width="90"
+                                    Height="90"
+                                    Click="DisconnectPortBtn_Click"
+                                    Style="{DynamicResource DisconnectPort}"
+                                    Visibility="Hidden" />
+
+                                    <Button
+                                    x:Name="RestartPortBtn"
+                                    Grid.Column="2"
+                                    Width="70"
+                                    Height="70"
+                                    Margin="10,0,10,0"
+                                    Click="RestartPortBtn_Click"
+                                    Style="{DynamicResource RestartPort}" />
                                 </Grid>
-                            </Viewbox>
-                        </Canvas>
-                    </Border>
-                    <Border Grid.Row="1" ClipToBounds="True" Background="#292929" Margin="10,0,-50,0" CornerRadius="20,20,20,20">
-                        <Canvas Background="Transparent">
-                            <Border ClipToBounds="True" CornerRadius="20,20,20,20" Background="#FFFFFF" VerticalAlignment="Top" Width="289" Canvas.Left="19" Canvas.Top="31" Height="81" HorizontalAlignment="Center">
-                                <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled">
-                                    <TextBlock TextAlignment="Left" HorizontalAlignment="Center" Background="Transparent" Width="254" />
-                                </ScrollViewer>
-                            </Border>
-                            <Border ClipToBounds="True" CornerRadius="20,20,20,20" Background="#FFFFFF" VerticalAlignment="Top" Width="289" Canvas.Left="19" Canvas.Top="117" Height="33" HorizontalAlignment="Center">
-                                <TextBox Name="commandBox" BorderThickness="0" TextAlignment="Left" HorizontalAlignment="Center" Background="Transparent" Width="254" Margin="0,10,0,0" />
-                            </Border>
 
-                            <TextBlock FontSize="16" FontWeight="Bold" Foreground="#FFFFFF" TextAlignment="Left" Background="Transparent" Width="147" Canvas.Left="64" Canvas.Top="5" HorizontalAlignment="Left" VerticalAlignment="Center"><Run Text="COMMAND - CMD"/></TextBlock>
-                            <Image Source="/Assets/Command Prompt.png" Height="24" Width="25" Canvas.Top="4" Canvas.Left="28" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-
-                        </Canvas>
-                    </Border>
-                    <Border Grid.Row="2" ClipToBounds="True" Background="#292929" Margin="10,5,-50,0" CornerRadius="20,20,20,20">
-                        <Canvas Background="Transparent">
-                            <Image Source="/Assets/Serial Control.png" Height="24" Width="25" Canvas.Top="2" Canvas.Left="28" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-
-                            <TextBlock FontSize="16" FontWeight="Bold" Foreground="#FFFFFF" TextAlignment="Left" HorizontalAlignment="Left" Background="Transparent" Width="137" Canvas.Left="66" Canvas.Top="3" VerticalAlignment="Center"><Run Text="SERIAL CONTROL"/></TextBlock>
-                            <Border ClipToBounds="True" CornerRadius="20,20,20,20" Background="#FFFFFF" VerticalAlignment="Top" Width="289" Canvas.Left="19" Canvas.Top="29" Height="89" HorizontalAlignment="Center">
-                                <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled">
-                                    <TextBlock TextAlignment="Left" HorizontalAlignment="Center" Background="Transparent" Width="254" />
-                                </ScrollViewer>
-                            </Border>
-                            <Border ClipToBounds="True" CornerRadius="10,10,10,10" Background="#C12C2C" VerticalAlignment="Top" Width="289" Canvas.Left="19" Canvas.Top="123" Height="22" HorizontalAlignment="Center">
-                                <TextBlock FontSize="12" FontWeight="Bold" Foreground="#FFFFFF" TextAlignment="Center" HorizontalAlignment="Center" Background="Transparent" Width="254" Margin="0,2,0,1"><Run Text="Disconnected From Serial Port"/></TextBlock>
-                            </Border>
-                        </Canvas>
-                    </Border>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="280"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                </Grid>
-                <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" Foreground="#FFFFFF" Height="26" Canvas.Left="16" Canvas.Top="10" Width="360" HorizontalAlignment="Left" VerticalAlignment="Center"><Run Text="SENSOR AND COMMAND"/></TextBlock>
-            </Canvas>
-
-        </Border>
-        <Border Grid.Column="1" ClipToBounds="True" Background="#222222" Margin="422,146,278,10" CornerRadius="20,20,20,20">
-            <Canvas Background="Transparent">
-                <Grid Canvas.Left="23" Canvas.Top="10" HorizontalAlignment="Left" Height="585" VerticalAlignment="Top" Width="340">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="30"></RowDefinition>
-                        <RowDefinition Height="220"></RowDefinition>
-                        <RowDefinition Height="30"></RowDefinition>
-                        <RowDefinition Height="155"></RowDefinition>
-                        <RowDefinition Height="135"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="280"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Row="0" FontSize="16" FontWeight="Bold" TextAlignment="Center" Foreground="#FFFFFF" Height="26" Width="340" HorizontalAlignment="Left" VerticalAlignment="Top"><Run Text="3D ATTITUDE MODEL"/></TextBlock>
-                    <Grid/>
-                    <TextBlock Grid.Row="1" FontSize="16" FontWeight="Bold" TextAlignment="Center" Foreground="#FFFFFF" Height="26" VerticalAlignment="Top" Margin="0,219,-60,0" Grid.RowSpan="2"><Run Text="ACCELEROMETER REAL-TIME CHART"/></TextBlock>
-                    <Wpf:CartesianChart Grid.Row="2" Width="260" HorizontalAlignment="Left" Margin="20,24,0,6" Grid.RowSpan="2"/>
-                    <Grid Margin="0,189,-60,1" Grid.Row="1">
-                        <Slider Height = "30" HorizontalAlignment = "Center" Name = "slider1" 
-                         VerticalAlignment = "Center" Width = "340"  
-                         Maximum = "360" 
-                        Value="{Binding ElementName=rotate, Path=Angle}" />
+                                <!--#endregion-->
+                            </Grid>
+                        </Border>
                     </Grid>
-                    <Viewport3D x:Name="viewport3D1" Margin="0,29,-60,46" Grid.RowSpan="2">
-
-                        <Viewport3D.Camera>
-                            <PerspectiveCamera x:Name="camMain" Position="6 5 4" LookDirection="-6 -5 -4"/>
-                        </Viewport3D.Camera>
-
-                        <ModelVisual3D>
-                            <ModelVisual3D.Content>
-                                <DirectionalLight x:Name="dirLightMain" Direction="-1,-1,-1"/>
-                            </ModelVisual3D.Content>
-                        </ModelVisual3D>
-
-                        <ModelVisual3D x:Name="MyModel">
-                            <ModelVisual3D.Content>
-                                <GeometryModel3D>
-
-                                    <GeometryModel3D.Geometry>
-                                        <MeshGeometry3D x:Name="meshMain"
-                        Positions = "0,0,0 1,0,0 0,1,0 1,1,0 0,0,1 1,0,1 0,1,1 0,1,1"  
-                        TriangleIndices = "2 3 1  3 1 0  7 1 3  7 5 1  6 5 7  6 4 5  6 2 0                         2 0 4  2 7 3  2 6 7  0 1 5  0 5 4"/>
-                                    </GeometryModel3D.Geometry>
-
-                                    <GeometryModel3D.Material>
-                                        <DiffuseMaterial x:Name="matDiffuseMain" Brush="Bisque"/>
-                                    </GeometryModel3D.Material>
-
-                                </GeometryModel3D>
-                            </ModelVisual3D.Content>
-
-                            <ModelVisual3D.Transform>
-                                <RotateTransform3D>
-                                    <RotateTransform3D.Rotation>
-                                        <AxisAngleRotation3D x:Name="rotate" Axis = "1 2 1"/>
-                                    </RotateTransform3D.Rotation>
-                                </RotateTransform3D>
-                            </ModelVisual3D.Transform>
-
-                        </ModelVisual3D>
-                    </Viewport3D>
                 </Grid>
-            </Canvas>
-        </Border>
-        <Border Grid.Column="1" ClipToBounds="True" Background="#222222" Margin="839,146,16,10" CornerRadius="20,20,20,20">
-            <Canvas Background="Transparent">
-                <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Width="230">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="50"></RowDefinition>
-                        <RowDefinition Height="30"></RowDefinition>
-                        <RowDefinition Height="30"></RowDefinition>
-                        <RowDefinition Height="60"></RowDefinition>
-                        <RowDefinition Height="160"></RowDefinition>
-                        <RowDefinition Height="140"></RowDefinition>
-                        <RowDefinition Height="140"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" FontSize="16" FontWeight="Bold" TextAlignment="Center" Foreground="#FFFFFF" Height="26" Canvas.Left="10" Canvas.Top="10" Width="211" HorizontalAlignment="Center" VerticalAlignment="Center"><Run Text="MODE"/></TextBlock>
-
-                    <TextBlock Grid.Row="1" FontSize="16" FontWeight="Bold" TextAlignment="Left" Foreground="#FFFFFF" Height="26" Canvas.Left="10" Canvas.Top="53" Width="107" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="17,0,0,0"><Run Text="SIMULATION"/></TextBlock>
-                    <StackPanel Grid.Row="1" HorizontalAlignment="Left" Canvas.Left="142" Orientation="Vertical" Canvas.Top="56" VerticalAlignment="Center" Margin="142,0,0,0">
-                        <ToggleButton x:Name="SimToggleBtn" Click="SimToggleBtn_click" Checked="SimToggleBtn_checked" Unchecked="SimToggleBtn_Unchecked" Height="20" Width="74"/>
-                    </StackPanel>
-                    <TextBlock Grid.Row="2" FontSize="16" FontWeight="Bold" TextAlignment="Left" Foreground="#FFFFFF" Height="26" Width="106" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="17,0,0,0"><Run Text="FLIGHT"/></TextBlock>
-                    <Border Grid.Row="2" ClipToBounds="True" CornerRadius="10,10,10,10" Background="#C12C2C" VerticalAlignment="Center" Width="76" Canvas.Left="142" Canvas.Top="81" Height="22" HorizontalAlignment="Left" Margin="142,0,0,0">
-                        <TextBlock FontSize="16" FontWeight="Bold" Foreground="#292929" TextAlignment="Center" HorizontalAlignment="Center" Background="Transparent" Width="82" Margin="0,0,0,0"><Run Text="disable"/></TextBlock>
-                    </Border>
-                    <TextBlock Text="SERIAL PORT SETTING"  FontSize="18" FontWeight="Bold" TextAlignment="Center" Foreground="#FFFFFF" Height="29" Width="196" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0" Grid.Row="4" />
-                    <Image Grid.Row="5" Source="/Assets/Disconnected.png" Height="96" Width="103" Canvas.Top="2" Canvas.Left="28" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
-                </Grid>
-
-
-                <TextBlock x:Name="T1" Text="Checked Event" FontSize="16" Canvas.Left="71" Canvas.Top="550" HorizontalAlignment="Left" VerticalAlignment="Top" ></TextBlock>
-                <TextBlock x:Name="T2" Text="UnChecked Event" FontSize="16" Canvas.Left="61" Canvas.Top="576" HorizontalAlignment="Left" VerticalAlignment="Top" ></TextBlock>
-
-                <Viewbox Grid.Row="4" HorizontalAlignment="Center" Canvas.Left="11" Stretch="Fill" Canvas.Top="246" VerticalAlignment="Center" Width="207">
-                    <Grid Height="30" Width="205">
-                        <ComboBox x:Name="SerialCOM" Width="105" Height="30" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="100,0,0,0"/>
-                        <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" Foreground="#FFFFFF" Height="26" Width="89" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-5,-1,0,0"><Run Text="COMPORT"/></TextBlock>
-                    </Grid>
-                </Viewbox>
-                <Viewbox Grid.Row="4" HorizontalAlignment="Left" Canvas.Left="11" Stretch="Fill" Canvas.Top="291" VerticalAlignment="Center" Width="207">
-                    <Grid Height="30" Width="205">
-                        <ComboBox x:Name="BaudrateCOM" Width="105" Height="30" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="100,0,0,0"/>
-                        <TextBlock FontSize="16" FontWeight="Bold" TextAlignment="Center" Foreground="#FFFFFF" Height="26" Width="84" HorizontalAlignment="Left" VerticalAlignment="Center"><Run Text="BAUDRATE"/></TextBlock>
-                    </Grid>
-                </Viewbox>
-            </Canvas>
-        </Border>
-
-
-    </Grid>
+            </Grid>
+            <!--Header-->
+            <!--Content-->
+            
+            <!--Sidebar-->
+        </Grid>
+    </Border>
 </Window>

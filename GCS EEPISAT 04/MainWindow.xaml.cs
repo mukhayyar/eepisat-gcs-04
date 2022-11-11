@@ -12,8 +12,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Diagnostics;
 using System.IO.Ports;
 using System.Threading;
+using System.Windows.Threading;
+using System.Management;
 // using OPCWPFDashboard;
 using LiveCharts;
 using LiveCharts.Wpf;
@@ -76,20 +79,19 @@ namespace GCS_EEPISAT_04
         double tilt_y;
         string cmd_echo;
 
+        System.Windows.Threading.DispatcherTimer timer = new DispatcherTimer();
 
         public MainWindow()
         {
             InitializeComponent();
+            timer.Tick += new EventHandler(Timer_Tick);
+            timer.Interval = new TimeSpan(0, 0, 1);
+            timer.Start();
         }
 
-        private void ShutdownOpenModal(object sender, RoutedEventArgs e)
+        private void shutdownBtnClick(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Are you sure to shutdown the GCS?", "", MessageBoxButton.OKCancel);
-        }
-
-        private void RestartOpenModal(object sender, RoutedEventArgs e)
-        {
-            MessageBoxResult result = MessageBox.Show("Are you sure to restart the GCS?", "", MessageBoxButton.OKCancel);
+            MessageBoxResult result =  MessageBox.Show("Are you sure to shutdown the GCS?", "", MessageBoxButton.OKCancel);
             switch (result)
             {
                 case MessageBoxResult.OK:
@@ -98,6 +100,59 @@ namespace GCS_EEPISAT_04
                 case MessageBoxResult.Cancel:
                     break;
             }
+        }
+
+        private void restartBtnClick(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Are you sure to restart the GCS?", "", MessageBoxButton.OKCancel);
+            switch (result)
+            {
+                case MessageBoxResult.OK:
+                    System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
+                    Application.Current.Shutdown();
+                    break;
+                case MessageBoxResult.Cancel:
+                    break;
+            }
+        }
+        Dictionary<UInt16, string> StatusCodes;
+
+        private void GetBatteryPercent()
+        {
+            System.Management.ManagementClass wmi = new System.Management.ManagementClass("Win32_Battery");
+            var allBatteries =  wmi.GetInstances();
+            string final = "";
+            foreach(var battery in allBatteries)
+            {
+                int estimatedChargeRemaining = Convert.ToInt32(battery["EstimatedChargeRemaining"]);
+                int estimatedTimeRemaining = Convert.ToInt32(battery["EstimatedRunTime"]);
+                final = Convert.ToString(estimatedTimeRemaining) + " Minutes Remaining";
+                if(estimatedTimeRemaining == 71582788)
+                { 
+                    var converter = new System.Windows.Media.BrushConverter();
+                    var brush = (Brush)converter.ConvertFromString("#00FF00");
+                    batteryPercentage.Background = brush;
+                    final = "On Charging";
+                } else if (estimatedChargeRemaining < 30)
+                {
+                    var converter = new System.Windows.Media.BrushConverter();
+                    var brush = (Brush)converter.ConvertFromString("#FFFF00");
+                    batteryPercentage.Background = brush;
+                }
+                else if (estimatedChargeRemaining < 10)
+                {
+                    var converter = new System.Windows.Media.BrushConverter();
+                    var brush = (Brush)converter.ConvertFromString("#FF0000");
+                    batteryPercentage.Background = brush;
+                }
+                batteryPercentage.Height = Convert.ToDouble(estimatedChargeRemaining);
+                lblBatteryStatus.Content = Convert.ToString(estimatedChargeRemaining) + "%" + " " + final;
+            }
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            GetBatteryPercent();
         }
 
         public static void SerialPortDetect()
@@ -192,7 +247,7 @@ namespace GCS_EEPISAT_04
 
         public void listSerialComPort()
         {
-
+            // SerialCOM.ItemsSource = typeof(Colors).GetProperties();
         }
 
         public void listSerialBaudRate()
@@ -202,17 +257,59 @@ namespace GCS_EEPISAT_04
 
         private void SimToggleBtn_checked(object sender, RoutedEventArgs e)
         {
-            T1.Foreground = new SolidColorBrush(Colors.Red);
+            // T1.Foreground = new SolidColorBrush(Colors.Red);
         }
 
         private void SimToggleBtn_Unchecked(object sender, RoutedEventArgs e)
         {
-            T2.Foreground = new SolidColorBrush(Colors.Blue);
+            //T2.Foreground = new SolidColorBrush(Colors.Blue);
         }
 
         private void SimToggleBtn_click(object sender, RoutedEventArgs e)
         {
-            T2.Foreground = new SolidColorBrush(Colors.Blue);
+            //T2.Foreground = new SolidColorBrush(Colors.Blue);
+        }
+
+        private void homeNavClick(object sender, RoutedEventArgs e)
+        {
+            MainPage.SelectedIndex = 0;
+        }
+
+        private void graphNavClick(object sender, RoutedEventArgs e)
+        {
+            MainPage.SelectedIndex = 1;
+        }
+
+        private void mapNavClick(object sender, RoutedEventArgs e)
+        {
+            MainPage.SelectedIndex = 2;
+        }
+
+        private void dataCsvNavClick(object sender, RoutedEventArgs e)
+        {
+            MainPage.SelectedIndex = 3;
+        }
+
+        private void MainPage_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void ImportImageButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void ConnectPortBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void DisconnectPortBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void RestartPortBtn_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
