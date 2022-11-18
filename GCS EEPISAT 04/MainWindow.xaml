@@ -11,6 +11,7 @@
         Background="#161616"
         WindowState="Maximized"
         WindowStyle="None"
+        Loaded="WindowLoaded"
         Title="MainWindow" Height="768" Width="1366">
     <Border Background="#161616">
         <Grid>
@@ -30,12 +31,12 @@
                         </Grid.RowDefinitions>
                         <Border Grid.Row="0" Background="#292929" CornerRadius="30 30 30 30" Margin="20 20 20 20"/>
                         <Image Grid.Row="0" Margin="40 40 0 0" HorizontalAlignment="Left" VerticalAlignment="Top" Source="/Assets/Team.png" Height="30"></Image>
-                        <Label Grid.Row="0" Margin="70 35 0 0" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Foreground="White" VerticalAlignment="Top" Content="1085"/>
+                        <Label x:Name="TeamIDLabel" Grid.Row="0" Margin="70 35 0 0" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Foreground="White" VerticalAlignment="Top" Content="1085"/>
                         <Image Grid.Row="0" Margin="40 0 0 0" HorizontalAlignment="Left" VerticalAlignment="Center" Source="/Assets/Time.png" Height="53"></Image>
                         <Label Grid.Row="0" Margin="70 0 0 45" HorizontalAlignment="Center" VerticalAlignment="Center" Content="MISSION TIME" FontSize="15" FontWeight="Bold" Foreground="White"/>
-                        <Label Grid.Row="0" Margin="70 0 0 0" HorizontalAlignment="Center" VerticalAlignment="Center" Content="00:00:00.00" FontSize="20" FontWeight="Regular" Foreground="White"/>
+                        <Label x:Name="MissionTimeLabel" Grid.Row="0" Margin="70 0 0 0" HorizontalAlignment="Center" VerticalAlignment="Center" Content="00:00:00.00" FontSize="20" FontWeight="Regular" Foreground="White"/>
                         <Image Grid.Row="0" Margin="40 20 0 50" HorizontalAlignment="Left" VerticalAlignment="Bottom" Source="/Assets/Status Meter.png" Height="35" Width="58"></Image>
-                        <Label Grid.Row="0" Margin="70 20 0 45" HorizontalAlignment="Center" VerticalAlignment="Bottom" Content="BOOT" FontSize="20" FontWeight="Bold" Foreground="White"/>
+                        <Label x:Name="StateLabel" Grid.Row="0" Margin="70 20 0 45" HorizontalAlignment="Center" VerticalAlignment="Bottom" Content="BOOT" FontSize="20" FontWeight="Bold" Foreground="White"/>
                         <Border  Grid.Row="1" Background="#FFFFFF" Width="250" Height="5" CornerRadius="2" />
                         <Grid Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top" Width="200" Margin="0 15 0 0">
                             <Grid.RowDefinitions>
@@ -86,16 +87,23 @@
                             <Border Grid.Column="0" CornerRadius="20" Background="#292929" Margin="15 10 15 10">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="90"></ColumnDefinition>
-                                        <ColumnDefinition Width="90"></ColumnDefinition>
-                                        <ColumnDefinition Width="90"></ColumnDefinition>
+                                        <ColumnDefinition Width="270"></ColumnDefinition>
                                         <ColumnDefinition></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
-                                    <Image Grid.Column="0" Source="/Assets/CanSat.png" Style="{DynamicResource Icon}" />
-                                    <Image Grid.Column="1" Source="/Assets/pens.png" Style="{DynamicResource Icon}" />
-                                    <Image Grid.Column="2" Source="/Assets/EEPISat.png" Style="{DynamicResource Icon}" />
-                                    <Label Grid.Column="3" Margin="0 25 0 0" Content="BAMANTARA EEPISAT | GROUND CONTROL STATION" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="13"/>
-                                    <Label Grid.Column="3" Margin="0 0 0 25" Content="POLITEKNIK ELEKTRONIKA NEGERI SURABAYA" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontWeight="Bold" FontSize="14"/>
+                                    <Border Grid.Column="0" CornerRadius="20" Background="#F1F1F1">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="90"></ColumnDefinition>
+                                                <ColumnDefinition Width="90"></ColumnDefinition>
+                                                <ColumnDefinition Width="90"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Image Grid.Column="0" Source="/Assets/CanSat.png" Style="{DynamicResource Icon}" />
+                                            <Image Grid.Column="1" Source="/Assets/pens.png" Style="{DynamicResource Icon}" />
+                                            <Image Grid.Column="2" Source="/Assets/EEPISat.png" Style="{DynamicResource Icon}" />
+                                        </Grid>
+                                    </Border>
+                                    <Label Grid.Column="1" Margin="0 25 0 0" Content="BAMANTARA EEPISAT | GROUND CONTROL STATION" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="13"/>
+                                    <Label Grid.Column="1" Margin="0 0 0 25" Content="POLITEKNIK ELEKTRONIKA NEGERI SURABAYA" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontWeight="Bold" FontSize="14"/>
                                 </Grid>
                             </Border>
                             <Border Grid.Column="1" CornerRadius="30" Background="#292929" Margin="5 10 5 10">
@@ -235,31 +243,144 @@
                                                             <Label Grid.Column="1" Margin="0 0 30 0" Content="0.0" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Regular" FontSize="15" Foreground="#FFFFFF" />
                                                             <Label Grid.Column="2" Margin="0 0 30 0" Content="0.0" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Regular" FontSize="15" Foreground="#FFFFFF" />
                                                         </Grid>
-                                                        
                                                     </Grid>
                                                 </Border>
                                             </Grid>
-                                            <Border Grid.Row="1" CornerRadius="30" Background="#292929" Margin="15 10 15 5"></Border>
-                                            <Border Grid.Row="2" CornerRadius="30" Background="#292929" Margin="15 5 15 10"></Border>
+                                            <Border Grid.Row="1" CornerRadius="30" Background="#292929" Margin="15 5 15 10">
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="20"></RowDefinition>
+                                                        <RowDefinition Height="85"></RowDefinition>
+                                                        <RowDefinition></RowDefinition>
+                                                    </Grid.RowDefinitions>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="100"></ColumnDefinition>
+                                                            <ColumnDefinition></ColumnDefinition>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Image Grid.Column="0" Source="/Assets/Command Prompt.png" Margin="0 -8 0 -10" Width="20" Style="{DynamicResource IconItemList}"/>
+                                                        <Label Grid.Column="1" Content="COMMAND PROMPT" Margin="-30 -4 0 -10" Foreground="#FFFFFF" FontSize="15" FontWeight="Bold"/>
+                                                    </Grid>
+                                                    <Border Grid.Row="1" Margin="15 5 15 0" Background="White" CornerRadius="10">
+                                                        <TextBox x:Name="CMDTextBox2" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" Margin="15 2 15 2" BorderThickness="0" IsReadOnly="True"></TextBox>
+                                                    </Border>
+                                                    <Border Grid.Row="2" Margin="15 5 15 0" Background="White" CornerRadius="10">
+                                                        <!--<ComboBox></ComboBox>-->
+                                                        <TextBox x:Name="CMDTextBox1" Margin="15 2 15 2" BorderThickness="0"></TextBox>
+                                                    </Border>
+                                                </Grid>
+                                            </Border>
+                                            <Border Grid.Row="2" CornerRadius="30" Background="#292929" Margin="15 10 15 5">
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="20"></RowDefinition>
+                                                        <RowDefinition Height="85"></RowDefinition>
+                                                        <RowDefinition></RowDefinition>
+                                                    </Grid.RowDefinitions>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="100"></ColumnDefinition>
+                                                            <ColumnDefinition></ColumnDefinition>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Image Grid.Column="0" Source="/Assets/Serial Control.png" Margin="0 -8 0 -10" Width="20" Style="{DynamicResource IconItemList}"/>
+                                                        <Label Grid.Column="1" Content="SERIAL CONTROL" Margin="-30 -4 0 -10" Foreground="#FFFFFF" FontSize="15" FontWeight="Bold"/>
+                                                    </Grid>
+                                                    <Border Grid.Row="1" Margin="15 5 15 0" Background="White" CornerRadius="10">
+                                                        <TextBox x:Name="SerialControlTextBox" Margin="15 2 15 2" BorderThickness="0" IsReadOnly="True"></TextBox>
+                                                    </Border>
+                                                    <Border x:Name="PortStatusPane" Grid.Row="2" Margin="15 5 15 0" Background="White" CornerRadius="10">
+                                                        <Label x:Name="PortStatus" Margin="15 -2 15 2" Content="Disconnected" />
+                                                    </Border>
+                                                </Grid>
+                                            </Border>
+
                                         </Grid>
                                         <Grid Grid.Column="1">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition></RowDefinition>
                                                 <RowDefinition></RowDefinition>
                                             </Grid.RowDefinitions>
-                                            <Border Grid.Row="0" CornerRadius="30" Background="#292929" Margin="15 15 15 15"></Border>
-                                            <Border Grid.Row="1" CornerRadius="30" Background="#292929" Margin="15 15 15 15"></Border>
+                                            <Border Grid.Row="0" CornerRadius="30" Background="#292929" Margin="15 15 15 15">
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition></RowDefinition>
+                                                        <RowDefinition></RowDefinition>
+                                                    </Grid.RowDefinitions>
+                                                    <Label Grid.Row="0" HorizontalAlignment="Center" Content="3D ATTITUDE MODEL" Foreground="#FFFFFF" FontWeight="Bold" FontSize="14"/>
+                                                    <!--This is 3d Model loaded-->
+                                                </Grid>
+                                            </Border>
+                                            <Border Grid.Row="1" CornerRadius="30" Background="#292929" Margin="15 15 15 15">
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition></RowDefinition>
+                                                        <RowDefinition></RowDefinition>
+                                                    </Grid.RowDefinitions>
+                                                    <Label Grid.Row="0" HorizontalAlignment="Center" Content="MAP/ACCELEREMOTER" Foreground="#FFFFFF" FontWeight="Bold" FontSize="14"/>
+                                                    <!--This is map/accelerometer graph-->
+                                                </Grid>
+                                            </Border>
                                         </Grid>
                                     </Grid>
                                 </TabItem>
                                 <TabItem>
-                                    <Label VerticalAlignment="Center" HorizontalAlignment="Center" Content="GRAPH" FontWeight="Bold" FontSize="20" Foreground="#FFFFFF"/>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Grid Grid.Row="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition></ColumnDefinition>
+                                                <ColumnDefinition></ColumnDefinition>
+                                                <ColumnDefinition></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Grid.Column="0" Content="Altitude Data" />
+                                            <Label Grid.Column="1" Content="Temperature Data" />
+                                            <Label Grid.Column="2" Content="Voltage Data" />
+                                        </Grid>
+                                        <Grid Grid.Row="1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition></ColumnDefinition>
+                                                <ColumnDefinition></ColumnDefinition>
+                                                <ColumnDefinition></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Grid.Column="0" Content="GPS Altitude Data" />
+                                            <Label Grid.Column="1" Content="GPS Latitude and Longitude Data" />
+                                            <Label Grid.Column="2" Content="Tilt X and Y Data" />
+                                        </Grid>
+                                    </Grid>
                                 </TabItem>
                                 <TabItem>
-                                    <Label VerticalAlignment="Center" HorizontalAlignment="Center" Content="MENU" FontWeight="Bold" FontSize="20" Foreground="#FFFFFF"/>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition Height="150"></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <TabControl Grid.Row="0">
+                                            <TabItem Header="Satellite">
+                                                <Label Content="Simulation Data" />
+                                            </TabItem>
+                                            <TabItem Header="Terrain" >
+                                                <Label Content="Probe Data" />
+                                            </TabItem><TabItem Header="Street" >
+                                                <Label Content="Probe Data" />
+                                            </TabItem>
+                                        </TabControl>
+                                        <Border Grid.Row="1" Background="#292929" Margin="15 15 15 15" CornerRadius="30"></Border>
+                                    </Grid>
                                 </TabItem>
                                 <TabItem>
-                                    <Label VerticalAlignment="Center" HorizontalAlignment="Center" Content="DATA" FontWeight="Bold" FontSize="20" Foreground="#FFFFFF"/>
+                                    <Grid>
+                                        <TabControl>
+                                            <TabItem Header="Data">
+                                                <Label Content="Simulation Data" />
+                                            </TabItem>
+                                            <TabItem Header="Probe" >
+                                                <Label Content="Probe Data" />
+                                            </TabItem>
+                                        </TabControl>
+                                    </Grid>
                                 </TabItem>
                             </TabControl>
                         </Border>
@@ -427,7 +548,7 @@
                                     Background="White"
                                     BorderThickness="0"
                                     FontSize="13"
-                                    ItemsSource="{Binding}" />
+                                    ItemsSource="{Binding}"/>
                                 </Border>
 
                                 <Label
@@ -457,7 +578,8 @@
                                     HorizontalContentAlignment="Right"
                                     Background="White"
                                     BorderThickness="0"
-                                    FontSize="13" />
+                                    FontSize="13"
+                                    ItemsSource="{Binding}"/>
                                 </Border>
 
                                 <Grid
