@@ -1,17 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net48</TargetFramework>
     <RootNamespace>GCS_EEPISAT_04</RootNamespace>
-    <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>GCS.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <LangVersion>9.0</LangVersion>
   </PropertyGroup>
-
+  
   <ItemGroup>
     <None Remove="Assets\3D.png" />
     <None Remove="Assets\3D\Probe.obj" />
+    <None Remove="Assets\3D\Probe_Deploy.obj" />
+    <None Remove="Assets\3D\Probe_Stowed.obj" />
+    <None Remove="Assets\3D\Probe_Upright.obj" />
     <None Remove="Assets\Accel.png" />
+    <None Remove="Assets\Air Pressure.png" />
     <None Remove="Assets\CanSat.png" />
     <None Remove="Assets\Command Prompt.png" />
     <None Remove="Assets\Connected.png" />
@@ -22,6 +27,7 @@
     <None Remove="Assets\EEPISat-Logotype.png" />
     <None Remove="Assets\EEPISat-SplashScreen.png" />
     <None Remove="Assets\EEPISat.png" />
+    <None Remove="Assets\Error.png" />
     <None Remove="Assets\Flag.png" />
     <None Remove="Assets\GPSNew.png" />
     <None Remove="Assets\Graph Menu.png" />
@@ -34,26 +40,119 @@
     <None Remove="Assets\Map.png" />
     <None Remove="Assets\MapTwo.png" />
     <None Remove="Assets\MaxAltitude.png" />
+    <None Remove="Assets\Payload.png" />
     <None Remove="Assets\pens.png" />
     <None Remove="Assets\Pointing Error.png" />
     <None Remove="Assets\Probe.png" />
     <None Remove="Assets\Reconnect.png" />
     <None Remove="Assets\Restart.png" />
     <None Remove="Assets\Satelit.png" />
+    <None Remove="Assets\Satellite Map.png" />
     <None Remove="Assets\Serial Control.png" />
+    <None Remove="Assets\Setting.png" />
     <None Remove="Assets\Shutdown.png" />
+    <None Remove="Assets\Simulation.png" />
     <None Remove="Assets\Status Meter.png" />
+    <None Remove="Assets\Street Map.png" />
     <None Remove="Assets\Team.png" />
     <None Remove="Assets\temperature.png" />
+    <None Remove="Assets\Terrain Map.png" />
+    <None Remove="Assets\Tilt.png" />
     <None Remove="Assets\Time.png" />
+    <None Remove="Assets\Undefined.png" />
     <None Remove="Assets\VOLTAGE.png" />
+    <None Remove="Audio\CAL.mp3" />
+    <None Remove="Audio\CAL.wav" />
+    <None Remove="Audio\CONNECTTO.wav" />
+    <None Remove="Audio\GCSRESTART.mp3" />
+    <None Remove="Audio\GCSRESTART.wav" />
+    <None Remove="Audio\GCSSTART.mp3" />
+    <None Remove="Audio\GCSSTART.wav" />
+    <None Remove="Audio\GCSSTOP.mp3" />
+    <None Remove="Audio\GCSSTOP.wav" />
+    <None Remove="Audio\MECHANISM.wav" />
+    <None Remove="Audio\PXOFF.mp3" />
+    <None Remove="Audio\PXOFF.wav" />
+    <None Remove="Audio\PXON.mp3" />
+    <None Remove="Audio\PXON.wav" />
+    <None Remove="Audio\SIMACTIVATE.mp3" />
+    <None Remove="Audio\SIMACTIVATE.wav" />
+    <None Remove="Audio\SIMDISABLE.mp3" />
+    <None Remove="Audio\SIMDISABLE.wav" />
+    <None Remove="Audio\SIMENABLE.mp3" />
+    <None Remove="Audio\SIMENABLE.wav" />
+    <None Remove="Audio\SIMP.mp3" />
+    <None Remove="Audio\SIMP.wav" />
+    <None Remove="Audio\STGPS.mp3" />
+    <None Remove="Audio\STGPS.wav" />
+    <None Remove="Audio\STUTC.mp3" />
+    <None Remove="Audio\STUTC.wav" />
+    <None Remove="Audio\TRY.mp3" />
+    <None Remove="Audio\TRY.wav" />
+    <None Remove="Icon\Heat Shield Released.png" />
+    <None Remove="Icon\Mast Raised.png" />
+    <None Remove="Icon\Parachute Released.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Assets\3D\Probe.obj">
+    <Content Include="Assets\3D\Probe.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\3D\Probe_Deploy.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\3D\Probe_Stowed.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\3D\Probe_Upright.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Air Pressure.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    </Content>
+    <Content Include="Assets\Error.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Payload.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Satellite Map.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Setting.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Simulation.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Street Map.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Terrain Map.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Tilt.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Undefined.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Audio\CONNECTTO.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Audio\MECHANISM.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="GCS.ico" />
+    <Content Include="Icon\Heat Shield Released.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icon\Mast Raised.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icon\Parachute Released.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -63,16 +162,39 @@
 	<Reference Include="System.Device">
 	  <HintPath>..\packages\System.Device.dll</HintPath>
 	</Reference>
+	<Reference Include="System.Web" />
+	<Reference Include="WindowsFormsIntegration">
+	  <HintPath>..\..\..\..\..\..\Program Files\Reference Assemblies\Microsoft\Framework\v3.0\WindowsFormsIntegration.dll</HintPath>
+	</Reference>
+	<PackageReference Include="Aspose.GIS" Version="22.11.0" />
+	<PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
+	<PackageReference Include="Emoji.Wpf" Version="0.3.4" />
 	<PackageReference Include="GeoCoordinate.NetCore" Version="1.0.0.1" />
-    <PackageReference Include="GMap.NET.Core" Version="2.1.7" />
+	<PackageReference Include="LiveChartsCore.SkiaSharpView.WPF" Version="2.0.0-beta.700" />
+	<PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+	<PackageReference Include="System.Data.SQLite" Version="1.0.117" />
+	<PackageReference Include="System.Data.SQLite.Core" Version="1.0.117" />
+	<PackageReference Include="System.Data.SQLite.EF6" Version="1.0.117" />
+	<PackageReference Include="System.Data.SQLite.Linq" Version="1.0.117" />
+	<PackageReference Include="System.Drawing.Common" Version="7.0.0" />
+	<PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
+	<!--<PackageReference Include="GMap.NET.Core" Version="2.1.7" />-->
+    <Reference Include="GMap.NET.Core">
+		<HintPath>..\packages\GMap.NET.Presentation.1.7.5\lib\net40\GMap.NET.Core.dll</HintPath>
+		<Private>True</Private>
+	</Reference>
     <PackageReference Include="GMap.NET.Presentation" Version="1.7.5" />
-    <PackageReference Include="GMap.NET.WindowsForms" Version="1.7.5" />
-    <PackageReference Include="GMap.NET.WinPresentation" Version="2.1.7" />
+	<Reference Include="GMap.NET.WindowsForms, Version=1.7.5.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
+		<HintPath>..\packages\GMap.NET.WindowsForms.1.7.5\1.7.5\lib\net40\GMap.NET.WindowsForms.dll</HintPath>
+		<Private>True</Private>
+	</Reference>
+    <PackageReference Include="GMap.Net.WPF" Version="1.0.0.1" />
     <PackageReference Include="HelixToolkit.Wpf" Version="2.22.0" />
-    <PackageReference Include="LiveCharts.Wpf.Core" Version="0.9.8" />
     <PackageReference Include="MaterialDesignColors" Version="2.0.9" />
     <PackageReference Include="MaterialDesignThemes" Version="4.6.1" />
-    <PackageReference Include="Microsoft.Toolkit.Wpf.UI.Controls" Version="5.1.1" />
+    <PackageReference Include="Microsoft.Maps.MapControl.WPF" Version="1.0.0.3" />
+    <PackageReference Include="Microsoft.Toolkit.Win32.UI.Controls" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Toolkit.Wpf.UI.Controls" Version="6.1.2" />
     <PackageReference Include="Microsoft.Win32.Primitives" Version="4.3.0" />
     <PackageReference Include="System.AppContext" Version="4.3.0" />
     <PackageReference Include="System.Buffers" Version="4.5.1" />
@@ -142,12 +264,6 @@
     <Content Include="Assets\Graph Menu.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Group 79.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\Gunung.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Assets\Gyro.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -163,16 +279,10 @@
     <Content Include="Assets\Map.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\MapTwo.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Assets\MaxAltitude.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\pens.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\Pointing Error.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\Probe.png">
@@ -214,9 +324,55 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Audio\CAL.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Audio\GCSRESTART.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Audio\GCSSTART.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Audio\GCSSTOP.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Audio\PXOFF.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Audio\PXON.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Audio\SIMACTIVATE.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Audio\SIMDISABLE.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Audio\SIMENABLE.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Audio\SIMP.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Audio\STGPS.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Audio\STUTC.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Audio\TRY.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <SplashScreen Include="Assets\EEPISat-SplashScreen.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </SplashScreen>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 
 </Project>

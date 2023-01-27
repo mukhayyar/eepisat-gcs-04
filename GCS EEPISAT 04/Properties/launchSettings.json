@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "GCS EEPISAT 04": {
+      "commandName": "Project",
+      "nativeDebugging": false
+    }
+  }
+}

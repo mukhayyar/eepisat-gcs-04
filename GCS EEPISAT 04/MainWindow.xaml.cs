@@ -1,53 +1,55 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Data;
 using System.ComponentModel;
-using System.ComponentModel.Design.Serialization;
 using System.Linq;
-using System.Reflection;
 using System.Text;
-using System.Device;
 using System.Device.Location;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
-using System.Net;
-using Microsoft.Win32;
-using System.Runtime.CompilerServices;
 using System.Diagnostics;
 using System.Media;
-using System.IO;
 using System.IO.Ports;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Threading;
 using System.Management;
-using System.Timers;
-// using OPCWPFDashboard;
 
 // Map
 using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.ObjectModel;
+using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using GMap.NET.WindowsForms.ToolTips;
 
 // Graph
-using LiveCharts;
-using LiveCharts.Wpf;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Painting;
+using LiveChartsCore.SkiaSharpView.VisualElements;
+using SkiaSharp;
 using System.Security.Permissions;
-using System.Data.Entity;
-//using AutoFixture.Kernel;
+
+// 3D
+using HelixToolkit.Wpf;
+using System.Windows.Media.Media3D;
+using System.Windows.Media;
+
+using Emoji;
+using LiveChartsCore.Defaults;
+using LiveChartsCore.SkiaSharpView.Drawing.Geometries;
+using System.Numerics;
+using System.Windows.Media.Animation;
+
+// Graph 
+using WPFGraph;
+using GraphGCS04;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace GCS_EEPISAT_04
 {
@@ -80,8 +82,12 @@ namespace GCS_EEPISAT_04
         string binAppPath = System.AppDomain.CurrentDomain.BaseDirectory;
 
 
+        public static GMapMarker mapMarkerPayload;
+        public static GMapMarker mapMarkerGCS;
+        public static GMapOverlay mapOverlay;
+
         // Variabel Probe Log
-        double teamId;
+        uint teamId = 1085;
         string state;
         string missionTime;
 
@@ -99,9 +105,15 @@ namespace GCS_EEPISAT_04
         double temperature;
         double max_temperature;
         double max_max_temperature;
+        string time_max_max_temperature;
+        double pressure;
+        double max_pressure;
+        double max_max_pressure;
+        string time_max_max_pressure;
         double voltage;
         double max_voltage;
         double max_max_voltage;
+        string time_max_max_voltage;
         string gps_time;
         double gps_altitude;
         double gps_latitude;
@@ -111,43 +123,178 @@ namespace GCS_EEPISAT_04
         double tilt_y;
         string cmd_echo;
 
+        bool hs_deployed = false;
+        bool mast_raised = false;
+
+        int totalPayloadValidData = 0;
+        int totalPayloadCorruptedData = 0;
+        int totalPayloadData = 0;
+        
+
+        Microsoft.Win32.OpenFileDialog openFileDialog;
+
         // battery
         static int jumlahDataRegLin;
         static float sumX, sumY, sumX2, sumXY;
         static float x, y, m, c;
         float hasilRegLin;
+        int lineCommand = 0;
+
+        // 3D
+        Vector3D axis;
+        const int angle = 50;
 
 
 
-        // TimerSimulation
+
+        // Variabel CSV Simulation Mode
+        List<String> Col4 = new List<String>();
+        
+        int timerCSV = 0;
+        int checkCSV = 0;
+
+        
         DispatcherTimer timerSimulation = new DispatcherTimer();
         DispatcherTimer timergraph = new DispatcherTimer();
 
-        DispatcherTimer aTimer;
+        string fileobj;
 
         private GeoCoordinateWatcher watcher = null;
+        double distance = 0;
 
+        
         public delegate void MethodInvoker();
 
         // Serial COM PORT
         ManagementEventWatcher detector;
         string SerialPortNumber;
-        private static string MustHavePort = "COM3";
-
+        
 
         System.Windows.Threading.DispatcherTimer timer = new DispatcherTimer();
 
+        List<double> PayloadAlt = new List<double>();
+        List<double> GPSAlt = new List<double>();
+        List<double> Voltage = new List<double>();
+        List<double> Temperature = new List<double>();
+        List<double> Pressure = new List<double>();
+        List<double> TiltX = new List<double>();
+        List<double> TiltY = new List<double>();
+        List<double> Lat = new List<double>();
+        List<double> Long = new List<double>();
+
+
+
+        public LabelVisual AltitudeTitle { get; set; } =
+            new LabelVisual
+            {
+                Text = "Altitude",
+                TextSize = 14,
+                Padding = new LiveChartsCore.Drawing.Padding(8),
+                Paint = new SolidColorPaint(SKColors.DarkSlateGray)
+            };
+
+        public LabelVisual TemperatureTitle { get; set; } =
+            new LabelVisual
+            {
+                Text = "Temperature",
+                TextSize = 14,
+                Padding = new LiveChartsCore.Drawing.Padding(8),
+                Paint = new SolidColorPaint(SKColors.DarkSlateGray)
+            };
+
+        public LabelVisual VoltageTitle { get; set; } =
+            new LabelVisual
+            {
+                Text = "Voltage",
+                TextSize = 14,
+                Padding = new LiveChartsCore.Drawing.Padding(8),
+                Paint = new SolidColorPaint(SKColors.DarkSlateGray)
+            };
+
+        public LabelVisual PressureTitle { get; set; } =
+                new LabelVisual
+                {
+                    Text = "Pressure",
+                    TextSize = 14,
+                    Padding = new LiveChartsCore.Drawing.Padding(8),
+                    Paint = new SolidColorPaint(SKColors.DarkSlateGray)
+                };
+
+        
+        public LabelVisual TiltXandYTitle { get; set; } =
+            new LabelVisual
+            {
+                Text = "Tilt X and Y",
+                TextSize = 14,
+                Padding = new LiveChartsCore.Drawing.Padding(8),
+                Paint = new SolidColorPaint(SKColors.DarkSlateGray)
+            };
+
+        public LabelVisual LatLongTitle { get; set; } =
+                new LabelVisual
+                {
+                    Text = "Lat and Long",
+                    TextSize = 14,
+                    Padding = new LiveChartsCore.Drawing.Padding(8),
+                    Paint = new SolidColorPaint(SKColors.DarkSlateGray)
+                };
+
+        public SolidColorPaint LegendTextPaint { get; set; } =
+            new SolidColorPaint
+            {
+                Color = new SKColor(255, 255, 255),
+                SKTypeface = SKTypeface.FromFamilyName("Courier New")
+            };
+
+        public ISeries[] AltitudeSeries;
+        public ISeries[] TemperatureSeries;
+        public ISeries[] VoltageSeries;
+        public ISeries[] PressureSeries;
+        public ISeries[] TiltXandYSeries;
+        public ISeries[] LatLongSeries;
         public MainWindow()
         {
             InitializeComponent();
 
+            // #region Graph
+            
+
+            // #endregion
+            SoundPlayer player = new SoundPlayer(binAppPath + "/Audio/GCSSTART.wav");
+            player.Play();
+
+            watcher = new GeoCoordinateWatcher();
+            watcher.Start();
+
 
             _serialPort.DataReceived += new SerialDataReceivedEventHandler(serialport_datareceive);
 
+            
+            timerSimulation.Interval = TimeSpan.FromMilliseconds(1000);
+            timerSimulation.Tick += timerSimulation_Tick;
+            timerSimulation.Start();
 
             timer.Tick += new EventHandler(Timer_Tick);
             timer.Interval = new TimeSpan(0, 0, 1);
             timer.Start();
+
+            fileobj = System.AppDomain.CurrentDomain.BaseDirectory + "/Assets/3D/Probe_Stowed.obj";
+
+            // CSV
+            if (!Directory.Exists(binAppPath + "\\LogData\\"))
+            {
+                Directory.CreateDirectory(binAppPath + "\\LogData\\");
+            }
+            if (!Directory.Exists(binAppPath + "\\LogData\\FLIGHT"))
+            {
+                Directory.CreateDirectory(binAppPath + "\\LogData\\FLIGHT");
+            }
+            if (!Directory.Exists(binAppPath + "\\LogData\\SIMULATION"))
+            {
+                Directory.CreateDirectory(binAppPath + "\\LogData\\SIMULATION");
+            }
+
+            
         }
 
         public void USBChangedEvent(object sender, EventArrivedEventArgs e)
@@ -178,12 +325,6 @@ namespace GCS_EEPISAT_04
                 else
                 {
                     ComportDropdown.Items.Add("NO SerialPorts AVAILABLE!");
-                    // Inform the user about the disconnection of the arduino ON PORT 3 etc...
-                }
-
-                if (!CompPortList.Contains(MustHavePort))
-                {
-                    // Inform the user about the disconnection of the arduino ON PORT 3 etc...
                 }
             });
             (sender as ManagementEventWatcher).Start();
@@ -221,14 +362,18 @@ namespace GCS_EEPISAT_04
             }
             catch (NullReferenceException)
             {
-
+                return;
             }
-        
+
         }
 
-        private void WindowClosed(object sender, RoutedEventArgs e)
+        private void WindowClosed(object sender, EventHandler e)
         {
-
+            SoundPlayer player = new SoundPlayer(binAppPath + "/Audio/GCSSTOP.wav");
+            player.Play();
+            timerSimulation.Stop();
+            timerCSV = 0;
+            timer.Stop();
         }
 
         private void NewLine(string NewLine)
@@ -236,12 +381,238 @@ namespace GCS_EEPISAT_04
             SerialControlTextBox.AppendText(NewLine);
         }
 
+        private void GmapView_Load()
+        {
+            try
+            {
+                //Bitmap IconGCS = new Bitmap(binAppPath + "/Icon/EEPISat.png");
+
+                GmapView.MapProvider = GoogleMapProvider.Instance;
+                GmapView.Manager.Mode = AccessMode.ServerAndCache;
+                GmapView.CacheLocation = binAppPath + "\\MapCache\\";
+                GmapView.Position = new PointLatLng(watcher.Position.Location.Latitude, watcher.Position.Location.Longitude); 
+                GmapView.MinZoom = 0;
+                GmapView.MaxZoom = 18;
+                GmapView.Zoom = 18;
+                GmapView.ShowCenter = false;
+                GmapView.DragButton = MouseButtons.Left;
+
+                GMapOverlay markers = new GMapOverlay("markers");
+                var markerGCS = new GMapOverlay("markers");
+                mapMarkerGCS = new GMarkerGoogle(new PointLatLng(watcher.Position.Location.Latitude, watcher.Position.Location.Longitude), GMarkerGoogleType.blue_pushpin);
+
+                markers.Markers.Add(mapMarkerGCS);
+                GmapView.Overlays.Add(markers);
+
+            }
+            catch (NullReferenceException)
+            {
+                return;
+            }
+            catch (IndexOutOfRangeException)
+            {
+                return;
+            }
+            catch (FormatException)
+            {
+                return;
+            }
+            catch (OverflowException)
+            {
+                return;
+            }
+            catch
+            {
+                return;
+            }
+        }
+
+        private void GmapViewHome_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                //Bitmap IconGCS = new Bitmap(binAppPath + "/Icon/EEPISat.png");
+
+                GmapViewHome.MapProvider = GoogleSatelliteMapProvider.Instance;
+                GmapViewHome.Manager.Mode = AccessMode.ServerAndCache;
+                GmapViewHome.CacheLocation = binAppPath + "\\MapCache\\";
+                GmapViewHome.Position = new PointLatLng(watcher.Position.Location.Latitude, watcher.Position.Location.Longitude);
+                GmapViewHome.MinZoom = 0;
+                GmapViewHome.MaxZoom = 18;
+                GmapViewHome.Zoom = 18;
+                GmapViewHome.ShowCenter = false;
+                GmapViewHome.DragButton = MouseButtons.Left;
+                GCSStatusText.Content = "In Service";
+                GCSStatusIcon.Foreground = System.Windows.Media.Brushes.Green;
+                string latitude = watcher.Position.Location.Latitude.ToString();
+                string longitude = watcher.Position.Location.Longitude.ToString();
+                GCSCoordinateText.Content = latitude.Substring(0, 7) + ", " + longitude.Substring(0, 7);
+                GMapOverlay markers = new GMapOverlay("markers");
+                var markerGCS = new GMapOverlay("markers");
+                mapMarkerGCS = new GMarkerGoogle(new PointLatLng(watcher.Position.Location.Latitude, watcher.Position.Location.Longitude), GMarkerGoogleType.arrow);
+
+                markers.Markers.Add(mapMarkerGCS);
+                GmapViewHome.Overlays.Add(markers);
+
+                
+                if (_serialPort.IsOpen == true)
+                {
+                    if(gps_latitude != 0 && gps_longitude != 0)
+                    {
+                        PayloadStatusText.Content = "In Service";
+                        PayloadStatusIcon.Foreground = System.Windows.Media.Brushes.Green;
+                        string Platitude = gps_latitude.ToString();
+                        string Plongitude = gps_longitude.ToString();
+                        PayloadCoordinateText.Content = Platitude.Substring(0, 7) + ", " + Plongitude.Substring(0, 7);
+                        GMapOverlay markersP = new GMapOverlay("markers");
+                        var markerPayload = new GMapOverlay("markers");
+                        mapMarkerPayload = new GMarkerGoogle(new PointLatLng(gps_latitude, gps_longitude), GMarkerGoogleType.blue);
+
+                        markersP.Markers.Add(mapMarkerPayload);
+                        GmapViewHome.Overlays.Add(markersP);
+                        
+                    } else
+                    {
+                        PayloadStatusText.Content = "Locking GPS....";
+                        PayloadStatusIcon.Foreground = System.Windows.Media.Brushes.Blue;
+                    }
+                } else
+                {
+                    PayloadStatusText.Content = "Out Of Service";
+                    PayloadStatusIcon.Foreground = System.Windows.Media.Brushes.Red;
+                }
+
+
+            }
+            catch (NullReferenceException)
+            {
+                return;
+            }
+            catch (IndexOutOfRangeException)
+            {
+                return;
+            }
+            catch (FormatException)
+            {
+                return;
+            }
+            catch (OverflowException)
+            {
+                return;
+            }
+            catch
+            {
+                return;
+            }
+        }
+
+        public void GmapView_Region()
+        {
+            try
+            {
+                if (_serialPort.IsOpen == true)
+                {
+                    try
+                    {
+                        if (gps_latitude != 0 && gps_longitude != 0)
+                        {
+                            if (mapMarkerPayload != null)
+                            {
+                                mapMarkerPayload.Position = new PointLatLng(gps_latitude, gps_longitude);
+                                mapMarkerPayload.ToolTipText = $"Payload\n" + $" Latitude : {gps_latitude}, \n" + $" Longitude : {gps_longitude}";
+
+                                double betweenlat = gps_latitude + watcher.Position.Location.Latitude;
+                                double betweenlng = gps_longitude + watcher.Position.Location.Longitude;
+                                GmapView.Position = new PointLatLng(betweenlat / 2, betweenlng / 2);
+                                
+                            } else
+                            {
+                                string Platitude = gps_latitude.ToString();
+                                string Plongitude = gps_longitude.ToString();
+                                PayloadCoordinateText.Content = Platitude.Substring(0, 7) + ", " + Plongitude.Substring(0, 7);
+                                GMapOverlay markersP = new GMapOverlay("markers");
+                                var markerPayload = new GMapOverlay("markers");
+                                mapMarkerPayload = new GMarkerGoogle(new PointLatLng(gps_latitude, gps_longitude), GMarkerGoogleType.blue);
+
+                                markersP.Markers.Add(mapMarkerPayload);
+                                GmapViewHome.Overlays.Add(markersP);
+                            }
+                        }
+                    }
+                    catch (NullReferenceException)
+                    {
+                        return;
+                    }
+                    catch (IndexOutOfRangeException)
+                    {
+                        return;
+                    }
+                    catch (FormatException)
+                    {
+                        return;
+                    }
+                    catch
+                    {
+                        return;
+                    }
+
+                    double dLat1InRad = watcher.Position.Location.Latitude * (Math.PI / 180);
+                    double dLong1InRad = watcher.Position.Location.Longitude * (Math.PI / 180);
+
+                    double dLat2InRad = gps_latitude * (Math.PI / 180);
+                    double dLong2InRad = gps_longitude * (Math.PI / 180);
+
+                    double dLongitude = dLong2InRad - dLong1InRad;
+                    double dLatitude = dLat2InRad - dLat1InRad;
+
+                    // Intermediate result a.
+                    double a = Math.Pow(Math.Sin(dLatitude / 2), 2) + Math.Cos(dLat1InRad) * Math.Cos(dLat2InRad) * Math.Pow(Math.Sin(dLongitude / 2), 2);
+
+                    // Intermediate result c (great circle distance in Radians).
+                    double c = 2 * Math.Asin(Math.Sqrt(a));
+
+                    // Perhitungan
+                    const Double kEarthRadiusKms = 6371;
+                    distance = kEarthRadiusKms * c * 1000;
+
+                }
+
+                if (mapMarkerGCS != null)
+                {
+                    mapMarkerGCS.Position = new PointLatLng(watcher.Position.Location.Latitude, watcher.Position.Location.Longitude);
+                    mapMarkerGCS.ToolTipText = $"GCS\n" + $" Latitude : {Math.Round(watcher.Position.Location.Latitude, 4)}, \n" + $" Longitude : {Math.Round(watcher.Position.Location.Longitude, 4)}";
+                }
+
+                GCSDistanceText.Content = String.Format("{0:0}", distance);
+
+                if (gps_latitude == 0 && gps_longitude == 0)
+                {
+                    GCSDistanceText.Content = "Unknown";
+                }
+            }
+            catch (NullReferenceException)
+            {
+                return;
+            }
+            catch (IndexOutOfRangeException)
+            {
+                return;
+            }
+            catch (FormatException)
+            {
+                return;
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
+        }
+
         public void serialport_datareceive(object sender, SerialDataReceivedEventArgs e)
         {
-            if (stepData == Sequencer.readSensor)
-            {
-
-                try
+            //if (stepData == Sequencer.readSensor)
+            //{
+            try
                 {
                     this.dataSensor = _serialPort.ReadLine();
                     this.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new uiupdater(VerifyData));
@@ -265,14 +636,14 @@ namespace GCS_EEPISAT_04
                     //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-            }
+            //}
         }
 
-        public void VerifyData()
+        public async void VerifyData()
         {
             SerialControlTextBox.Dispatcher.BeginInvoke(this.WriteTelemetryData, new Object[]
             {
-                string.Concat(dataSensor, "------------#END OF PACKET DATA------------\n")
+                string.Concat(Emoji.Use.Speech_Balloon + " \0" +dataSensor, "------------#END OF PACKET DATA------------\n")
             });
             SerialControlTextBox.SelectionLength = SerialControlTextBox.Text.Length;
             SerialControlTextBox.ScrollToEnd();
@@ -283,11 +654,11 @@ namespace GCS_EEPISAT_04
             CMDTextBox2.ScrollToEnd();
             dataSum++;
 
-            //if (dataSum == 50)
-            //{
-            //SerialControlTextBox.Clear();
-            //dataSum = 0;
-            //}
+            if (dataSum == 50)
+            {
+                SerialControlTextBox.Clear();
+                dataSum = 0;
+            }
 
             isAscii = Regex.IsMatch(dataSensor, @"[^\u0021-\u007E]", RegexOptions.None);
 
@@ -297,30 +668,31 @@ namespace GCS_EEPISAT_04
                 try
                 {
                     splitData = dataSensor.Split((char)44); // (char)44 = ','
-                    //System.Diagnostics.Debug.WriteLine("VerifyData : splitData " + splitData.ToString());
+                    System.Diagnostics.Debug.WriteLine("VerifyData : splitData " + splitData.ToString());
 
-                        //long sumData = 0;
-                        //for(int data = 0; data < dataSensor.Length; data++)
-                        //{
-                        //    sumData += (byte)dataSensor[data];
-                        //}  
+                    //long sumData = 0;
+                    //for (int data = 0; data < dataSensor.Length; data++)
+                    //{
+                    //    sumData += (byte)dataSensor[data];
+                    //}
+                    //recCheckSum = sumData;
 
-                        //Pengecekan 
-                        //  Panjang Data               Team ID          Team ID            Mission Time       Packet Count         
-                    if (splitData.Length == 19 && splitData[0] == "1085" && splitData[0].Length == 4 && splitData[1].Length == 11 && splitData[2].Length <= 4 &&
-                             //  Packet Type         // Altitude             
-                             splitData[3] == "T" && splitData[4].Length <= 7)
-
+                    //System.Diagnostics.Debug.WriteLine("VerifyData : Receiver Checksum " + recCheckSum);
+                    //Pengecekan 
+                    //  Panjang Data               Team ID                  Team ID Testing             Team ID                     Mission Time                Packet Count         
+                    if ((splitData.Length == 20 || splitData.Length == 21) && (splitData[0] == "1085" || splitData[0] == "1000") && splitData[0].Length == 4 && splitData[1].Length == 11 && splitData[2].Length <= 4 )
                     {
                         try
                         {
+                            System.Diagnostics.Debug.WriteLine("VerifyData : Write Data " + splitData.ToString());
                             CheckTelemetryData();
-                            WriteLogPayload();
+                            GetGraph();
                             PayDataLog();
+                            WriteLogPayload();
                         }
                         catch (Exception ex)
                         {
-                            //System.Diagnostics.Debug.WriteLine("Error - " + ex.Message);
+                            System.Diagnostics.Debug.WriteLine("Error - " + ex.Message);
                             //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return;
                         }
@@ -336,13 +708,9 @@ namespace GCS_EEPISAT_04
                         }
                         catch (Exception ex)
                         {
-
                             return;
                         }
                     }
-
-                    //System.Diagnostics.Debug.WriteLine("VerifyData : splitData Length " + splitData.Length);
-
                 }
                 catch (Exception ex)
                 {
@@ -353,96 +721,35 @@ namespace GCS_EEPISAT_04
             }
         }
 
+        private void RotateBackModel()
+        {
+            axis = axis * -1;
+            Matrix3D matrix = model.Content.Transform.Value;
+
+            matrix.Rotate(new System.Windows.Media.Media3D.Quaternion(axis, angle));
+            model.Content.Transform = new MatrixTransform3D(matrix);
+        }
+
         private void CheckTelemetryData()
         {
             try
             {
-                if (splitData.Length == 19)
+                if (splitData.Length == 20 || splitData.Length == 21)
                 {
-                    //
-                    //payloadTeamID = Convert.ToDouble(splitData[16]);
-                    if (splitData[16].Length > 0 && splitData[16].All(c => Char.IsNumber(c) || c == '.'))
+
+                    if (splitData[0].Length > 0 && splitData[0].All(c => Char.IsNumber(c)))
                     {
-                        teamId = Convert.ToDouble(splitData[16]);
+                        teamId = Convert.ToUInt32(splitData[0]);
                     }
                     else
                     {
                         teamId = 0;
                     }
 
-                    missionTime = splitData[17];
 
-                    //payloadPacketCount = Convert.ToDouble(splitData[18]);
-                    if (splitData[18].Length > 0 && splitData[18].All(c => Char.IsNumber(c) || c == '.'))
+                    if (splitData[2].Length > 0 && splitData[2].All(c => Char.IsNumber(c)))
                     {
-                        packetCount = Convert.ToDouble(splitData[18]);
-                    }
-                    else
-                    {
-                        packetCount = 0;
-                    }
-
-                    //payloadAltitude = Convert.ToDouble(splitData[20]);
-                    if (splitData[20].Length > 0 && splitData[20].All(c => Char.IsNumber(c) || c == '.'))
-                    {
-                        altitude = Convert.ToDouble(splitData[20]);
-                    }
-                    else
-                    {
-                        altitude = 0;
-                    }
-
-                    //payloadTemperature = Convert.ToDouble(splitData[21]);
-                    if (splitData[21].Length > 0 && splitData[21].All(c => Char.IsNumber(c) || c == '.'))
-                    {
-                        temperature = Convert.ToDouble(splitData[21]);
-                    }
-                    else
-                    {
-                        temperature = 0;
-                    }
-
-                    //payloadVoltage = Convert.ToDouble(splitData[22]);
-                    if (splitData[22].Length > 0 && splitData[22].All(c => Char.IsNumber(c) || c == '.'))
-                    {
-                        voltage = Convert.ToDouble(splitData[22]);
-                    }
-                    else
-                    {
-                        voltage = 0;
-                    }
-
-
-                    state = splitData[33];
-                    //if (splitData[33].Length > 0 && splitData[33].All(Char.IsLetter))
-                    //{
-                    //    payloadSoftwareState = splitData[33];
-                    //}
-                    //else
-                    //{
-                    //    payloadSoftwareState = "";
-                    //}
-
-
-                    //Pengecekan Telemetry Container
-                } if (splitData.Length == 0)
-                {
-                    //payloadTeamID = Convert.ToDouble(splitData[0]);
-                    if (splitData[0].Length > 0 && splitData[0].All(c => Char.IsNumber(c) || c == '.'))
-                    {
-                        teamId = Convert.ToDouble(splitData[0]);
-                    }
-                    else
-                    {
-                        teamId = 0;
-                    }
-
-                    missionTime = splitData[1];
-
-                    //payloadPacketCount = Convert.ToDouble(splitData[2]);
-                    if (splitData[2].Length > 0 && splitData[2].All(c => Char.IsNumber(c) || c == '.'))
-                    {
-                        packetCount = Convert.ToDouble(splitData[2]);
+                        packetCount = Convert.ToInt32(splitData[2]);
                     }
                     else
                     {
@@ -450,45 +757,84 @@ namespace GCS_EEPISAT_04
                     }
 
 
-                    //payloadAltitude = Convert.ToDouble(splitData[4]);
-                    if (splitData[4].Length > 0 && splitData[4].All(c => Char.IsNumber(c) || c == '.'))
-                    {
-                        altitude = Convert.ToDouble(splitData[4]);
-                    }
-                    else
-                    {
-                        altitude = 0;
-                    }
-
-                    //payloadTemperature = Convert.ToDouble(splitData[5]);
                     if (splitData[5].Length > 0 && splitData[5].All(c => Char.IsNumber(c) || c == '.'))
                     {
-                        temperature = Convert.ToDouble(splitData[5]);
+                        altitude = Convert.ToDouble(splitData[5]);
                     }
                     else
                     {
-                        temperature = 0;
+                        altitude = 0.0;
                     }
 
-                    //payloadVoltage = Convert.ToDouble(splitData[6]);
-                    if (splitData[6].Length > 0 && splitData[6].All(c => Char.IsNumber(c) || c == '.'))
+                    if (splitData[9].Length > 0 && splitData[9].All(c => Char.IsNumber(c) || c == '.'))
                     {
-                        voltage = Convert.ToDouble(splitData[6]);
+                        temperature = Convert.ToDouble(splitData[9]);
                     }
                     else
                     {
-                        voltage = 0;
+                        temperature = 0.0;
                     }
 
-                    state = splitData[17];
-                    //if (splitData[17].Length > 0 && splitData[17].All(Char.IsLetter))
-                    //{
-                    //    payloadSoftwareState = splitData[17];
-                    //}
-                    //else
-                    //{
-                    //    payloadSoftwareState = "";
-                    //}
+                    if (splitData[10].Length > 0 && splitData[10].All(c => Char.IsNumber(c) || c == '.'))
+                    {
+                        pressure = Convert.ToDouble(splitData[10]);
+                    }
+                    else
+                    {
+                        pressure = 0.0;
+                    }
+                    
+                    if (splitData[11].Length > 0 && splitData[11].All(c => Char.IsNumber(c) || c == '.'))
+                    {
+                        voltage = Convert.ToDouble(splitData[11]);
+                    }
+                    else
+                    {
+                        voltage = 0.0;
+                    }
+
+
+
+                    if (splitData[12].Length > 0 && splitData[12].All(c => Char.IsNumber(c) || c == '.' || c == ':'))
+                    {
+                        gps_time = Convert.ToString(splitData[12]);
+                    }
+                    else
+                    {
+                        gps_time = "00:00:00.0";
+                    }
+
+                    if (splitData[13].Length > 0 && splitData[13].All(c => Char.IsNumber(c) || c == '.'))
+                    {
+                        gps_altitude = Convert.ToDouble(splitData[13]);
+                    }
+                    else
+                    {
+                        gps_altitude = 0.0;
+                    }
+
+                    gps_latitude = Convert.ToDouble(splitData[14]);
+                    gps_longitude = Convert.ToDouble(splitData[15]);
+
+                    if (splitData[16].Length > 0 && splitData[16].All(c => Char.IsNumber(c)))
+                    {
+                        gps_sats_count = Convert.ToUInt32(splitData[16]);
+                    }
+                    else
+                    {
+                        gps_sats_count = 0;
+                    }
+                    
+                    tilt_x = Convert.ToDouble(splitData[17]);
+                    tilt_y = Convert.ToDouble(splitData[18]);
+                    missionTime = splitData[1];
+                    mode = splitData[3];   
+                    state = splitData[4];
+                    hs_status = splitData[6];
+                    pc_status = splitData[7];
+                    mast_status = splitData[8];
+                    cmd_echo = splitData[19];
+                    System.Diagnostics.Debug.WriteLine("VerifyData : The Data " + teamId + "," + missionTime + "," + packetCount + "," + altitude + "," + temperature + "," + voltage + "," + gps_time + "," + gps_altitude + "," + gps_latitude + "," + gps_longitude + "," + gps_sats_count + "," + tilt_x + "," + tilt_y + "," + mode + "," + state + "," + hs_status + "," + pc_status + "," + mast_status + "," + cmd_echo + "," + pressure);
                 }
                 else if (splitData.Length == 1)
                 {
@@ -498,18 +844,11 @@ namespace GCS_EEPISAT_04
 
                 // checkSum = Convert.ToDouble(splitData[34]);
 
-                //for 3d Modelling
-                //foreach (HelixToolkit.Wpf.Polygon polygon in polygons)
-                //{
-                //    //polygon.Transformation.RotateX = (float)payloadGyro_R;
-                //    //polygon.Transformation.RotateY = (float)payloadGyro_P;
-                //    //polygon.Transformation.RotateZ = (float)payloadGyro_Y;
-                //}
-
                 max_voltage = voltage;
                 if (Math.Abs(max_voltage) > this.max_max_voltage)
                 {
                     max_max_voltage = Math.Abs(max_voltage);
+                    time_max_max_voltage = missionTime;
                 }
 
                 max_altitude = altitude;
@@ -522,6 +861,14 @@ namespace GCS_EEPISAT_04
                 if (Math.Abs(max_temperature) > this.max_max_temperature)
                 {
                     max_max_temperature = Math.Abs(max_temperature);
+                    time_max_max_temperature = missionTime;
+                }
+
+                max_pressure = pressure;
+                if (Math.Abs(max_pressure) > this.max_max_pressure)
+                {
+                    max_max_pressure = Math.Abs(max_pressure);
+                    time_max_max_pressure = missionTime;
                 }
 
                 max_packetCount = packetCount;
@@ -531,11 +878,8 @@ namespace GCS_EEPISAT_04
                 }
 
                 this.Dispatcher.BeginInvoke(new uiupdater(ShowTelemetryData));
-                //this.Dispatcher.Invoke(new uiupdater(GraphCurve));
-                //GraphCurve();
-                //this.Dispatcher.BeginInvoke(new uiupdater(GmapView_Refresh));
-                //this.Dispatcher.BeginInvoke(new uiupdater(GmapView_Region));
-                //Dispatcher.BeginInvoke((Action)(() => GmapView.Refresh()));
+                this.Dispatcher.BeginInvoke(new uiupdater(GraphUpdate));
+                this.Dispatcher.BeginInvoke(new uiupdater(GmapView_Region));
             }
             catch (NullReferenceException)
             {
@@ -555,183 +899,279 @@ namespace GCS_EEPISAT_04
             }
         }
 
+        internal void GraphUpdate()
+        {
+            PayloadAlt.Add(altitude);
+            GPSAlt.Add(gps_altitude);
+            Voltage.Add(voltage);
+            Temperature.Add(temperature);
+            Pressure.Add(pressure);
+            TiltX.Add(tilt_x);
+            TiltY.Add(tilt_y);
+        }
+
         internal void ShowTelemetryData()
         {
-            //missionTimeLabel.Content = String.Format("{00:00:00.00}", containerMissionTime);
-            //softwareStateLabel.Content = String.Format("{0}", softwareState);
+            MissionTimeLabel.Content = String.Format("{00:00:00.00}", missionTime);
+            SoftwareStateLabel.Text = String.Format("{0}", state);
 
             //#region 3D Item
 
-            //String payloadGyro_R_formated = String.Format("{0:0.00}", payloadGyro_R);
-            //String payloadGyro_P_formated = String.Format("{0:0.00}", payloadGyro_P);
-            //String payloadGyro_Y_formated = String.Format("{0:0.00}", payloadGyro_Y);
+            if(axis != null && model.Content != null)
+            {
+                RotateBackModel();
+            }
 
-            ////Magnetometer
-            //RollValue.Content = payloadGyro_R_formated;
-            //PitchValue.Content = payloadGyro_P_formated;
-            //YawValue.Content = payloadGyro_Y_formated;
-            //RPY_TextBox.AppendText(payloadGyro_R_formated + "," + payloadGyro_P_formated + "," + payloadGyro_Y_formated + "\n");
-            //RPY_TextBox.SelectionLength = RPY_TextBox.Text.Length;
-            //RPY_TextBox.ScrollToEnd();
+            if (ThreeDModelStatus.Content != "Started" && ThreeDModelBtn.Content != "Started")
+            {
+                ThreeDModelStatus.Content = "Started";
+                ThreeDModelBtn.Content = "Started";
+                HelixViewport3D_Load();
+            }
 
-            ////Vector3D axis;
+            if(hs_status == "N" && mast_status == "N")
+            {
+                fileobj = System.AppDomain.CurrentDomain.BaseDirectory + "/Assets/3D/Probe_Stowed.obj";
+                HelixViewport3D_Load();
+                mast_raised = false;
+                hs_deployed = false;
+            }
 
-            ////if (payloadGyro_R != 0 && payloadGyro_P != 0 && payloadGyro_Y != 0)
-            ////{
-            ////    axis = new Vector3D((float)payloadGyro_R, (float)payloadGyro_P, (float)payloadGyro_Y);
-            ////}
-            ////else
-            ////{
-            ////    axis = new Vector3D(0, 0, 0);
-            ////}
-            ////var angle = 50;
+            if(hs_status == "P" && !hs_deployed)
+            {
+                fileobj = System.AppDomain.CurrentDomain.BaseDirectory + "/Assets/3D/Probe_Deploy.obj";
+                HelixViewport3D_Load();
+                hs_deployed = true;
+            }
+            if (mast_status == "M" && !mast_raised)
+            {
+                fileobj = System.AppDomain.CurrentDomain.BaseDirectory + "/Assets/3D/Probe_Upright.obj";
+                HelixViewport3D_Load();
+                mast_raised = true;
+            }
 
-            ////Matrix3D matrix = model.Content.Transform.Value;
 
-            ////matrix.Rotate(new Quaternion(axis, angle));
+            if (tilt_x != null || tilt_y != null)
+            {
+                if(tilt_x == 0 || tilt_y == 0)
+                {
+                    axis = new Vector3D((float)0.00000000000001, (float)0.00000000000001, (float)0.00000000000001);
+                } else
+                {
+                    axis = new Vector3D((float)tilt_x, (float)tilt_y, (float)0.0);
+                }
+            }
+            else
+            {
+                axis = new Vector3D((float)0.00000000000001, (float)0.00000000000001, (float)0.00000000000001);
+            }
 
-            ////model.Content.Transform = new MatrixTransform3D(matrix);
+            Matrix3D matrix = model.Content.Transform.Value;
+
+            matrix.Rotate(new System.Windows.Media.Media3D.Quaternion(axis, angle));
+            model.Content.Transform = new MatrixTransform3D(matrix);
+
+            var loadingAnimation = new DoubleAnimation(0.01, 1, new Duration(TimeSpan.FromSeconds(0.5)));
+
+            Storyboard.SetTarget(loadingAnimation, model.Content);
+
+            //Storyboard.SetTargetProperty(loadingAnimation, new PropertyPath(UIElement.OpacityProperty));
+
+            //Storyboard.SetTarget(loadingAnimation, AssociatedObject);
+
+            //var storyboard = new Storyboard();
+            //storyboard.Children.Add(loadingAnimation);
+            //storyboard.Children.Add(closingAnimation);
+            //// Subscription to events must be done at this point, because the Storyboard object becomes frozen later on
+            //storyboard.Completed += HandleOnCompleted;
+
+            //string storyBoardName = "BeginNotificationStoryboard";
+
+            // We define the BeginStoryBoard action for the EventTrigger
+            //var beginStoryboard = new BeginStoryBoard();
+            //beginStoryboard.Name = storyBoardName;
+            //beginStoryboard.Storyboard = storyboard;
+
+            //// We create the EventTrigger
+            //var eventTrigger = new EventTrigger(Control.LoadedEvent);
+            //eventTrigger.Actions.Add(beginStoryboard);
+
+            //// Actions for the entering animation
+            //var enterSeekStoryboard = new SeekStoryboard
+            //{
+            //    Offset = TimeSpan.FromSeconds(5),
+            //    BeginStoryboardName = storyBoardName
+            //};
+            //var enterPauseStoryboard = new PauseStoryboard
+            //{
+            //    BeginStoryboardName = storyBoardName
+            //};
+
+            //// Actions for the exiting animation
+            //var exitSeekStoryboard = new SeekStoryboard
+            //{
+            //    Offset = TimeSpan.FromSeconds(5),
+            //    BeginStoryboardName = storyBoardName
+            //};
+            //var exitResumeStoryboard = new ResumeStoryboard
+            //{
+            //    BeginStoryboardName = storyBoardName
+            //};
+
+            //var trigger = new Trigger
+            //{
+            //    Property = UIElement.IsMouseOverProperty,
+            //    Value = true
+            //};
+
+            //trigger.EnterActions.Add(enterSeekStoryboard);
+            //trigger.EnterActions.Add(enterPauseStoryboard);
+            //trigger.ExitActions.Add(exitSeekStoryboard);
+            //trigger.ExitActions.Add(exitResumeStoryboard);
+
+            //var style = new Style();
+            //// The name of the Storyboard must be registered so the actions can find it
+            //style.RegisterName(storyBoardName, beginStoryboard);
+            //// Add both the EventTrigger and the regular Trigger
+            //style.Triggers.Add(eventTrigger);
+            //style.Triggers.Add(trigger);
+
+            //AssociatedObject.Style = style;
+
 
             //#endregion
 
             //#region Graph Item
 
-            ////
-            //PayloadPacketCountValue.Content = String.Format("{0:0000}", payloadPacketCount);
-            //PayloadAltitudeValue.Content = String.Format("{0:000.0}", payloadAltitude);
-            //PayloadTemperatureValue.Content = String.Format("{0:00.0}", payloadTemperature);
-            //PayloadVoltageValue.Content = String.Format("{0:0.0}", payloadVoltage);
+            //// GPS
+            //PayloadAltGraphLabel.Text = String.Format("{0:0.0}", altitude) + " m";
+            //GPSAltGraphLabel.Text = String.Format("{0:0.0}", gps_altitude) + " m";
+            //LongLatGraphLabel.Text = String.Format("{0:0.00000},{0:0.00000}", gps_longitude, gps_latitude);
 
-            ////Container
-            //ContainerAltitudeGraph.Content = String.Format("{0:000.0}", altitude);
-            //PayloadAltitudeGraph.Content = String.Format("{0:000.0}", payloadAltitude);
-            //GPSAltitudeGraph.Content = String.Format("{0:000.0}", gpsAltitude);
-            //ContainerTemperatureGraph.Content = String.Format("{0:00.0}", temperature);
-            //PayloadTemperatureGraph.Content = String.Format("{0:00.0}", payloadTemperature);
-
-            ////Voltage
-            //ContainerVoltageGraph.Content = String.Format("{0:0.0}", voltage);
-
-            ////Accelerometer
-            //PayloadAccelerometer_R.Content = String.Format("{0:0.00}", payloadAccel_R);
-            //PayloadAccelerometer_P.Content = String.Format("{0:0.00}", payloadAccel_P);
-            //PayloadAccelerometer_Y.Content = String.Format("{0:0.00}", payloadAccel_Y);
-
-            ////Gyrometer
-            //PayloadGyrometer_R.Content = String.Format("{0:0.00}", payloadGyro_R);
-            //PayloadGyrometer_P.Content = String.Format("{0:0.00}", payloadGyro_P);
-            //PayloadGyrometer_Y.Content = String.Format("{0:0.00}", payloadGyro_Y);
-
-            ////Magnetometer
-            //PayloadMagnetometer_R.Content = String.Format("{0:0.00}", payloadMag_R);
-            //PayloadMagnetometer_P.Content = String.Format("{0:0.00}", payloadMag_P);
-            //PayloadMagnetometer_Y.Content = String.Format("{0:0.00}", payloadMag_Y);
+            //// Payload
+            //TemperatureGraphLabel.Text = String.Format("{0:0.0}", temperature) + " °C";
+            //TimeTemperatureMaxGraphLabel.Text = String.Format("{0:00:00:00}", time_max_max_temperature);
+            //TemperatureMaxGraphLabel.Text = String.Format("{0:0.0}", max_max_temperature) + " °C";
+            //VoltageGraphLabel.Text = String.Format("{0:0.0}", voltage) + " V";
+            //TimeVoltageMaxGraphLabel.Text = String.Format("{0:00:00:00}", time_max_max_voltage);
+            //VoltageMaxGraphLabel.Text = String.Format("{0:0.0}", max_max_voltage) + " V";
+            //PressureGraphLabel.Text = String.Format("{0:0.0}", max_max_pressure) + " kPa";
+            //TimePressureMaxGraphLabel.Text = String.Format("{0:00:00:00}", time_max_max_pressure);
+            //PressureMaxGraphLabel.Text = String.Format("{0:0.0}", max_max_pressure);
+            //TiltXandYGraphLabel.Text = String.Format("{0:0.00},{0:0.00}", tilt_x,tilt_y);
 
             //#endregion
 
-            //try
-            //{
-            //    #region Dashboard Item
+            try
+            {
+                //    #region Dashboard Item
 
-            //    teamIDLabel.Content = String.Format("{0:0000}", containerTeamID);
-            //    //missionTimeLabel.Text = DateTime.Now.ToString("hh:mm:ss.ss");
-            //    //missionTimeLabel.Text = String.Format("{00:00:00.00}", containerMissionTime);
-            //    altitudeValue.Content = String.Format("{0:000.0}", altitude);
-            //    altitudeMaxValue.Content = String.Format("{0:000.0}", maxMaxAltitude);
-            //    voltageValue.Content = String.Format("{0:0.00}", voltage);
-            //    temperatureValue.Content = String.Format("{0:00.0}", temperature);
-            //    containerPacketCountValue.Content = String.Format("{0:0000}", containerPacketCount);
-            //    GPSLatitudeValue.Content = String.Format("{0:0.0000}", gpsLatitude);
-            //    GPSLongitudeValue.Content = String.Format("{0:000.0000}", gpsLongitude);
-            //    GPSAltitudeValue.Content = String.Format("{0:000.0}", gpsAltitude);
-            //    GPSSatsValue.Content = String.Format("{0:00}", gpsSatelite);
-            //    GPSTimeValue.Content = String.Format("{0:00:00.00}", gpsTime);
-            //    //softwareStateLabel.Text = String.Format("{0}", softwareState);
-            //    CMDEchoLabel.Content = String.Format("{0}", cmdEcho);
+                //    teamIDLabel.Content = String.Format("{0:0000}", containerTeamID);
+                // GPS
+                GPSTimeLabel.Content = String.Format("{00:00:00}", gps_time);
+                GPSCountLabel.Content = String.Format("{0:00}", gps_sats_count);
+                GPSLongitudeLabel.Content = String.Format("{0:0.0000}", gps_longitude);
+                GPSLatitudeLabel.Content = String.Format("{0:0.0000}", gps_latitude);
+                GPSAltitudeLabel.Content = String.Format("{0:0.0}", gps_altitude);
 
-            //    //
-            //    PayloadPacketCountValue.Content = String.Format("{0:0000}", payloadPacketCount);
-            //    PayloadTemperatureValue.Content = String.Format("{0:00.0}", payloadTemperature);
-            //    PayloadAltitudeValue.Content = String.Format("{0:000.0}", payloadAltitude);
-            //    PayloadVoltageValue.Content = String.Format("{0:0.00}", payloadVoltage);
-            //    payloadSoftwareStateLabel.Content = String.Format("{0}", payloadSoftwareState);
+                // Payload
+                MaxAltitudeLabel.Content = String.Format("{0:0.0}", max_max_altitude);
+                MaxVoltageLabel.Content = String.Format("{0:0.0}", max_max_voltage);
+                MaxTemperatureLabel.Content = String.Format("{0:0.0}", max_max_temperature);
+                MaxPressureLabel.Content = String.Format("{0:0.0}", max_max_pressure);
+                MaxPacketCountLabel.Content = String.Format("{0:0000}", max_max_packetCount);
+                PacketCountLabel.Content = String.Format("{0:0000}", packetCount);
+                AltitudeLabel.Content = String.Format("{0:0.0}", altitude);
+                VoltageLabel.Content = String.Format("{0:0.0}", voltage);
+                TemperatureLabel.Content = String.Format("{0:0.0}", temperature);
+                PressureLabel.Content = String.Format("{0:0.0}", pressure);
+                TiltXLabel.Content = String.Format("{0:0.00}", tilt_x);
+                TiltYLabel.Content = String.Format("{0:0.00}", tilt_y);
+                CMDEchoLabel.Content = String.Format("{0}", cmd_echo);
+                //    #endregion
+                
+                SolidColorBrush red = (SolidColorBrush)new BrushConverter().ConvertFromString("#7D1C1C");
+                SolidColorBrush white = (SolidColorBrush)new BrushConverter().ConvertFromString("#FFFFFF");
+                SolidColorBrush green = (SolidColorBrush)new BrushConverter().ConvertFromString("#5BC12C");
+                SolidColorBrush black = (SolidColorBrush)new BrushConverter().ConvertFromString("#000000");
+                if (pc_status == "N")
+                {
+                    ParachuteReleasedLabel.Background = red;
+                    ParachuteReleasedLabel.Foreground = white;
+                }
+                else
+                {
+                    ParachuteReleasedLabel.Background = green;
+                    ParachuteReleasedLabel.Foreground = black;
+                }
 
-            //    //accelerometer
-            //    ACCEL_RValue.Content = String.Format("{0:0.000}", payloadAccel_R);
-            //    ACCEL_PValue.Content = String.Format("{0:0.000}", payloadAccel_P);
-            //    ACCEL_YValue.Content = String.Format("{0:0.000}", payloadAccel_Y);
+                if (hs_status == "N")
+                {
+                    HeatShieldReleasedLabel.Background = red;
+                    HeatShieldReleasedLabel.Foreground = white;
+                }
+                else
+                {
+                    HeatShieldReleasedLabel.Background = green;
+                    HeatShieldReleasedLabel.Foreground = black;
+                }
+
+                if (mast_status == "N")
+                {
+                    MastRaisedLabel.Background = red;
+                    MastRaisedLabel.Foreground = white;
+                }
+                else
+                {
+                    MastRaisedLabel.Background = green;
+                    MastRaisedLabel.Foreground = black;
+                }
 
 
-            //    //gyro
-            //    GYRO_RValue.Content = String.Format("{0:0.000}", payloadGyro_R);
-            //    GYRO_PValue.Content = String.Format("{0:0.000}", payloadGyro_P);
-            //    GYRO_YValue.Content = String.Format("{0:0.000}", payloadGyro_Y);
+                ParachuteReleasedLabel.Content = String.Format("{0}", pc_status);
+                HeatShieldReleasedLabel.Content = String.Format("{0}", hs_status);
+                MastRaisedLabel.Content = String.Format("{0}", mast_status);
 
-            //    //magnetometer
-            //    MAG_RValue.Content = String.Format("{0:0.000}", payloadMag_R);
-            //    MAG_PValue.Content = String.Format("{0:0.000}", payloadMag_P);
-            //    MAG_YValue.Content = String.Format("{0:0.000}", payloadMag_Y);
+                if (cmd_echo == "SIMENABLE" && mode == "F")
+                {
+                    FlightOnOffSwitch.IsChecked = false;
 
-            //    //pointing error
-            //    pointingErrorValue.Content = String.Format("{0:0.0}", payloadPointingError);
-            //    #endregion
+                    SimulationStatus.Content = "ENABLE";
+                    SimulationStatus.Background = System.Windows.Media.Brushes.ForestGreen;
+                }
+                else if (cmd_echo == "SIMACTIVATE" && mode == "S")
+                {
+                    FlightOnOffSwitch.IsChecked = false;
 
-            //    #region Map Item
+                    SimulationStatus.Content = "ACTIVE";
+                    SimulationStatus.Background = System.Windows.Media.Brushes.ForestGreen;
+                }
+                else if (cmd_echo == "SIMDISABLE" && mode == "F")
+                {
+                    FlightOnOffSwitch.IsChecked = false;
 
-            //    #endregion
-
-            //    PayloadReleased.Content = String.Format("{0}", tpReleased);
-            //    if (tpReleased == "R")
-            //    {
-            //        PayloadReleased.Content = "R";
-            //        PayloadReleasedPane.Background = System.Windows.Media.Brushes.ForestGreen;
-            //    }
-            //    else if (tpReleased == "N")
-            //    {
-            //        PayloadReleased.Content = "N";
-            //        PayloadReleasedPane.Background = System.Windows.Media.Brushes.Firebrick;
-            //    }
-
-            //    if (cmdEcho == "SIMENABLE" && mode == "F")
-            //    {
-            //        FlightOnOffSwitch.IsChecked = false;
-
-            //        SimulationStatus.Content = "ENABLE";
-            //        SimulationStatus.Background = System.Windows.Media.Brushes.ForestGreen;
-            //    }
-            //    else if (cmdEcho == "SIMACTIVATE" && mode == "S")
-            //    {
-            //        FlightOnOffSwitch.IsChecked = false;
-
-            //        SimulationStatus.Content = "ACTIVE";
-            //        SimulationStatus.Background = System.Windows.Media.Brushes.ForestGreen;
-            //    }
-            //    else if (cmdEcho == "SIMDISABLE" && mode == "F")
-            //    {
-            //        FlightOnOffSwitch.IsChecked = false;
-
-            //        SimulationStatus.Content = "DISABLE";
-            //        SimulationStatus.Background = System.Windows.Media.Brushes.Firebrick;
-            //    }
-            //}
-            //catch (NullReferenceException)
-            //{
-            //    return;
-            //}
-            //catch (IndexOutOfRangeException)
-            //{
-            //    return;
-            //}
-            //catch (FormatException)
-            //{
-            //    return;
-            //}
-            //catch (Exception ex)
-            //{
-            //    //System.Diagnostics.Debug.WriteLine("Error - " + ex.Message);
-            //    //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //    return;
-            //}
+                    SimulationStatus.Content = "DISABLE";
+                    SimulationStatus.Background = System.Windows.Media.Brushes.Firebrick;
+                }
+                
+            }
+            catch (NullReferenceException)
+            {
+                return;
+            }
+            catch (IndexOutOfRangeException)
+            {
+                return;
+            }
+            catch (FormatException)
+            {
+                return;
+            }
+            catch
+            {
+                //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
         }
 
         private void PayDataLog()
@@ -740,40 +1180,50 @@ namespace GCS_EEPISAT_04
             {
                 try
                 {
-                    try
+                    if (mode == "S")
+                    {
+                        payloadFileLog = binAppPath + "\\LogData\\SIMULATION\\Flight_" + teamId + ".csv";
+                    } else
+                    {
+                        payloadFileLog = binAppPath + "\\LogData\\FLIGHT\\Flight_" + teamId + ".csv";
+                    }
+                    if (File.Exists(payloadFileLog))
+                    {
+                        string date = DateTime.Now.ToString("yyyy-MM-dd_mm-ss");
+                        //string date = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
+                        if (mode == "S")
                         {
-                            BackgroundWorker worker = new BackgroundWorker();
-                            worker.DoWork += delegate (object s, DoWorkEventArgs args)
+                            if (!Directory.Exists(binAppPath + "\\LogData\\SIMULATION\\" + date + "\\"))
                             {
-                                logDataCountTP = 0;
-                                //LogDataPayload1Indicator.BackColor = Color.FromArgb(52, 168, 83);
-                                clickTP++;
-                                payloadFileLog = binAppPath + "\\LogData\\FLIGHT_1010.csv";
-                                var filePayload = File.Open(payloadFileLog, (FileMode)FileIOPermissionAccess.Append, FileAccess.Write, FileShare.Read);
-                                writePay = new StreamWriter(filePayload, Encoding.GetEncoding(1252));
-                                writePay.AutoFlush = true;
-                                writePay.Write("Team ID, Mission Time, Packet Count, Mode, State, Altitude, HS Deployed," +
-                                               "PC Deployed, Mast Raised, Temperature, Voltage, GPS Time, GPS Altitude, GPS Latitude, GPS Longitude, GPS Sats," +
-                                               "Tilt X, Tilt Y, CMD Echo \n");
-                            };
-                            worker.RunWorkerAsync();
+                                Directory.CreateDirectory(binAppPath + "\\LogData\\SIMULATION\\"+date+"\\");
+                            }
+                            File.Move(payloadFileLog, binAppPath + "\\LogData\\SIMULATION\\" + date + "\\Flight_" + teamId + ".csv");
                         }
-                        catch (NullReferenceException)
+                        else
                         {
-                            return;
+                            if (!Directory.Exists(binAppPath + "\\LogData\\FLIGHT\\" + date + "\\"))
+                            {
+                                Directory.CreateDirectory(binAppPath + "\\LogData\\FLIGHT\\" + date + "\\");
+                            }
+                            File.Move(payloadFileLog, binAppPath + "\\LogData\\FLIGHT\\" + date + "\\Flight_" + teamId + ".csv");
                         }
-                        catch (IndexOutOfRangeException)
-                        {
-                            return;
-                        }
-                        catch (FormatException)
-                        {
-                            return;
-                        }
-                        catch
-                        {
-                            return;
-                        }
+                    } 
+                    BackgroundWorker worker = new BackgroundWorker();
+                    worker.DoWork += delegate (object s, DoWorkEventArgs args)
+                    {
+                        logDataCountTP = 0;
+                        clickTP++;
+                        
+                        
+                        var fileCon = File.Open(payloadFileLog, (FileMode)FileIOPermissionAccess.Append, FileAccess.Write, FileShare.Read);
+                        writePay = new StreamWriter(fileCon, Encoding.GetEncoding(1252));
+
+                        writePay.AutoFlush = true;
+                        writePay.Write("TEAM_ID,MISSION_TIME,PACKET_COUNT,MODE,STATE,ALTITUDE,HS_DEPLOYED," +
+                                        "PC_DEPLOYED,MAST_RAISED,TEMPERATURE,PRESSURE,VOLTAGE,GPS_TIME, GPS_ALTITUDE,GPS_LATITUDE,GPS_LONGITUDE,GPS_SATS," +
+                                        "TILT_X,TILT_Y,CMD_ECHO \n");
+                    };
+                    worker.RunWorkerAsync();
                 }
                 catch (NullReferenceException)
                 {
@@ -798,65 +1248,43 @@ namespace GCS_EEPISAT_04
             }
         }
 
-
         private void WriteLogPayload()
         {
-                try
+            try
                 {
-                    try
-                        {
-                            string dataBuffer = String.Format("{0:0000}", teamId);
-                            writePay.Write("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18}\n"
-                                         , teamId, missionTime, packetCount, mode
-                                         , state, altitude, hs_status, pc_status, mast_status,
-                                         temperature, voltage, gps_time, gps_altitude, gps_latitude, gps_longitude, 
-                                         gps_sats_count, tilt_x, tilt_y, cmd_echo);
-                            writePay.Flush();
-                            DataTable PayloadDataCsv;
-                            DataPayload dtp = new DataPayload();
-                            dtp.Pteamid = teamId;
-                            dtp.Pmissiontime = missionTime;
-                            dtp.Ppacketcount = packetCount;
-                            dtp.Pmode = mode;
-                            dtp.Pstate = state;
-                            dtp.Paltitude = altitude;
-                            dtp.Pmast_status = mast_status;
-                            dtp.Phs_status = hs_status;
-                            dtp.Ppc_status = pc_status;
-                            dtp.Pmast_status = mast_status;
-                            dtp.Ptemperature = temperature;
-                            dtp.Pvoltage = voltage;
-                            dtp.Pgps_time = gps_time;
-                            dtp.Pgps_altitude = gps_altitude;
-                            dtp.Pgps_latitude = gps_latitude;
-                            dtp.Pgps_longitude = gps_longitude;
-                            dtp.Pgps_sats_count = gps_sats_count;
-                            dtp.Ptilt_x = tilt_x;
-                            dtp.Ptilt_y = tilt_y;
-                            dtp.Pcmd_echo = cmd_echo;
+                    writePay.Write("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19}\n"
+                                    , teamId, missionTime, packetCount, mode
+                                    , state, altitude, hs_status, pc_status, mast_status,
+                                    temperature, pressure, voltage, gps_time, gps_altitude, gps_latitude, gps_longitude,
+                                    gps_sats_count, tilt_x, tilt_y, cmd_echo);
+                    writePay.Flush();
+                    DataPayload dtp = new DataPayload();
+                    dtp.Pteamid = teamId;
+                    dtp.Pmissiontime = missionTime;
+                    dtp.Ppacketcount = packetCount;
+                    dtp.Pmode = mode;
+                    dtp.Pstate = state;
+                    dtp.Paltitude = altitude;
+                    dtp.Phs_status = hs_status;
+                    dtp.Ppc_status = pc_status;
+                    dtp.Pmast_status = mast_status;
+                    dtp.Ptemperature = temperature;
+                    dtp.Ppressure = pressure;
+                    dtp.Pvoltage = voltage;
+                    dtp.Pgps_time = gps_time;
+                    dtp.Pgps_altitude = gps_altitude;
+                    dtp.Pgps_latitude = gps_latitude;
+                    dtp.Pgps_longitude = gps_longitude;
+                    dtp.Pgps_sats_count = gps_sats_count;
+                    dtp.Ptilt_x = tilt_x;
+                    dtp.Ptilt_y = tilt_y;
+                    dtp.Pcmd_echo = cmd_echo;
 
-                            Dispatcher.BeginInvoke((Action)(() =>
-                            {
-                                //PayloadDataCSv.Items.Add(dtp);
-                                //PayloadDataCSv.ScrollIntoView(PayloadDataCSv.Items[PayloadDataCSv.Items.Count - 1]);
-                            }));
-                        }
-                        catch (NullReferenceException)
-                        {
-                            return;
-                        }
-                        catch (IndexOutOfRangeException)
-                        {
-                            return;
-                        }
-                        catch (FormatException)
-                        {
-                            return;
-                        }
-                        catch
-                        {
-                            return;
-                        }
+                    Dispatcher.BeginInvoke((Action)(() =>
+                    {
+                        PayloadDataCsv.Items.Add(dtp);
+                        PayloadDataCsv.ScrollIntoView(PayloadDataCsv.Items[PayloadDataCsv.Items.Count - 1]);
+                    }));
                 }
                 catch (NullReferenceException)
                 {
@@ -888,6 +1316,7 @@ namespace GCS_EEPISAT_04
             public String Ppc_status { get; set; }
             public String Pmast_status { get; set; }
             public Double Ptemperature { get; set; }
+            public Double Ppressure { get; set; }
             public Double Pvoltage { get; set; }
             public String Pgps_time { get; set; }
             public Double Pgps_altitude { get; set; }
@@ -905,26 +1334,28 @@ namespace GCS_EEPISAT_04
             {
                 if (watcher.Position.Location.IsUnknown)
                 {
-                    //GCSLocationStatus.Content = "Can't get GCS location";
-                    //GCSLocationStatusPane.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(234, 67, 53));
+                    GCSStatusText.Content = "Out Of Service";
+                    GCSStatusIcon.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromRgb(255, 0, 0));
                 }
                 else
                 {
-                    //GCSLocationStatus.Content = "GCS Location Founded";
-                    //GCSLatitudeValue.Content = String.Format("{0:00.0000}", watcher.Position.Location.Latitude);
-                    //GCSLongitudeValue.Content = String.Format("{0:000.0000}", watcher.Position.Location.Longitude);
-                    //GCSLocationStatusPane.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(52, 168, 83));
+                    GCSStatusText.Content = "In Service";
+                    GCSCoordinateText.Content = String.Format("{0:00.0000}, {0:00.0000}", watcher.Position.Location.Latitude, watcher.Position.Location.Longitude);
+                    GCSStatusIcon.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 255, 0));
                 }
             }
         }
 
         private void shutdownBtnClick(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result =  MessageBox.Show("Are you sure to shutdown the GCS?", "", MessageBoxButton.OKCancel);
+            MessageBoxResult result =  System.Windows.MessageBox.Show("Are you sure to shutdown the GCS?", "", MessageBoxButton.OKCancel);
             switch (result)
             {
                 case MessageBoxResult.OK:
-                    Application.Current.Shutdown();
+                    SoundPlayer player = new SoundPlayer(binAppPath + "/Audio/GCSSTOP.wav");
+                    player.Play();
+                    Thread.Sleep(3000);
+                    System.Windows.Application.Current.Shutdown();
                     break;
                 case MessageBoxResult.Cancel:
                     break;
@@ -933,12 +1364,15 @@ namespace GCS_EEPISAT_04
 
         private void restartBtnClick(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Are you sure to restart the GCS?", "", MessageBoxButton.OKCancel);
+            MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure to restart the GCS?", "", MessageBoxButton.OKCancel);
             switch (result)
             {
                 case MessageBoxResult.OK:
-                    System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
-                    Application.Current.Shutdown();
+                    SoundPlayer player = new SoundPlayer(binAppPath + "/Audio/GCSRESTART.wav");
+                    player.Play();
+                    Thread.Sleep(3000);
+                    Process.Start(System.Windows.Application.ResourceAssembly.Location);
+                    System.Windows.Application.Current.Shutdown();
                     break;
                 case MessageBoxResult.Cancel:
                     break;
@@ -959,15 +1393,14 @@ namespace GCS_EEPISAT_04
                 x = estimatedChargeRemaining;
                 y = estimatedTimeRemaining;
 
-                batteryPercentage.Height = Convert.ToDouble(estimatedChargeRemaining);
+                batteryPercentage.Width = Convert.ToDouble(estimatedChargeRemaining);
                 lblBatteryStatus.Content = Convert.ToString(estimatedChargeRemaining) + "%" + " ";
-                jumlahDataRegLin++;
             }
-
-            sumX += x;
-            sumX2 += x*x;
-            sumY += y;
-            sumXY += x*y;
+            jumlahDataRegLin+=2;
+            sumX += (x*2);
+            sumX2 += (x * 2) * (x * 2);
+            sumY += (y*2);
+            sumXY += (x * 2) * (y * 2);
             m = (jumlahDataRegLin * sumXY - sumX * sumY) / (jumlahDataRegLin*sumX2-sumX*sumX);
             c = (sumY - m*sumX) / jumlahDataRegLin;
             hasilRegLin = c + (m * x);
@@ -975,20 +1408,20 @@ namespace GCS_EEPISAT_04
             if (y == 71582788)
             {
                 var converter = new System.Windows.Media.BrushConverter();
-                var brush = (Brush)converter.ConvertFromString("#00FF00");
+                var brush = (System.Windows.Media.Brush)converter.ConvertFromString("#00FF00");
                 batteryPercentage.Background = brush;
                 final = "On Charging";
             }
             else if (y < 30)
             {
                 var converter = new System.Windows.Media.BrushConverter();
-                var brush = (Brush)converter.ConvertFromString("#FFFF00");
+                var brush = (System.Windows.Media.Brush)converter.ConvertFromString("#FFFF00");
                 batteryPercentage.Background = brush;
             }
             else if (y < 10)
             {
                 var converter = new System.Windows.Media.BrushConverter();
-                var brush = (Brush)converter.ConvertFromString("#FF0000");
+                var brush = (System.Windows.Media.Brush)converter.ConvertFromString("#FF0000");
                 batteryPercentage.Background = brush;
             }
             lblBatteryStatus.Content += final;
@@ -1001,12 +1434,37 @@ namespace GCS_EEPISAT_04
                 sumXY = 0;
             }
         }
+        
+        private void GetGraph()
+        {
+            // Graph
+            //var graph = new WPFGraph.ViewModel();
+            //graph.AddItem(altitude);
+            var clickBtn = new GraphGCS04.UsersControl.GraphExample();
+            clickBtn.CallClickAltitude(altitude);
+        }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
             GetBatteryPercent();
+            GetPerformanceIndicator();
         }
 
+        private void SerialControlTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            SerialControlTextBox.ScrollToEnd();
+        }
+
+        private void GetPerformanceIndicator()
+        {
+            PerformanceCounter cpuCounter;
+            PerformanceCounter ramCounter;
+            cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
+            ramCounter = new PerformanceCounter("Memory", "Available MBytes");
+            lblCPU.Content = cpuCounter.NextValue() + "%";
+            lblRAM.Content = ramCounter.NextValue() + "MB";
+                
+        }
 
         private void SimToggleBtn_checked(object sender, RoutedEventArgs e)
         {
@@ -1050,15 +1508,107 @@ namespace GCS_EEPISAT_04
 
         private void ImportImageButton_Click(object sender, RoutedEventArgs e)
         {
-
+            openFileDialog = new Microsoft.Win32.OpenFileDialog();
+            openFileDialog.Multiselect = true;
+            openFileDialog.Filter = "CSV Files (*.csv)|*.csv|TXT Files(*.txt)|*.txt|All files (*.*)|*.*";
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            if (openFileDialog.ShowDialog() == true)
+            {
+                csvTextBox.Text = openFileDialog.FileName;
+                BindData(csvTextBox.Text);
+            }
         }
+
+        private void BindData(string filePath) //Pengambilan Data
+        {
+            try
+            {
+                string ext = Path.GetExtension(filePath);
+                DataTable dt = new DataTable();
+                if(ext == ".csv")
+                {
+                    string[] data = File.ReadAllLines(filePath);
+                    string[] kolom = null;
+                    int x = 0;
+
+                    foreach (string baris in data)
+                    {
+                        kolom = baris.Split(',');
+
+                        if (x == 0)
+                        {
+                            for (int i = 0; i <= kolom.Count() - 1; i++)
+                            {
+                                dt.Columns.Add(kolom[i]);
+                            }
+                            x++;
+                        }
+                        else
+                        {
+                            kolom[1] = teamId.ToString();
+                            dt.Rows.Add(kolom);
+                        }
+                    
+                    }
+                } else if(ext == ".txt")
+                {
+                    using (StreamReader file = new StreamReader(filePath))
+                    {
+                        
+                        string ln;
+                        string[] kolom = null;
+                        string[] header = { "Command", "Team ID", "Simp", "Pressure"};
+                        int x = 0;
+                        while ((ln = file.ReadLine()) != null)
+                        {
+                            if (ln.StartsWith("#")) continue;
+                            if (ln == "") continue;
+                            kolom = ln.Split(',');
+                            kolom[1] = teamId.ToString();
+                            if(x==0)
+                            {
+                                for (int i = 0; i <= kolom.Count() - 1; i++)
+                                {
+                                    dt.Columns.Add(header[i]);
+                                }
+                                x++;
+                            }
+                            if(x!=0)
+                            {
+                                dt.Rows.Add(kolom);
+                            }
+                        }
+                        file.Close();
+                    }
+                } else
+                {
+                    System.Windows.Forms.MessageBox.Show("File yang anda pilih bukan file CSV atau TXT");
+                }
+                DataCsv.ItemsSource = dt.DefaultView;
+                DataCsv.ScrollIntoView(DataCsv.Items[DataCsv.Items.Count - 1]);
+
+            }
+            catch (IndexOutOfRangeException)
+            {
+                return;
+            }
+            catch (FormatException)
+            {
+                return;
+            }
+            catch
+            {
+                return;
+            }
+        }
+        
         private void ConnectPortBtn_Click(object sender, RoutedEventArgs e)
         {
             if (_serialPort.IsOpen == false)
             {
                 try
                 {
-                    //ConnectPort.Image = Properties.Resources.icon_Disconnect;
+                    //ConnectPortBtn. = Properties.Resources.icon_Disconnect;
                     if (ComportDropdown.SelectedItem == null)
                     {
                         //bgmessagebox.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#FFD93D");
@@ -1070,7 +1620,6 @@ namespace GCS_EEPISAT_04
                         //winhost.Visibility = Visibility.Hidden;
                         //MessageOK1.Focus();
                         //CMBox.Visibility = Visibility.Visible;
-                        //screenfilter.Visibility = Visibility.Visible;
                     }
 
                     else if (BaudrateDropdown.SelectedItem == null)
@@ -1084,38 +1633,28 @@ namespace GCS_EEPISAT_04
                         //winhost.Visibility = Visibility.Hidden;
                         //MessageOK1.Focus();
                         //CMBox.Visibility = Visibility.Visible;
-                        //screenfilter.Visibility = Visibility.Visible;
                     }
 
                     else
                     {
                         _serialPort.PortName = ComportDropdown.SelectedItem.ToString();
                         _serialPort.BaudRate = Convert.ToInt32(BaudrateDropdown.SelectedItem);
-                        _serialPort.NewLine = "\n";
+                        _serialPort.NewLine = "\r";
                         _serialPort.Close();
                         _serialPort.Open();
                         PortStatus.Content = "Connected To Serial Port";
+                        SerialPortStatus.Content = "Connected";
                         PortStatusPane.Background = System.Windows.Media.Brushes.ForestGreen;
                         ConnectPortBtn.Visibility = Visibility.Hidden;
                         DisconnectPortBtn.Visibility = Visibility.Visible;
-                        timergraph.Start();
+                        CMDTextBox1.IsReadOnly = false;
+
+                        //timergraph.Start();
                     }
                 }
                 catch (Exception ex)
                 {
                     System.Diagnostics.Debug.WriteLine("Error - " + ex.Message);
-                    #region messageBox
-                    //bgmessagebox.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#FFD93D");
-                    //TBContent.Text = "Error!";
-                    //TBContent1.Text = ex.Message;
-                    //MessageOK.Visibility = Visibility.Hidden;
-                    //MessageNO.Visibility = Visibility.Hidden;
-                    //MessageOK1.Visibility = Visibility.Visible;
-                    //winhost.Visibility = Visibility.Hidden;
-                    //MessageOK1.Focus();
-                    //CMBox.Visibility = Visibility.Visible;
-                    //screenfilter.Visibility = Visibility.Visible;
-                    #endregion
                     PortStatus.Content = "Can't Connect To Serial Port, Try Again!";
                     PortStatusPane.Background = System.Windows.Media.Brushes.Firebrick;
                     return;
@@ -1124,11 +1663,781 @@ namespace GCS_EEPISAT_04
         }
         private void DisconnectPortBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            if (_serialPort.IsOpen == true)
+            {
+                try
+                {
+                    _serialPort.Close();
+                    PortStatus.Content = "Disconnected From Serial Port";
+                    SerialPortStatus.Content = "Disconnected";
+                    SerialDataStatus.Content = "Idle";
+                    PortStatusPane.Background = System.Windows.Media.Brushes.Firebrick;
+                    ConnectPortBtn.Visibility = Visibility.Visible;
+                    DisconnectPortBtn.Visibility = Visibility.Hidden;
+                    CMDTextBox1.IsReadOnly = true;
+                    timergraph.Stop();
+                }
+                catch
+                {
+                    #region messageBox
+                    //bgmessagebox.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#FFD93D");
+                    //TBContent.Text = "Warning!";
+                    //TBContent1.Text = "Serial Port Error!";
+                    //MessageOK.Visibility = Visibility.Hidden;
+                    //MessageNO.Visibility = Visibility.Hidden;
+                    //MessageOK1.Visibility = Visibility.Visible;
+                    //winhost.Visibility = Visibility.Hidden;
+                    //MessageOK1.Focus();
+                    //CMBox.Visibility = Visibility.Visible;
+                    //screenfilter.Visibility = Visibility.Visible;
+                    #endregion
+                    return;
+                }
+            }
         }
         private void RestartPortBtn_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                _serialPort.Close();
+                PortStatus.Content = "Disconnected From Serial Port";
+                PortStatusPane.Background = System.Windows.Media.Brushes.Firebrick;
 
+                ComportDropdown.SelectedValue = null;
+                BaudrateDropdown.SelectedValue = null;
+
+                ConnectPortBtn.Visibility = Visibility.Visible;
+                DisconnectPortBtn.Visibility = Visibility.Hidden;
+
+                string[] CompPorts = SerialPort.GetPortNames();
+                ComportDropdown.Items.Clear();
+                foreach (string ComPort in CompPorts)
+                {
+                    ComportDropdown.Items.Add(ComPort);
+                }
+            }
+            catch
+            {
+                return;
+            }
         }
+
+        private void HelixViewport3D_Load()
+        {
+            ModelImporter import = new ModelImporter();
+            Model3DGroup model1 = import.Load(fileobj);
+
+           
+            model.Content = model1;
+        }
+
+        private void settingNavClick(object sender, RoutedEventArgs e)
+        {
+            MainPage.SelectedIndex = 4;
+        }
+        
+        private void simDataClick(object sender, RoutedEventArgs e)
+        {
+            DataPage.SelectedIndex = 0;
+        }
+        
+        private void payloadDataClick(object sender, RoutedEventArgs e)
+        {
+            DataPage.SelectedIndex = 1;
+        }
+
+        
+        private void CommandToPayload()
+        {
+            if (CMDTextBox1.GetLineText(0) == "" && lineCommand == 0)
+            {
+                CMDTextBox2.Text = Emoji.Use.Robot_Face + "Enter a command first my lord....";
+            }
+            else
+            {
+                string line = CMDTextBox1.GetLineText(0);
+                if (line == "CMD,1085,CAL")
+                {
+                    try
+                    {
+                        string cmd = "CMD,1085,CAL";
+
+                        _serialPort.WriteLine(cmd);
+
+                        stepData = Sequencer.readSensor;
+
+                        CMDTextBox2.Text += "\r\n" + Emoji.Use.Information_Source + "Payload is calibrating...." + "\r\n";
+                        CMDTextBox2.ScrollToEnd();
+
+                        SerialDataStatus.Content = "CAL";
+
+                        SoftwareStateLabel.Text = "BOOT";
+
+
+                        MaxAltitudeLabel.Content = String.Format("{0:0.0}", 0);
+                        MaxVoltageLabel.Content = String.Format("{0:0.0}", 0);
+                        MaxTemperatureLabel.Content = String.Format("{0:0.0}", 0);
+                        MaxPressureLabel.Content = String.Format("{0:0.0}", 0);
+                        MaxPacketCountLabel.Content = String.Format("{0:0000}", 0);
+
+                        SolidColorBrush red = (SolidColorBrush)new BrushConverter().ConvertFromString("#7D1C1C");
+                        SolidColorBrush white = (SolidColorBrush)new BrushConverter().ConvertFromString("#FFFFFF");
+
+                        ParachuteReleasedLabel.Background = red;
+                        ParachuteReleasedLabel.Foreground = white;
+
+                        HeatShieldReleasedLabel.Background = red;
+                        HeatShieldReleasedLabel.Foreground = white;
+
+                        MastRaisedLabel.Background = red;
+                        MastRaisedLabel.Foreground = white;
+
+
+                        SoundPlayer player = new SoundPlayer(binAppPath + "/Audio/CAL.wav");
+                        player.Play();
+                        CMDTextBox1.Clear();
+                        CMDShortcut.SelectedIndex = -1;
+                    }
+                    catch
+                    {
+                        return;
+                    }
+
+
+                }
+                else if (line == "CMD,1085,PX,ON")
+                {
+                    try
+                    {
+                        string cmd = "CMD,1085,PX,ON";
+                        _serialPort.WriteLine(cmd);
+
+                        stepData = Sequencer.readSensor;
+
+                        CMDTextBox2.Text += "\r\n" + Emoji.Use.Information_Source + "Activating payload telemetry......" + "\r\n";
+                        CMDTextBox2.ScrollToEnd();
+
+                        SerialDataStatus.Content = "PXON";
+                        SoundPlayer player = new SoundPlayer(binAppPath + "/Audio/PXON.wav");
+                        player.Play();
+                        CMDTextBox1.Clear();
+                        CMDShortcut.SelectedIndex = -1;
+                    }
+                    catch
+                    {
+                        return;
+                    }
+                }
+                else if (line == "CMD,1085,PX,OFF")
+                {
+                    try
+                    {
+                        string cmd = "CMD,1085,PX,OFF";
+
+                        _serialPort.WriteLine(cmd);
+
+                        stepData = Sequencer.readSensor;
+
+                        CMDTextBox2.Text += "\r\n" + Emoji.Use.Information_Source + "Deactivating  payload telemetry" + "\r\n";
+                        CMDTextBox2.ScrollToEnd();
+
+                        SerialDataStatus.Content = "PXOFF";
+                        SoundPlayer player = new SoundPlayer(binAppPath + "/Audio/PXOFF.wav");
+                        player.Play();
+                        CMDTextBox1.Clear();
+                        CMDShortcut.SelectedIndex = -1;
+                    }
+                    catch
+                    {
+                        return;
+                    }
+                }
+                else if (line.Contains("CMD,1085,ST,"))
+                {
+                    try
+                    {
+                        string lineSplit = line.Split(',')[3];
+                        string pattern = @"^([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$";
+                        if (lineSplit == "GPS")
+                        {
+                            try
+                            {
+                                string cmd = "CMD,1085,ST,GPS";
+
+                                _serialPort.WriteLine(cmd);
+
+                                stepData = Sequencer.readSensor;
+
+                                CMDTextBox2.Text += "\r\n" + Emoji.Use.Clock1 + "Setting payload time by GPS....." + "\r\n";
+                                CMDTextBox2.ScrollToEnd();
+
+                                SerialDataStatus.Content = "STGPS";
+                                SoundPlayer player = new SoundPlayer(binAppPath + "/Audio/STGPS.wav");
+                                player.Play();
+                                CMDTextBox1.Clear();
+                                CMDShortcut.SelectedIndex = -1;
+                            }
+                            catch
+                            {
+                                return;
+                            }
+
+                        }
+                        else if (Regex.IsMatch(lineSplit, pattern))
+                        {
+                            try
+                            {
+                                string cmd = "CMD,1085,ST," + lineSplit;
+
+                                _serialPort.WriteLine(cmd);
+
+                                stepData = Sequencer.readSensor;
+
+                                CMDTextBox2.Text += "\r\n" + Emoji.Use.Clock1 + "Set time payload by UTC...." + "\r\n";
+                                CMDTextBox2.ScrollToEnd();
+
+                                SerialDataStatus.Content = "ST" + lineSplit;
+                                SoundPlayer player = new SoundPlayer(binAppPath + "/Audio/STUTC.wav");
+                                player.Play();
+                                CMDTextBox1.Clear();
+                                CMDShortcut.SelectedIndex = -1;
+                            }
+                            catch
+                            {
+                                return;
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        return;
+                    }
+                }
+                else if (line == "CMD,1085,SIM,ENABLE")
+                {
+                    try
+                    {
+                        string cmd = "CMD,1085,SIM,ENABLE";
+
+                        _serialPort.WriteLine(cmd);
+
+                        stepData = Sequencer.readSensor;
+
+                        CMDTextBox2.Text += "\r\n" + Emoji.Use.Rotating_Light + "Enable payload simulation mode...." + "\r\n";
+                        CMDTextBox2.ScrollToEnd();
+
+                        SerialDataStatus.Content = "SIMENABLE";
+                        SoundPlayer player = new SoundPlayer(binAppPath + "/Audio/SIMENABLE.wav");
+                        player.Play();
+                        CMDTextBox1.Clear();
+                        CMDShortcut.SelectedIndex = -1;
+                    }
+                    catch
+                    {
+                        return;
+                    }
+                }
+                else if (line == "CMD,1085,SIM,DISABLE")
+                {
+                    try
+                    {
+                        string cmd = "CMD,1085,SIM,DISABLE";
+
+                        _serialPort.WriteLine(cmd);
+
+                        stepData = Sequencer.readSensor;
+
+                        SerialDataStatus.Content = "SIMDISABLE";
+                        CMDTextBox2.Text += "\r\n" + Emoji.Use.No_Entry + "Disable payload simulation mode...." + "\r\n";
+                        CMDTextBox2.ScrollToEnd();
+
+                        SimulationStatus.Content = "DISABLE";
+                        SimulationStatusPane.Background = System.Windows.Media.Brushes.Firebrick;
+
+                        FlightOnOffSwitch.IsChecked = true;
+
+                        timerSimulation.Stop();
+                        timerCSV = 0;
+
+                        SoundPlayer player = new SoundPlayer(binAppPath + "/Audio/SIMDISABLE.wav");
+                        player.Play();
+                        CMDTextBox1.Clear();
+                        CMDShortcut.SelectedIndex = -1;
+                    }
+                    catch
+                    {
+                        return;
+                    }
+                }
+                else if (line == "CMD,1085,SIM,ACTIVATE")
+                {
+                    try
+                    {
+                        string cmd = "CMD,1085,SIM,ACTIVATE";
+
+                        _serialPort.WriteLine(cmd);
+
+                        stepData = Sequencer.readSensor;
+
+                        CMDTextBox2.Text += "\r\n" + Emoji.Use.Construction + "Activating payload simulation......" + "\r\n";
+                        CMDTextBox2.ScrollToEnd();
+
+                        FlightOnOffSwitch.IsChecked = false;
+                        SimulationStatus.Content = "ACTIVATE";
+                        SimulationStatusPane.Background = System.Windows.Media.Brushes.ForestGreen;
+                        SerialDataStatus.Content = "SIMACTIVATE";
+                        SoundPlayer player = new SoundPlayer(binAppPath + "/Audio/SIMACTIVATE.wav");
+                        player.Play();
+                        CMDTextBox1.Clear();
+                        CMDShortcut.SelectedIndex = -1;
+                    }
+                    catch
+                    {
+                        return;
+                    }
+                }
+                else if (line.Contains("CMD,1085,SIMP,"))
+                {
+                    string lineSplit = line.Split(',')[3];
+                    if (SimulationStatus.Content != "ACTIVATE" && FlightOnOffSwitch.IsChecked == true)
+                    {
+                        CMDTextBox2.Text += "\r\n" + Emoji.Use.Loudspeaker + "Enable and Activate simulation mode to use this command!" + "\r\n";
+                        CMDTextBox2.ScrollToEnd();
+                    }
+                    if (lineSplit == "PRESSURE")
+                    {
+
+                        try
+                        {
+
+                            if (openFileDialog == null)
+                            {
+                                CMDTextBox2.Text += "\r\n" + Emoji.Use.Loudspeaker + "Please import simulation data....." + "\r\n";
+                                CMDTextBox2.ScrollToEnd();
+                            }
+                            else
+                            {
+                                CMDTextBox2.Text += "\r\n" + Emoji.Use.Open_File_Folder + "Pressure Simulation Activated....." + "\r\n";
+                                CMDTextBox2.ScrollToEnd();
+
+                                sendCSV();
+
+                                SoundPlayer player = new SoundPlayer(binAppPath + "/Audio/SIMP.wav");
+                                player.Play();
+                                CMDTextBox1.Clear();
+                                CMDShortcut.SelectedIndex = -1;
+                            }
+                        }
+                        catch
+                        {
+                            return;
+                        }
+                    }
+                    else if (int.TryParse(lineSplit, out _))
+                    {
+                        string cmd = "CMD,1085," + lineSplit;
+
+                        _serialPort.WriteLine(cmd);
+
+                        stepData = Sequencer.readSensor;
+
+                        CMDTextBox2.Text += "\r\n" + Emoji.Use.Pencil + "PRESSURE " + lineSplit + " is being sended....." + "\r\n";
+                        CMDTextBox2.ScrollToEnd();
+
+                        SerialDataStatus.Content = "SIMP" + lineSplit;
+                        SoundPlayer player = new SoundPlayer(binAppPath + "/Audio/SIMP.wav");
+                        player.Play();
+                        CMDTextBox1.Clear();
+                        CMDShortcut.SelectedIndex = -1;
+                    }
+                    else
+                    {
+                        CMDTextBox2.Text += "\r\n" + Emoji.Use.Loudspeaker + "Please enter the correct SIMP command!" + "\r\n";
+                        CMDTextBox2.ScrollToEnd();
+                    }
+                }
+                else if (line.Contains("CMD,1085,"))
+                {
+                    string lineSplit = line.Split(',')[2];
+                    try
+                    {
+                        string words;
+                        string words_status;
+                        if (lineSplit == "LCK")
+                        {
+                            words = "Lock";
+                            words_status = "LCK_MECHANISM";
+
+                        }
+                        else if (lineSplit == "HSR")
+                        {
+                            words = "Heat Shield";
+                            words_status = "HS_RELEASED";
+                        }
+                        else if (lineSplit == "UPR")
+                        {
+                            words = "Uprighting";
+                            words_status = "HS_MECHANISM";
+                        }
+                        else
+                        {
+                            return;
+                        }
+                        string cmd = "CMD,1085," + lineSplit;
+
+                        _serialPort.WriteLine(cmd);
+
+                        stepData = Sequencer.readSensor;
+
+                        CMDTextBox2.Text += "\r\n" + Emoji.Use.Wrench + " " + words + " Mechanism Activated" + "\r\n";
+                        CMDTextBox2.ScrollToEnd();
+
+                        SerialDataStatus.Content = words_status;
+                        SoundPlayer player = new SoundPlayer(binAppPath + "/Audio/MECHANISM.wav");
+                        player.Play();
+                        CMDTextBox1.Clear();
+                        CMDShortcut.SelectedIndex = -1;
+                    }
+                    catch
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    CMDTextBox2.Text += "\r\n" + Emoji.Use.Information_Source + "----+The Command You entered Is Not Recognized.+----" + "\r\n";
+                    CMDTextBox2.ScrollToEnd();
+
+                    SoundPlayer player = new SoundPlayer(binAppPath + "/Audio/TRY.wav");
+                    player.Play();
+                    CMDTextBox1.Clear();
+                }
+            }
+        }
+
+        public void CMDTextBox_KeyPress(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+
+            if (_serialPort.IsOpen == true)
+            {
+
+                _serialPort.DiscardInBuffer();
+                _serialPort.DiscardOutBuffer();
+
+                try
+                {
+                    if (e.Key == Key.Return)
+                    {
+                        e.Handled = true;
+                        CommandToPayload();
+                    }
+                } catch
+                {
+                    return;
+                }
+            } else
+            {
+                try
+                {
+                    if(e.Key == Key.Return)
+                    {
+                        e.Handled = true;
+                        SoundPlayer player = new SoundPlayer(binAppPath + "/Audio/CONNECTTO.wav");
+                        CMDTextBox2.Text += "\r\n" + Emoji.Use.Information_Source + "Connect To Serial Port First!" + "\r\n";
+                        CMDTextBox1.Clear();
+                    }
+                } catch
+                {
+                    return;
+                }
+            }
+        }
+
+        public void CMDSendButtonClick(object sender, EventArgs e)
+        {
+            if (_serialPort.IsOpen == true)
+            {
+
+                _serialPort.DiscardInBuffer();
+                _serialPort.DiscardOutBuffer();
+
+                try
+                {
+                    CommandToPayload();
+                }
+                catch
+                {
+                    return;
+                }
+            }
+            else
+            {
+                try
+                {
+                    SoundPlayer player = new SoundPlayer(binAppPath + "/Audio/CONNECTTO.wav");
+                    CMDTextBox2.Text += "\r\n" + Emoji.Use.Information_Source + "Connect To Serial Port First!" + "\r\n";
+                    CMDTextBox1.Clear();
+                }
+                catch
+                {
+                    return;
+                }
+            }
+        }
+
+        private void timerSimulation_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                string cmd = "CMD,1085,SIMP," + Col4[timerCSV] + "\r";
+                _serialPort.Write(cmd);
+                stepData = Sequencer.readSensor;
+                SerialDataStatus.Content = "SIMP"+ Col4[timerCSV];
+                SerialControlTextBox.Text += Emoji.Use.Pencil + " CMD,1085,SIMP," + Col4[timerCSV] + "\n";
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
+            timerCSV++;
+        }
+
+        private void sendCSV()
+        {
+            try
+            {
+                var filePath = openFileDialog.FileName;
+
+                using (StreamReader reader = new StreamReader(filePath))
+                {
+                    string line;
+
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        while (!reader.EndOfStream)
+                        {
+                            string data = reader.ReadLine();
+
+                            if (!data.Contains(@"#"))
+                            {
+                                var values = data.Split(',');
+
+                                if (!values.Any(s => s == ""))
+                                {
+                                    string field = values[3];
+                                    Col4.Add(field);
+                                }
+                            }
+                        }
+                        timerSimulation.Start();
+                    }
+                }
+            } catch
+            {
+                return; 
+            }
+        }
+
+        private void btnCsv_Click(object sender, EventArgs e)
+        {
+            if (PayloadDataCsv.Items.Count > 0)
+            {
+                System.Windows.Forms.SaveFileDialog sfd = new System.Windows.Forms.SaveFileDialog();
+                sfd.Filter = "CSV (*.csv)|*.csv";
+                sfd.FileName = "Flight_"+teamId+".csv";
+                bool fileError = false;
+                if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+
+                    if (File.Exists(sfd.FileName))
+                    {
+
+                        try
+                        {
+                            File.Delete(sfd.FileName);
+                        }
+                        catch (IOException ex)
+                        {
+                            fileError = true;
+                            System.Windows.Forms.MessageBox.Show("It wasn't possible to write the data to the disk." + ex.Message);
+                        }
+                    }
+                    if (!fileError)
+                    {
+
+                        try
+                        {
+                            int columnCount = PayloadDataCsv.Columns.Count;
+                            string columnNames = "";
+                            string[] outputCsv = new string[10000];
+                            for (int i = 0; i < columnCount; i++)
+                            {
+                                columnNames += PayloadDataCsv.Columns[i].Header.ToString() + ",";
+                            }
+                            outputCsv[0] += columnNames;
+                            
+                            var cellInfos = PayloadDataCsv.SelectedCells;
+                            System.Diagnostics.Debug.WriteLine("Count - " + PayloadDataCsv.Items.Count);
+
+                            
+                            for (int i = 0; i < PayloadDataCsv.Items.Count; i++)
+                            {
+                                for (int j = 0; j < PayloadDataCsv.Columns.Count; j++)
+                                {
+                                    System.Diagnostics.Debug.WriteLine("Count - " + PayloadDataCsv.Items.Count + " " + i + " " + j);
+                                    var cellContent = PayloadDataCsv.Columns[j].GetCellContent(PayloadDataCsv.Items[i]);
+                                    if (cellContent != null && cellContent is TextBlock)
+                                    {
+                                        var konten = (cellContent as TextBlock).Text;
+                                        System.Diagnostics.Debug.WriteLine("Test - " + konten);
+                                        outputCsv[i + 1] += konten + ",";
+                                    }
+                                }
+                            }
+
+
+                            File.WriteAllLines(sfd.FileName, outputCsv, Encoding.UTF8);
+                            System.Windows.Forms.MessageBox.Show("Data Exported Successfully !!!", "Info");
+                        }
+                        catch (Exception ex)
+                        {
+                            System.Windows.Forms.MessageBox.Show("Error :" + ex.Message);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                System.Windows.Forms.MessageBox.Show("No Record To Export !!!", "Info");
+            }
+        }
+
+        private void mapTerrainClick(object sender, RoutedEventArgs e) {
+            if (GmapViewHome.MapProvider == null)
+            {
+                GmapViewHome.MapProvider = GoogleTerrainMapProvider.Instance;
+            }
+            else
+            {
+                if (GmapViewHome.MapProvider != GoogleTerrainMapProvider.Instance)
+                {
+                    GmapViewHome.MapProvider = GoogleTerrainMapProvider.Instance;
+                }
+            }   
+        }
+        private void mapStreetClick(object sender, RoutedEventArgs e) {
+            if (GmapViewHome.MapProvider == null)
+            {
+                GmapViewHome.MapProvider = GoogleMapProvider.Instance;
+            }
+            else
+            {
+                if (GmapViewHome.MapProvider != GoogleMapProvider.Instance)
+                {
+                    GmapViewHome.MapProvider = GoogleMapProvider.Instance;
+                }
+            }
+        }
+        private void mapSatellitClick(object sender, RoutedEventArgs e) {
+            if (GmapViewHome.MapProvider == null)
+            {
+                GmapViewHome.MapProvider = GoogleSatelliteMapProvider.Instance;
+            }
+            else
+            {
+                if (GmapViewHome.MapProvider != GoogleSatelliteMapProvider.Instance)
+                {
+                    GmapViewHome.MapProvider = GoogleSatelliteMapProvider.Instance;
+                }
+            }
+        }
+
+        private void ThreeDModelActivate(object sender, RoutedEventArgs e)
+        {
+            if(ThreeDModelBtn.Content == "Started")
+            {
+                model.Content = null;
+                ThreeDModelStatus.Content = "Not Started";
+                ThreeDModelBtn.Content = "Start";
+            } else
+            {
+                fileobj = System.AppDomain.CurrentDomain.BaseDirectory + "/Assets/3D/Probe_Stowed.obj";
+                ThreeDModelStatus.Content = "Startsed";
+                ThreeDModelBtn.Content = "Started";
+                HelixViewport3D_Load();
+            }
+        }
+
+        private void MiniMapActivate(object sender, RoutedEventArgs e)
+        {
+            if (MiniMapBtn.Content == "Started")
+            {
+                GmapView.Visible = false;
+                MiniMapStatus.Content = "Not Started";
+                MiniMapBtn.Content = "Start";
+            }
+            else
+            {
+                MiniMapStatus.Content = "Started";
+                MiniMapBtn.Content = "Started";
+                GmapView_Load();
+            }
+        }
+
+        private void CMDShortcutChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(CMDShortcut.SelectedItem != null)
+            {
+                string command = CMDShortcut.SelectedItem.ToString();
+                CMDShortcut.SelectedItem = null;
+                command = command.Split(' ')[1];
+                if (command == "CAL")
+                {
+                    CMDTextBox1.Text = "CMD,1085,CAL";
+                }
+                else if (command == "PXON")
+                {
+                    CMDTextBox1.Text = "CMD,1085,PX,ON";
+                }
+                else if (command == "PXOFF")
+                {
+                    CMDTextBox1.Text = "CMD,1085,PX,OFF";
+                }
+                else if (command == "ST")
+                {
+                    CMDTextBox1.Text = "CMD,1085,ST,";
+                }
+                else if (command == "SIMENABLE")
+                {
+                    CMDTextBox1.Text = "CMD,1085,SIM,ENABLE";
+                }
+                else if (command == "SIMDISABLE")
+                {
+                    CMDTextBox1.Text = "CMD,1085,SIM,DISABLE";
+                }
+                else if (command == "SIMACTIVATE")
+                {
+                    CMDTextBox1.Text = "CMD,1085,SIM,ACTIVATE";
+                }
+                else if (command == "SIMP")
+                {
+                    CMDTextBox1.Text = "CMD,1085,SIMP,PRESSURE";
+                }
+                else if (command == "MECHANIC")
+                {
+                    CMDTextBox1.Text = "CMD,1085,LCK/HSR/UPR";
+                }
+                else if (command == "GCSRESET")
+                {
+                    CMDTextBox1.Text = "CMD,1085,GCS,RESET";
+                }
+                else if (command == "GCSTEST")
+                {
+                    CMDTextBox1.Text = "CMD,1085,GCS,TESTMODE";
+                }
+
+            }
+        }
+        
     }
 }
