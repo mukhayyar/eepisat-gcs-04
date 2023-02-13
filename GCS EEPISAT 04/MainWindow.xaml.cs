@@ -122,12 +122,13 @@ namespace GCS_EEPISAT_04
         double tilt_x;
         double tilt_y;
         string cmd_echo;
+        bool checkSumHasil;
+        int validCount = 0;
+        int corruptCount = 0;
 
         bool hs_deployed = false;
         bool mast_raised = false;
-
-        int totalPayloadValidData = 0;
-        int totalPayloadCorruptedData = 0;
+        
         int totalPayloadData = 0;
         
 
@@ -294,7 +295,111 @@ namespace GCS_EEPISAT_04
                 Directory.CreateDirectory(binAppPath + "\\LogData\\SIMULATION");
             }
 
-            
+            AltitudeSeries = new ISeries[]
+            {
+                new LineSeries<double>
+                {
+                    Values = new double[] { 0.0, 2.0, 3.0, 2.0, 1.0, 4.0 },
+                    Name = "Payload Altitude",
+                    Fill = null,
+                    LineSmoothness = 0
+                },
+                new LineSeries<double>
+                {
+                    Values = new double[] { 1.0, 0.0, 2.0, 3.0, 2.0, 0.0 },
+                    Name = "GPS Altitude",
+                    Fill = null,
+                    LineSmoothness = 0
+                }
+            };
+
+            TemperatureSeries = new ISeries[]
+            {
+                new LineSeries<double>
+                {
+                    Values = new double[] { 37.2, 37.5, 38.0, 37.5, 38.0, 38.0 },
+                    Name = "Temperature",
+                    Fill = null,
+                    LineSmoothness = 0
+                }
+            };
+
+            VoltageSeries = new ISeries[]
+            {
+                new LineSeries<double>
+                {
+                    Values = new double[] { 3.7, 3.8, 3.9, 3.8, 3.9, 3.9 },
+                    Name = "Voltage",
+                    Fill = null,
+                    LineSmoothness = 0
+                }
+            };
+
+            PressureSeries = new ISeries[]
+            {
+                new LineSeries<double>
+                {
+                    Values = new double[] { 100.0, 101.0, 102.0, 101.0, 102.0, 102.0 },
+                    Name = "Pressure",
+                    Fill = null,
+                    LineSmoothness = 0
+                }
+            };
+
+            TiltXandYSeries = new ISeries[]
+            {
+                new LineSeries<double>
+                {
+                    Values = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 },
+                    Name = "Tilt X",
+                    Fill = null,
+                    LineSmoothness = 0
+                },
+                new LineSeries<double>
+                {
+                    Values = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 },
+                    Name = "Tilt Y",
+                    Fill = null,
+                    LineSmoothness = 0
+                }
+            };
+
+            LatLongSeries = new ISeries[]
+            {
+                new LineSeries<double>
+                {
+                    Values = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 },
+                    Name = "Longitude",
+                    Fill = null,
+                    LineSmoothness = 0
+                },
+                new LineSeries<double>
+                {
+                    Values = new double[] { 0.1, 0.1, 0.1, 0.1, 0.1, 0.1 },
+                    Name = "Latitude",
+                    Fill = null,
+                    LineSmoothness = 0
+                }
+            };
+
+            AltitudeChart.Series = AltitudeSeries;
+            TemperatureChart.Series = TemperatureSeries;
+            VoltageChart.Series = VoltageSeries;
+            PressureChart.Series = PressureSeries;
+            TiltXandYChart.Series = TiltXandYSeries;
+            GPSLatLongChart.Series = LatLongSeries;
+            AltitudeChart.Title = AltitudeTitle;
+            TemperatureChart.Title = TemperatureTitle;
+            VoltageChart.Title = VoltageTitle;
+            PressureChart.Title = PressureTitle;
+            TiltXandYChart.Title = TiltXandYTitle;
+            GPSLatLongChart.Title = LatLongTitle;
+            AltitudeChart.LegendTextPaint = LegendTextPaint;
+            TemperatureChart.LegendTextPaint = LegendTextPaint;
+            VoltageChart.LegendTextPaint = LegendTextPaint;
+            PressureChart.LegendTextPaint = LegendTextPaint;
+            TiltXandYChart.LegendTextPaint = LegendTextPaint;
+            GPSLatLongChart.LegendTextPaint = LegendTextPaint;
         }
 
         public void USBChangedEvent(object sender, EventArrivedEventArgs e)
@@ -641,7 +746,7 @@ namespace GCS_EEPISAT_04
 
         public async void VerifyData()
         {
-            SerialControlTextBox.Dispatcher.BeginInvoke(this.WriteTelemetryData, new Object[]
+            await SerialControlTextBox.Dispatcher.BeginInvoke(this.WriteTelemetryData, new Object[]
             {
                 string.Concat(Emoji.Use.Speech_Balloon + " \0" +dataSensor, "------------#END OF PACKET DATA------------\n")
             });
@@ -659,17 +764,14 @@ namespace GCS_EEPISAT_04
                 SerialControlTextBox.Clear();
                 dataSum = 0;
             }
-
             isAscii = Regex.IsMatch(dataSensor, @"[^\u0021-\u007E]", RegexOptions.None);
 
             if (isAscii == false)
             {
-
                 try
                 {
                     splitData = dataSensor.Split((char)44); // (char)44 = ','
-                    System.Diagnostics.Debug.WriteLine("VerifyData : splitData " + splitData.ToString());
-
+                    System.Diagnostics.Debug.WriteLine("VerifyData : splitData {0}", dataSensor);
                     //long sumData = 0;
                     //for (int data = 0; data < dataSensor.Length; data++)
                     //{
@@ -680,7 +782,7 @@ namespace GCS_EEPISAT_04
                     //System.Diagnostics.Debug.WriteLine("VerifyData : Receiver Checksum " + recCheckSum);
                     //Pengecekan 
                     //  Panjang Data               Team ID                  Team ID Testing             Team ID                     Mission Time                Packet Count         
-                    if ((splitData.Length == 20 || splitData.Length == 21) && (splitData[0] == "1085" || splitData[0] == "1000") && splitData[0].Length == 4 && splitData[1].Length == 11 && splitData[2].Length <= 4 )
+                    if ((splitData.Length == 20 || splitData.Length == 21 || splitData.Length == 22 || splitData.Length == 23) && (splitData[0] == "1085" || splitData[0] == "1000") && splitData[0].Length == 4 && splitData[1].Length == 11 && splitData[2].Length <= 4 )
                     {
                         try
                         {
@@ -721,6 +823,22 @@ namespace GCS_EEPISAT_04
             }
         }
 
+        public static byte checkhasil(char[] data_, byte checksum, byte length)
+        {
+            ushort buff = 0;
+            byte hasil = 0, buffhasil = 0;
+            for (int i = 0; i < 150; i++)
+            {
+                buff += data_[i];
+                if (data_[i] == '\0' || i > length - 2) break;
+            }
+            buff += checksum;
+            hasil = (byte)buff;
+            buffhasil = (byte)(buff >> 8);
+            hasil += buffhasil;
+            return hasil;
+        }
+
         private void RotateBackModel()
         {
             axis = axis * -1;
@@ -734,9 +852,23 @@ namespace GCS_EEPISAT_04
         {
             try
             {
-                if (splitData.Length == 20 || splitData.Length == 21)
+                if (splitData.Length == 20 || splitData.Length == 21 || splitData.Length == 22 || splitData.Length == 23)
                 {
-
+                    totalPayloadData++;
+                    int checkSum = Int32.Parse(splitData[21]);
+                    splitData[21] = null;
+                    string checkString = String.Join(",", splitData);
+                    char[] dataSensorChar = checkString.ToCharArray();
+                    byte hasil = checkhasil(dataSensorChar, (byte)checkSum, (byte)dataSensorChar.Length);
+                    if (hasil == 255)
+                    {
+                        validCount++;
+                        checkSumHasil = true;
+                    }
+                    else {
+                        corruptCount++;
+                        checkSumHasil = false;
+                    }
                     if (splitData[0].Length > 0 && splitData[0].All(c => Char.IsNumber(c)))
                     {
                         teamId = Convert.ToUInt32(splitData[0]);
@@ -1038,32 +1170,16 @@ namespace GCS_EEPISAT_04
 
             //AssociatedObject.Style = style;
 
-
-            //#endregion
-
-            //#region Graph Item
-
-            //// GPS
-            //PayloadAltGraphLabel.Text = String.Format("{0:0.0}", altitude) + " m";
-            //GPSAltGraphLabel.Text = String.Format("{0:0.0}", gps_altitude) + " m";
-            //LongLatGraphLabel.Text = String.Format("{0:0.00000},{0:0.00000}", gps_longitude, gps_latitude);
-
-            //// Payload
-            //TemperatureGraphLabel.Text = String.Format("{0:0.0}", temperature) + " °C";
-            //TimeTemperatureMaxGraphLabel.Text = String.Format("{0:00:00:00}", time_max_max_temperature);
-            //TemperatureMaxGraphLabel.Text = String.Format("{0:0.0}", max_max_temperature) + " °C";
-            //VoltageGraphLabel.Text = String.Format("{0:0.0}", voltage) + " V";
-            //TimeVoltageMaxGraphLabel.Text = String.Format("{0:00:00:00}", time_max_max_voltage);
-            //VoltageMaxGraphLabel.Text = String.Format("{0:0.0}", max_max_voltage) + " V";
-            //PressureGraphLabel.Text = String.Format("{0:0.0}", max_max_pressure) + " kPa";
-            //TimePressureMaxGraphLabel.Text = String.Format("{0:00:00:00}", time_max_max_pressure);
-            //PressureMaxGraphLabel.Text = String.Format("{0:0.0}", max_max_pressure);
-            //TiltXandYGraphLabel.Text = String.Format("{0:0.00},{0:0.00}", tilt_x,tilt_y);
+            
 
             //#endregion
 
             try
             {
+                // Checksum
+                lblValidatedData.Content = validCount;
+                lblCorruptedData.Content = corruptCount;
+                lblTotalData.Content = totalPayloadData;
                 //    #region Dashboard Item
 
                 //    teamIDLabel.Content = String.Format("{0:0000}", containerTeamID);
@@ -1279,8 +1395,15 @@ namespace GCS_EEPISAT_04
                     dtp.Ptilt_x = tilt_x;
                     dtp.Ptilt_y = tilt_y;
                     dtp.Pcmd_echo = cmd_echo;
+                    if (checkSumHasil)
+                    {
+                        dtp.Pchecksum = "Valid";
+                    } else
+                    {
+                        dtp.Pchecksum = "Corrupt";
+                    }
 
-                    Dispatcher.BeginInvoke((Action)(() =>
+                Dispatcher.BeginInvoke((Action)(() =>
                     {
                         PayloadDataCsv.Items.Add(dtp);
                         PayloadDataCsv.ScrollIntoView(PayloadDataCsv.Items[PayloadDataCsv.Items.Count - 1]);
@@ -1326,6 +1449,8 @@ namespace GCS_EEPISAT_04
             public Double Ptilt_x { get; set; }
             public Double Ptilt_y { get; set; }
             public String Pcmd_echo { get; set; }
+
+            public String Pchecksum { get; set; }
         }
 
         private void watcher_StatusChanged(object sender, GeoPositionStatusChangedEventArgs e) //watcher status map
@@ -1440,8 +1565,9 @@ namespace GCS_EEPISAT_04
             // Graph
             //var graph = new WPFGraph.ViewModel();
             //graph.AddItem(altitude);
-            var clickBtn = new GraphGCS04.UsersControl.GraphExample();
-            clickBtn.CallClickAltitude(altitude);
+            //var clickBtn = new GraphGCS04.UsersControl.GraphExample();
+            //clickBtn.CallClickAltitude(altitude);
+            
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -1805,11 +1931,11 @@ namespace GCS_EEPISAT_04
 
 
                 }
-                else if (line == "CMD,1085,PX,ON")
+                else if (line == "CMD,1085,CX,ON")
                 {
                     try
                     {
-                        string cmd = "CMD,1085,PX,ON";
+                        string cmd = "CMD,1085,CX,ON";
                         _serialPort.WriteLine(cmd);
 
                         stepData = Sequencer.readSensor;
@@ -1817,7 +1943,7 @@ namespace GCS_EEPISAT_04
                         CMDTextBox2.Text += "\r\n" + Emoji.Use.Information_Source + "Activating payload telemetry......" + "\r\n";
                         CMDTextBox2.ScrollToEnd();
 
-                        SerialDataStatus.Content = "PXON";
+                        SerialDataStatus.Content = "CXON";
                         SoundPlayer player = new SoundPlayer(binAppPath + "/Audio/PXON.wav");
                         player.Play();
                         CMDTextBox1.Clear();
@@ -1828,11 +1954,11 @@ namespace GCS_EEPISAT_04
                         return;
                     }
                 }
-                else if (line == "CMD,1085,PX,OFF")
+                else if (line == "CMD,1085,CX,OFF")
                 {
                     try
                     {
-                        string cmd = "CMD,1085,PX,OFF";
+                        string cmd = "CMD,1085,CX,OFF";
 
                         _serialPort.WriteLine(cmd);
 
@@ -1841,7 +1967,7 @@ namespace GCS_EEPISAT_04
                         CMDTextBox2.Text += "\r\n" + Emoji.Use.Information_Source + "Deactivating  payload telemetry" + "\r\n";
                         CMDTextBox2.ScrollToEnd();
 
-                        SerialDataStatus.Content = "PXOFF";
+                        SerialDataStatus.Content = "CXOFF";
                         SoundPlayer player = new SoundPlayer(binAppPath + "/Audio/PXOFF.wav");
                         player.Play();
                         CMDTextBox1.Clear();
@@ -2395,13 +2521,13 @@ namespace GCS_EEPISAT_04
                 {
                     CMDTextBox1.Text = "CMD,1085,CAL";
                 }
-                else if (command == "PXON")
+                else if (command == "CXON")
                 {
-                    CMDTextBox1.Text = "CMD,1085,PX,ON";
+                    CMDTextBox1.Text = "CMD,1085,CX,ON";
                 }
-                else if (command == "PXOFF")
+                else if (command == "CXOFF")
                 {
-                    CMDTextBox1.Text = "CMD,1085,PX,OFF";
+                    CMDTextBox1.Text = "CMD,1085,CX,OFF";
                 }
                 else if (command == "ST")
                 {
