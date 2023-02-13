@@ -2564,6 +2564,21 @@ namespace GCS_EEPISAT_04
 
             }
         }
-        
+
+        private void AutoScrollActivate(object sender, RoutedEventArgs e)
+        {
+            if (AutoScrollBtn.Content == "Started")
+            {
+                //AutoScrollStatus.Content = "Not Started";
+                AutoScrollBtn.Content = "Start";
+            }
+            else
+            {
+                //AutoScrollStatus.Content = "Started";
+                AutoScrollBtn.Content = "Started";
+            }
+        }
+
+
     }
 }
