@@ -32,6 +32,7 @@
                             <RowDefinition Height="310"></RowDefinition>
                             <RowDefinition Height="*"></RowDefinition>
                         </Grid.RowDefinitions>
+                        
                         <Border Grid.Row="0" Background="#292929" CornerRadius="30 30 30 30" Margin="20 20 20 20"/>
                         <Grid Grid.Row="0" Margin="20 20 20 20">
                             <Grid.RowDefinitions>
@@ -59,7 +60,7 @@
                                         <RowDefinition></RowDefinition>
                                     </Grid.RowDefinitions>
                                     <Label Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Content="MISSION TIME" FontSize="15" FontWeight="Bold" Foreground="White"/>
-                                    <Label x:Name="MissionTimeLabel" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Content="00:00:00.00" FontSize="20" FontWeight="Regular" Foreground="White"/>
+                                    <TextBlock x:Name="MissionTimeLabel" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Text="00:00:00" FontSize="20" FontWeight="Regular" Foreground="White"/>
                                 </Grid>
                             </Grid>
                             <Grid Grid.Row="2">
@@ -80,11 +81,11 @@
                                 <RowDefinition Height="60" />
                                 <RowDefinition Height="60" />
                             </Grid.RowDefinitions>
-                            <RadioButton x:Name="HomeMenu" Grid.Row="0" Click="homeNavClick" Style="{DynamicResource HomeMenu}" IsChecked="True"/>
-                            <RadioButton x:Name="GraphMenu" Grid.Row="1" Click="graphNavClick" Style="{DynamicResource GraphMenu}" />
-                            <RadioButton x:Name="MapMenu" Grid.Row="2" Click="mapNavClick" Style="{DynamicResource MapMenu}" />
-                            <RadioButton x:Name="DataMenu" Grid.Row="3" Click="dataCsvNavClick" Style="{DynamicResource DataMenu}" />
-                            <RadioButton x:Name="SettingMenu" Grid.Row="4" Click="settingNavClick" Style="{DynamicResource SettingMenu}" />
+                            <RadioButton x:Name="HomeMenu" Grid.Row="0" Click="HomeNavClick" Style="{DynamicResource HomeMenu}" IsChecked="True"/>
+                            <RadioButton x:Name="GraphMenu" Grid.Row="1" Click="GraphNavClick" Style="{DynamicResource GraphMenu}" />
+                            <RadioButton x:Name="MapMenu" Grid.Row="2" Click="MapNavClick" Style="{DynamicResource MapMenu}" />
+                            <RadioButton x:Name="DataMenu" Grid.Row="3" Click="DataCsvNavClick" Style="{DynamicResource DataMenu}" />
+                            <RadioButton x:Name="SettingMenu" Grid.Row="4" Click="SettingNavClick" Style="{DynamicResource SettingMenu}" />
                         </Grid>
                         <Viewbox Grid.Row="3" Width="80" Height="100" Margin="0 0 0 40">
                             <StackPanel Orientation="Horizontal">
@@ -154,10 +155,10 @@
                                 </Grid>
                             </Border>
                             <Border Grid.Column="2" CornerRadius="30" Background="#292929" Margin="5 10 5 10">
-                                <Button x:Name="RestartBtn" Click="restartBtnClick" Style="{DynamicResource ResetBtn}"/>
+                                <Button x:Name="RestartBtn" Click="RestartBtnClick" Style="{DynamicResource ResetBtn}"/>
                             </Border>
                             <Border Grid.Column="3" CornerRadius="30" Background="#292929" Margin="5 10 5 10">
-                                <Button x:Name="ShutdownBtn" Click="shutdownBtnClick" Style="{DynamicResource ShutdownBtn}"/>
+                                <Button x:Name="ShutdownBtn" Click="ShutdownBtnClick" Style="{DynamicResource ShutdownBtn}"/>
                             </Border>
                         </Grid>
                     </Border>
@@ -203,9 +204,9 @@
                                                             </Grid.RowDefinitions>
                                                             <Image Grid.Row="0" Margin="0 10 0 0" Source="/Assets/GPSNew.png" Style="{DynamicResource IconItemList}" VerticalAlignment="Top" />
                                                             <Label Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center" Content="GPS TIME" FontWeight="Bold" FontSize="12" Foreground="#FFFFFF"/>
-                                                            <Label x:Name="GPSTimeLabel" Grid.Row="1" Margin="10 15 10 10" VerticalAlignment="Top" HorizontalAlignment="Center" Content="00:00:00" FontWeight="Regular" FontSize="12" Foreground="#FFFFFF"/>
+                                                            <TextBlock x:Name="GPSTimeLabel" Grid.Row="1" Margin="10 20 10 10" VerticalAlignment="Top" HorizontalAlignment="Center" Text="00:00:00" FontWeight="Regular" FontSize="12" Foreground="#FFFFFF"/>
                                                             <Label Grid.Row="1" Margin="0 15 0 0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="SATS" FontWeight="Bold" FontSize="12" Foreground="#FFFFFF"/>
-                                                            <Label x:Name="GPSCountLabel" Grid.Row="1" Margin="10 10 10 3" VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="00" FontWeight="Regular" FontSize="12" Foreground="#FFFFFF"/>
+                                                            <TextBlock x:Name="GPSCountLabel" Grid.Row="1" Margin="10 10 10 3" VerticalAlignment="Bottom" HorizontalAlignment="Center" Text="00" FontWeight="Regular" FontSize="12" Foreground="#FFFFFF"/>
                                                         </Grid>
                                                     </Border>
                                                     <Border Grid.Row="1" CornerRadius="30" Background="#292929" Margin="15 5 15 15">
@@ -220,12 +221,12 @@
                                                                     <ColumnDefinition></ColumnDefinition>
                                                                 </Grid.ColumnDefinitions>
                                                                 <Label Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Center" Content="LONGITUDE" FontWeight="Bold" FontSize="10" Foreground="#FFFFFF"/>
-                                                                <Label x:Name="GPSLongitudeLabel" Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="0.0000" FontWeight="Regular" FontSize="12" Foreground="#FFFFFF"/>
+                                                                <TextBlock x:Name="GPSLongitudeLabel" Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Center" Text="0.0000" FontWeight="Regular" FontSize="12" Foreground="#FFFFFF"/>
                                                                 <Label Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" Content="LATITUDE" FontWeight="Bold" FontSize="10" Foreground="#FFFFFF"/>
-                                                                <Label x:Name="GPSLatitudeLabel" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="0.0000" FontWeight="Regular" FontSize="12" Foreground="#FFFFFF"/>
+                                                                <TextBlock x:Name="GPSLatitudeLabel" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Text="0.0000" FontWeight="Regular" FontSize="12" Foreground="#FFFFFF"/>
                                                             </Grid>
                                                             <Label Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center" Content="ALTITUDE" FontWeight="Bold" FontSize="10" Foreground="#FFFFFF"/>
-                                                            <Label x:Name="GPSAltitudeLabel" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="0.0" Margin="0 0 20 0" FontWeight="Regular" FontSize="12" Foreground="#FFFFFF"/>
+                                                            <TextBlock x:Name="GPSAltitudeLabel" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="0.0" Margin="0 15 20 0" FontWeight="Regular" FontSize="12" Foreground="#FFFFFF"/>
                                                             <Label Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="m" Margin="35 0 0 0" FontWeight="Bold" FontSize="12" Foreground="#FFFFFF"/>
                                                         </Grid>
                                                     </Border>
@@ -252,9 +253,9 @@
                                                                     <RowDefinition Height="1*"></RowDefinition>
                                                                 </Grid.RowDefinitions>
                                                                 <Label Grid.Row="0" Margin="-40 0 0 -10" Content="PACKET COUNT" VerticalAlignment="Top" HorizontalAlignment="Center" FontWeight="Bold" FontSize="12" Foreground="#FFFFFF" />
-                                                                <Label x:Name="PacketCountLabel" Grid.Row="1" Margin="0 -8 40 0" Content="0" VerticalAlignment="Top" HorizontalAlignment="Center" FontWeight="Regular" FontSize="12" Foreground="#FFFFFF" />
+                                                                <TextBlock x:Name="PacketCountLabel" Grid.Row="1" Margin="0 0 40 0" Text="0" VerticalAlignment="Top" HorizontalAlignment="Center" FontWeight="Regular" FontSize="12" Foreground="#FFFFFF" />
                                                                 <Label Grid.Row="2" Margin="-40 -10 0 0" Content="ALTITUDE" VerticalAlignment="Top" HorizontalAlignment="Center" FontWeight="Bold" FontSize="12" Foreground="#FFFFFF" />
-                                                                <Label x:Name="AltitudeLabel" Grid.Row="3" Margin="0 -20 40 0" Content="0.0" VerticalAlignment="Top" HorizontalAlignment="Center" FontWeight="Regular" FontSize="12" Foreground="#FFFFFF" />
+                                                                <TextBlock x:Name="AltitudeLabel" Grid.Row="3" Margin="0 -15 40 0" Text="0.0" VerticalAlignment="Top" HorizontalAlignment="Center" FontWeight="Regular" FontSize="12" Foreground="#FFFFFF" />
                                                                 <Label Grid.Row="3" Margin="0 -37 30 0" Content="m" VerticalAlignment="Center" HorizontalAlignment="Right" FontWeight="Bold" FontSize="12" Foreground="#FFFFFF" />
                                                             </Grid>
                                                         </Grid>
@@ -270,7 +271,7 @@
                                                                 </Grid.RowDefinitions>
                                                                 <Image Margin="0,-5,0,0" Grid.Row="0"  Source="/Assets/Voltage.png" Style="{DynamicResource IconItemList}" HorizontalAlignment="Center" />
                                                                 <Label Grid.Row="1"  Content="VOLT" VerticalAlignment="Top" HorizontalAlignment="Center" FontWeight="Bold" FontSize="12" Foreground="#FFFFFF" />
-                                                                <Label Margin="0, 15, 0, 0" x:Name="VoltageLabel" Grid.Row="1"  Content="0.0" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Regular" FontSize="12" Foreground="#FFFFFF" />
+                                                                <TextBlock Margin="0, 15, 0, 0" x:Name="VoltageLabel" Grid.Row="1"  Text="0.0" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Regular" FontSize="12" Foreground="#FFFFFF" />
                                                                 <Label Grid.Row="1" Margin="0, 15, 10, 0" Content="V" VerticalAlignment="Center" HorizontalAlignment="Right" FontWeight="Bold" FontSize="12" Foreground="#FFFFFF" />
                                                             </Grid>
                                                             <Grid Grid.Column="1">
@@ -280,7 +281,7 @@
                                                                 </Grid.RowDefinitions>
                                                                 <Image Margin="0,-5,0,0" Grid.Row="0" Source="/Assets/Temperature.png" Style="{DynamicResource IconItemList}" HorizontalAlignment="Center" />
                                                                 <Label Grid.Row="1" Content="TEMP" VerticalAlignment="Top" HorizontalAlignment="Center" FontWeight="Bold" FontSize="12" Foreground="#FFFFFF" />
-                                                                <Label Margin="0, 15, 0, 0" x:Name="TemperatureLabel" Grid.Row="1" Content="0.0" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Regular" FontSize="12" Foreground="#FFFFFF" />
+                                                                <TextBlock Margin="0, 15, 0, 0" x:Name="TemperatureLabel" Grid.Row="1" Text="0.0" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Regular" FontSize="12" Foreground="#FFFFFF" />
                                                                 <Label Grid.Row="1" Margin="0, 15, 10, 0" Content="°C" VerticalAlignment="Center" HorizontalAlignment="Right" FontWeight="Bold" FontSize="12" Foreground="#FFFFFF" />
                                                             </Grid>
                                                         </Grid>
@@ -300,8 +301,8 @@
                                                                 <ColumnDefinition></ColumnDefinition>
                                                             </Grid.ColumnDefinitions>
                                                             <Label Grid.Column="0" Margin="0 0 -40 0" Content="TILT" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="12" Foreground="#FFFFFF" />
-                                                            <Label x:Name="TiltXLabel" Grid.Column="1" Margin="0 0 0 0" Content="0.0" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Regular" FontSize="12" Foreground="#FFFFFF" />
-                                                            <Label x:Name="TiltYLabel" Grid.Column="2" Margin="-40 0 0 0" Content="0.0" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Regular" FontSize="12" Foreground="#FFFFFF" />
+                                                            <TextBlock x:Name="TiltXLabel" Grid.Column="1" Margin="0 0 0 0" Text="0.0" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Regular" FontSize="12" Foreground="#FFFFFF" />
+                                                            <TextBlock x:Name="TiltYLabel" Grid.Column="2" Margin="-40 0 0 0" Text="0.0" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Regular" FontSize="12" Foreground="#FFFFFF" />
                                                         </Grid>
                                                         <Grid Grid.Row="3">
                                                             <Grid.RowDefinitions>
@@ -309,7 +310,7 @@
                                                                 <RowDefinition></RowDefinition>
                                                             </Grid.RowDefinitions>
                                                             <Label Margin="0, -10, 0, 0" Grid.Row="0" Content="PRESSURE" VerticalAlignment="Top" HorizontalAlignment="Center" FontWeight="Bold" FontSize="12" Foreground="#FFFFFF" />
-                                                            <Label Margin="0, -15, 0, 0" x:Name="PressureLabel" Grid.Row="1" Content="0.0" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Regular" FontSize="12" Foreground="#FFFFFF" />
+                                                            <TextBlock Margin="0, -15, 0, 0" x:Name="PressureLabel" Grid.Row="1" Text="0.0" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Regular" FontSize="12" Foreground="#FFFFFF" />
                                                             <Label Grid.Row="1" Margin="0, -15, 45, 0" Content="kPa" VerticalAlignment="Center" HorizontalAlignment="Right" FontWeight="Bold" FontSize="12" Foreground="#FFFFFF" />
                                                         </Grid>
                                                     </Grid>
@@ -425,13 +426,13 @@
                                                                     <RowDefinition></RowDefinition>
                                                                     <RowDefinition></RowDefinition>
                                                                 </Grid.RowDefinitions>
-                                                                <TextBlock Grid.Row="0" Text="PACKET COUNT" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="12"></TextBlock>
-                                                                <Label Grid.Row="1" Margin="0,-10,0,0" x:Name="MaxPacketCountLabel" Content="0" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Regular" FontSize="14"/>
+                                                                <TextBlock Grid.Row="0" Text="PACKET COUNT" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="12"></TextBlock>
+                                                                <TextBlock Grid.Row="1" Margin="0,0,0,0" x:Name="MaxPacketCountLabel" Text="0" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Regular" FontSize="14"/>
                                                                 <Label Grid.Row="2" Content="ALTITUDE" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="12" Margin="0 -5 0 -10"/>
-                                                                <Label Grid.Row="3" Margin="0,-10,0,0" x:Name="MaxAltitudeLabel" Content="0.0" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Regular" FontSize="14"/>
+                                                                <TextBlock Grid.Row="3" Margin="0,-5,0,0" x:Name="MaxAltitudeLabel" Text="0.0" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Regular" FontSize="14"/>
                                                                 <Label Grid.Row="3" Margin="0,-8,0,0" Content="m" VerticalAlignment="Top" HorizontalAlignment="Right" FontWeight="Bold" FontSize="12" Foreground="#FFFFFF" />
                                                                 <Label Grid.Row="4" Content="PRESSURE" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="12" Margin="0 -5 0 -10"/>
-                                                                <Label Grid.Row="5" Margin="0,-10,0,0" x:Name="MaxPressureLabel" Content="0.0" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Regular" FontSize="14"/>
+                                                                <TextBlock Grid.Row="5" Margin="0,-5,0,0" x:Name="MaxPressureLabel" Text="0.0" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Regular" FontSize="14"/>
                                                                 <Label Grid.Row="5" Margin="0,-8,0,0" Content="kPa" VerticalAlignment="Top" HorizontalAlignment="Right" FontWeight="Bold" FontSize="12" Foreground="#FFFFFF" />
                                                             </Grid>
                                                             <Grid Grid.Column="1">
@@ -442,10 +443,10 @@
                                                                     <RowDefinition></RowDefinition>
                                                                 </Grid.RowDefinitions>
                                                                 <Label Grid.Row="0" Content="VOLT" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="12" Margin="0 0 0 -10"/>
-                                                                <Label Grid.Row="1" Margin="0,-5,0,0" x:Name="MaxVoltageLabel" Content="0.0" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Regular" FontSize="14"/>
+                                                                <TextBlock Grid.Row="1" Margin="0,0,0,0" x:Name="MaxVoltageLabel" Text="0.0" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Regular" FontSize="14"/>
                                                                 <Label Grid.Row="1" Content="V" Foreground="#FFFFFF" HorizontalAlignment="Right" VerticalAlignment="Top" FontWeight="Bold" FontSize="12" Margin="0 -3 0 0"/>
                                                                 <Label Grid.Row="2" Content="TEMP" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="12" Margin="0 0 0 -10"/>
-                                                                <Label Grid.Row="3" Margin="0,-5,0,0" x:Name="MaxTemperatureLabel" Content="0.0" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Regular" FontSize="14"/>
+                                                                <TextBlock Grid.Row="3" Margin="0,0,0,0" x:Name="MaxTemperatureLabel" Text="0.0" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Regular" FontSize="14"/>
                                                                 <Label Grid.Row="3" Content="°C" VerticalAlignment="Center" HorizontalAlignment="Right" FontWeight="Bold" FontSize="12" Foreground="#FFFFFF" Margin="0 -3 0 0"/>
                                                             </Grid>
                                                         </Grid>
@@ -521,202 +522,53 @@
                                             </Border>
                                         </Grid>
                                     </Grid>
-                                </TabItem>
+                                 </TabItem>
                                 <TabItem>
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition></RowDefinition>
-                                            <RowDefinition></RowDefinition>
-                                        </Grid.RowDefinitions>
-                                        <Grid Grid.Row="0">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition></ColumnDefinition>
-                                                <ColumnDefinition></ColumnDefinition>
-                                                <ColumnDefinition></ColumnDefinition>
-                                            </Grid.ColumnDefinitions>
-                                            <Grid Grid.Column="0">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition></RowDefinition>
-                                                </Grid.RowDefinitions>
-                                                <Grid Grid.Row="0">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width=".7*"></ColumnDefinition>
-                                                        <ColumnDefinition Width=".3*"></ColumnDefinition>
-                                                    </Grid.ColumnDefinitions>
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="Auto"></RowDefinition>
-                                                        <RowDefinition Height="*"></RowDefinition>
-                                                    </Grid.RowDefinitions>
-                                                    <Border Grid.ColumnSpan="2"></Border>
-                                                    <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="10, 10">
-                                                        <Image Grid.Column="0" Source="/Assets/MaxAltitude.png" Style="{DynamicResource IconItemList}" HorizontalAlignment="Left" />
-                                                        <StackPanel Margin="10, 0">
-                                                            <TextBlock FontSize="22" Foreground="White">Altitude</TextBlock>
-                                                        </StackPanel>
-                                                    </StackPanel>
-                                                    <lvc:CartesianChart LegendPosition="Bottom" LegendTextPaint="{Binding LegendTextPaint}" LegendTextSize="12" Series="{Binding AltitudeSeries}" Title="{Binding AltitudeTitle}"  Name="AltitudeChart" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="15">
-                                                    </lvc:CartesianChart>
-                                                    <StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Background="#4CFFFFFF" Height="100" VerticalAlignment="Top">
-                                                        <TextBlock Foreground="White" FontSize="12" HorizontalAlignment="Center" Margin="0,10,0,0">Payload</TextBlock>
-                                                        <TextBlock x:Name="PayloadAltGraphLabel" Foreground="White" FontSize="14" HorizontalAlignment="Center">4.0 m</TextBlock>
-                                                        <TextBlock Foreground="White" FontSize="12" HorizontalAlignment="Center" Margin="0,10,0,0">GPS</TextBlock>
-                                                        <TextBlock x:Name="GPSAltGraphLabel" Foreground="White" FontSize="14" HorizontalAlignment="Center">3.0 m</TextBlock>
-                                                    </StackPanel>
+                                    <Border CornerRadius="30" Margin="8">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Grid Grid.Row="0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid Grid.Column="0">
+                                                    <WpfPlot x:Name="SatellitCountPlot"></WpfPlot>
+                                                </Grid>
+                                                <Grid Grid.Column="2">
+                                                    <WpfPlot x:Name="PressurePlot"></WpfPlot>
+                                                </Grid>
+                                                <Grid Grid.Column="1">
+                                                    <WpfPlot x:Name="AltitudePlot"></WpfPlot>
                                                 </Grid>
                                             </Grid>
-                                            <Grid Grid.Column="1">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition></RowDefinition>
-                                                </Grid.RowDefinitions>
-                                                <Grid Grid.Row="0">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width=".7*"></ColumnDefinition>
-                                                        <ColumnDefinition Width=".3*"></ColumnDefinition>
-                                                    </Grid.ColumnDefinitions>
+                                            <Grid Grid.Row="1">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid Grid.Column="0">
                                                     <Grid.RowDefinitions>
-                                                        <RowDefinition Height="Auto"></RowDefinition>
-                                                        <RowDefinition Height="*"></RowDefinition>
+                                                        <RowDefinition></RowDefinition>
+                                                        <RowDefinition></RowDefinition>
                                                     </Grid.RowDefinitions>
-                                                    <Border Grid.ColumnSpan="2"></Border>
-                                                    <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="10, 10">
-                                                        <Image Grid.Column="0" Source="/Assets/temperature.png" Style="{DynamicResource IconItemList}" HorizontalAlignment="Left" />
-                                                        <StackPanel Margin="10, 0">
-                                                            <TextBlock FontSize="20" Foreground="White">Temperature</TextBlock>
-                                                            <TextBlock x:Name="TemperatureGraphLabel" FontSize="14" Foreground="#7CFFFFFF">0.0</TextBlock>
-                                                        </StackPanel>
-                                                    </StackPanel>
-                                                    <lvc:CartesianChart Name="TemperatureChart" LegendTextPaint="{Binding LegendTextPaint}" LegendTextSize="12" LegendPosition="Bottom" Series="{Binding TemperatureSeries}" Title="{Binding TemperatureTitle}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="15">
-                                                    </lvc:CartesianChart>
-                                                    <StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Background="#4CFFFFFF" Height="100" VerticalAlignment="Top">
-                                                        <TextBlock Foreground="White" FontSize="12" HorizontalAlignment="Center" Margin="0,10,0,0">Peak Time</TextBlock>
-                                                        <TextBlock x:Name="TimeTemperatureMaxGraphLabel" Foreground="White" FontSize="14" HorizontalAlignment="Center">00:00:00</TextBlock>
-                                                        <TextBlock Foreground="White" FontSize="12" HorizontalAlignment="Center" Margin="0,10,0,0">Peak Value</TextBlock>
-                                                        <TextBlock x:Name="TemperatureMaxGraphLabel" Foreground="White" FontSize="14" HorizontalAlignment="Center">38.0 °C</TextBlock>
-                                                    </StackPanel>
+                                                    <WpfPlot Grid.Row="0" x:Name="TemperaturePlot"></WpfPlot>
+                                                    <WpfPlot Grid.Row="1" x:Name="VoltagePlot"></WpfPlot>
                                                 </Grid>
-                                            </Grid>
-                                            <Grid Grid.Column="2">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition></RowDefinition>
-                                                </Grid.RowDefinitions>
-                                                <Grid Grid.Row="0">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width=".7*"></ColumnDefinition>
-                                                        <ColumnDefinition Width=".3*"></ColumnDefinition>
-                                                    </Grid.ColumnDefinitions>
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="Auto"></RowDefinition>
-                                                        <RowDefinition Height="*"></RowDefinition>
-                                                    </Grid.RowDefinitions>
-                                                    <Border Grid.ColumnSpan="2"></Border>
-                                                    <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="10, 10">
-                                                        <Image Grid.Column="0" Source="/Assets/voltage.png" Style="{DynamicResource IconItemList}" HorizontalAlignment="Left" />
-                                                        <StackPanel Margin="10, 0">
-                                                            <TextBlock FontSize="20" Foreground="White">Voltage</TextBlock>
-                                                            <TextBlock x:Name="VoltageGraphLabel" FontSize="14" Foreground="#7CFFFFFF">0.0</TextBlock>
-                                                        </StackPanel>
-                                                    </StackPanel>
-                                                    <lvc:CartesianChart Name="VoltageChart" LegendPosition="Bottom" LegendTextPaint="{Binding LegendTextPaint}" LegendTextSize="12" Series="{Binding VoltageSeries}" Title="{Binding VoltageTitle}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="15"> 
-                                                    </lvc:CartesianChart>
-                                                    <StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Background="#4CFFFFFF" Height="100" VerticalAlignment="Top">
-                                                        <TextBlock Foreground="White" FontSize="12" HorizontalAlignment="Center" Margin="0,10,0,0">Peak Time</TextBlock>
-                                                        <TextBlock x:Name="TimeVoltageMaxGraphLabel" Foreground="White" FontSize="14" HorizontalAlignment="Center">00:00:00</TextBlock>
-                                                        <TextBlock Foreground="White" FontSize="12" HorizontalAlignment="Center" Margin="0,10,0,0">Peak Value</TextBlock>
-                                                        <TextBlock x:Name="VoltageMaxGraphLabel" Foreground="White" FontSize="14" HorizontalAlignment="Center">3.9 V</TextBlock>
-                                                    </StackPanel>
+                                                <Grid Grid.Column="1">
+                                                    <WpfPlot x:Name="LatLongPlot"></WpfPlot>
+                                                </Grid>
+                                                <Grid Grid.Column="2">
+                                                    <WpfPlot x:Name="TiltPlot"></WpfPlot>
                                                 </Grid>
                                             </Grid>
                                         </Grid>
-                                        <Grid Grid.Row="1">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition></ColumnDefinition>
-                                                <ColumnDefinition></ColumnDefinition>
-                                                <ColumnDefinition></ColumnDefinition>
-                                            </Grid.ColumnDefinitions>
-                                            <Grid Grid.Column="0">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition></RowDefinition>
-                                                </Grid.RowDefinitions>
-                                                <Grid Grid.Row="0">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width=".7*"></ColumnDefinition>
-                                                        <ColumnDefinition Width=".3*"></ColumnDefinition>
-                                                    </Grid.ColumnDefinitions>
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="Auto"></RowDefinition>
-                                                        <RowDefinition Height="*"></RowDefinition>
-                                                    </Grid.RowDefinitions>
-                                                    <Border Grid.ColumnSpan="2"></Border>
-                                                    <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="10, 10">
-                                                        <Image Grid.Column="0" Source="/Assets/Air Pressure.png" Style="{DynamicResource IconItemList}" HorizontalAlignment="Left" />
-                                                        <StackPanel Margin="10, 0">
-                                                            <TextBlock FontSize="20" Foreground="White">Pressure</TextBlock>
-                                                            <TextBlock x:Name="PressureGraphLabel" FontSize="14" Foreground="#7CFFFFFF">0.0</TextBlock>
-                                                        </StackPanel>
-                                                    </StackPanel>
-                                                    <lvc:CartesianChart Name="PressureChart" LegendPosition="Bottom" LegendTextPaint="{Binding LegendTextPaint}" LegendTextSize="12" Series="{Binding PressureSeries}" Title="{Binding PressureTitle}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="15">
-                                                    </lvc:CartesianChart>
-                                                    <StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Background="#4CFFFFFF" Height="100" VerticalAlignment="Top">
-                                                        <TextBlock Foreground="White" FontSize="12" HorizontalAlignment="Center" Margin="0,10,0,0">Peak Time</TextBlock>
-                                                        <TextBlock x:Name="TimePressureMaxGraphLabel" Foreground="White" FontSize="14" HorizontalAlignment="Center">00:00:00</TextBlock>
-                                                        <TextBlock Foreground="White" FontSize="12" HorizontalAlignment="Center" Margin="0,10,0,0">Peak Value</TextBlock>
-                                                        <TextBlock x:Name="PressureMaxGraphLabel" Foreground="White" FontSize="14" HorizontalAlignment="Center">102.0 kPa</TextBlock>
-                                                    </StackPanel>
-                                                </Grid>
-                                            </Grid>
-                                            <Grid Grid.Column="1">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition></RowDefinition>
-                                                </Grid.RowDefinitions>
-                                                <Grid Grid.Row="0">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width=".7*"></ColumnDefinition>
-                                                        <ColumnDefinition Width=".3*"></ColumnDefinition>
-                                                    </Grid.ColumnDefinitions>
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="Auto"></RowDefinition>
-                                                        <RowDefinition Height="*"></RowDefinition>
-                                                    </Grid.RowDefinitions>
-                                                    <Border Grid.ColumnSpan="2"></Border>
-                                                    <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="10, 10">
-                                                        <Image Grid.Column="0" Source="/Assets/GPSNew.png" Style="{DynamicResource IconItemList}" HorizontalAlignment="Left" />
-                                                        <StackPanel Margin="10, 0">
-                                                            <TextBlock FontSize="18" Foreground="White">Long and Lat</TextBlock>
-                                                            <TextBlock x:Name="LongLatGraphLabel" FontSize="14" Foreground="#7CFFFFFF" TextWrapping="Wrap">0.00000,0.00000</TextBlock>
-                                                        </StackPanel>
-                                                    </StackPanel>
-                                                    <lvc:CartesianChart Name="GPSLatLongChart" LegendPosition="Bottom" LegendTextPaint="{Binding LegendTextPaint}" LegendTextSize="12" Series="{Binding LatLongSeries}" Title="{Binding LatLongTitle}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="15">
-                                                    </lvc:CartesianChart>
-                                                </Grid>
-                                            </Grid>
-                                            <Grid Grid.Column="2">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition></RowDefinition>
-                                                </Grid.RowDefinitions>
-                                                <Grid Grid.Row="0">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width=".7*"></ColumnDefinition>
-                                                        <ColumnDefinition Width=".3*"></ColumnDefinition>
-                                                    </Grid.ColumnDefinitions>
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="Auto"></RowDefinition>
-                                                        <RowDefinition Height="*"></RowDefinition>
-                                                    </Grid.RowDefinitions>
-                                                    <Border Grid.ColumnSpan="2"></Border>
-                                                    <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="10, 10">
-                                                        <Image Grid.Column="0" Source="/Assets/Tilt.png" Style="{DynamicResource IconItemList}" HorizontalAlignment="Left" />
-                                                        <StackPanel Margin="10, 0">
-                                                            <TextBlock FontSize="20" Foreground="White">Tilt X and Y</TextBlock>
-                                                            <TextBlock x:Name="TiltXandYGraphLabel" FontSize="14" Foreground="#7CFFFFFF">0.00, 0.00</TextBlock>
-                                                        </StackPanel>
-                                                    </StackPanel>
-                                                    <lvc:CartesianChart Name="TiltXandYChart" LegendPosition="Bottom" LegendTextPaint="{Binding LegendTextPaint}" LegendTextSize="12" Series="{Binding TiltXandYSeries}" Title="{Binding TiltXandYTitle}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="15">
-                                                    </lvc:CartesianChart>
-                                                </Grid>
-                                            </Grid>
-                                        </Grid>
-                                    </Grid>
-                                    <!--<gvm:GraphExample x:Name="AltitudeGraphTest"/>-->
+                                    </Border>
                                 </TabItem>
                                 <TabItem>
                                     <Grid>
@@ -743,9 +595,9 @@
                                                         <ColumnDefinition></ColumnDefinition>
                                                         <ColumnDefinition></ColumnDefinition>
                                                     </Grid.ColumnDefinitions>
-                                                    <RadioButton x:Name="MapSatellit" Grid.Column="0" Click="mapSatellitClick" Style="{DynamicResource MapSatellitMenu}" IsChecked="True"/>
-                                                    <RadioButton x:Name="MapStreet" Grid.Column="1" Click="mapStreetClick" Style="{DynamicResource MapStreetMenu}" />
-                                                    <RadioButton x:Name="MapTerrain" Grid.Column="2" Click="mapTerrainClick" Style="{DynamicResource MapTerrainMenu}" />
+                                                    <RadioButton x:Name="MapSatellit" Grid.Column="0" Click="MapSatellitClick" Style="{DynamicResource MapSatellitMenu}" IsChecked="True"/>
+                                                    <RadioButton x:Name="MapStreet" Grid.Column="1" Click="MapStreetClick" Style="{DynamicResource MapStreetMenu}" />
+                                                    <RadioButton x:Name="MapTerrain" Grid.Column="2" Click="MapTerrainClick" Style="{DynamicResource MapTerrainMenu}" />
                                                 </Grid>
                                             </Grid>
                                         </Border>
@@ -841,8 +693,8 @@
                                                 <ColumnDefinition></ColumnDefinition>
                                                 <ColumnDefinition></ColumnDefinition>
                                             </Grid.ColumnDefinitions>
-                                            <RadioButton x:Name="SimData" Grid.Column="0" Click="simDataClick" Style="{DynamicResource SimDataMenu}" IsChecked="True"/>
-                                            <RadioButton x:Name="PayloadData" Grid.Column="1" Click="payloadDataClick" Style="{DynamicResource PayloadDataMenu}" />
+                                            <RadioButton x:Name="SimData" Grid.Column="0" Click="SimDataClick" Style="{DynamicResource SimDataMenu}" IsChecked="True"/>
+                                            <RadioButton x:Name="PayloadData" Grid.Column="1" Click="PayloadDataClick" Style="{DynamicResource PayloadDataMenu}" />
                                         </Grid>
                                         <TabControl Grid.Row="1" x:Name="DataPage" Background="Transparent" BorderBrush="Transparent" ScrollViewer.CanContentScroll="True">
                                             <TabControl.ItemContainerStyle>
@@ -962,7 +814,7 @@
                                                             Header="Checksum" />
                                                         </DataGrid.Columns>
                                                     </DataGrid>
-                                                    <Button Grid.Row="1" Margin="20,10,20,10" Click="btnCsv_Click">Export to CSV</Button>
+                                                    <Button Grid.Row="1" Margin="20,10,20,10" Click="BtnCsv_Click">Export to CSV</Button>
                                                 </Grid>
                                             </TabItem>
                                         </TabControl>
@@ -1139,7 +991,6 @@
                                                 Margin="0,72,100,0"
                                                 HorizontalAlignment="Right"
                                                 VerticalAlignment="Top"
-                                                Background="White"
                                                 CornerRadius="15">
                                                 <Button x:Name="ThreeDModelBtn" Click="ThreeDModelActivate">Start</Button>
                                             </Border>
@@ -1161,7 +1012,6 @@
                                                 Margin="0,112,100,0"
                                                 HorizontalAlignment="Right"
                                                 VerticalAlignment="Top"
-                                                Background="White"
                                                 CornerRadius="15">
                                                 <Button x:Name="MiniMapBtn" Click="MiniMapActivate">Start</Button>
                                             </Border>
@@ -1172,26 +1022,41 @@
                                                 <ColumnDefinition></ColumnDefinition>
                                                 <ColumnDefinition></ColumnDefinition>
                                             </Grid.ColumnDefinitions>
-                                            <Label
-                                            Grid.Column="0"
-                                            HorizontalContentAlignment="Center"
-                                            VerticalContentAlignment="Top"
-                                            Content="DATA CSV SETTING"
-                                            FontSize="20"
-                                            FontWeight="Bold"
-                                            Foreground="White" />
+                                            <Grid Grid.Column="0">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="0.5*"></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                </Grid.RowDefinitions>
+                                                <Label
+                                                Grid.Row="0"
+                                                Content="OPTIONS"
+                                                HorizontalContentAlignment="Center"
+                                                FontSize="20"
+                                                FontWeight="Bold"
+                                                Foreground="White" />
 
-                                            <Border
-                                                Grid.Column="0"
-                                                Width="110"
-                                                Height="25"
-                                                Margin="0,50,0,0"
-                                                HorizontalAlignment="Center"
+                                                <Label
+                                                Grid.Row="1"
+                                                Content="ENABLE AUTO SCROLL DATA"
+                                                HorizontalContentAlignment="Left"
                                                 VerticalAlignment="Top"
-                                                Background="White"
-                                                CornerRadius="15">
-                                                <Button x:Name="AutoScrollBtn" Click="AutoScrollActivate">Activate</Button>
-                                            </Border>
+                                                Margin="80,0,0,0"
+                                                FontSize="12"
+                                                FontWeight="Bold"
+                                                Foreground="White" />
+                                                <Border
+                                                Grid.Row="1"
+                                                Width="50"
+                                                Height="25"
+                                                Margin="0,6,100,0" 
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Top"
+                                                CornerRadius="0">
+                                                    <CheckBox x:Name="AutoScrollBtn" Click="AutoScrollActivate"></CheckBox>
+                                                </Border>
+                                            </Grid>
                                         </Grid>
                                     </Grid>
                                 </TabItem>
@@ -1352,7 +1217,7 @@
                                         </Grid.ColumnDefinitions>
                                         <Label Grid.Column="0" Content="CMD Echo" Foreground="White" FontSize="12" FontWeight="Regular" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                         <Label Grid.Column="1" Content=":" Foreground="White" FontSize="12" FontWeight="Regular" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        <Label x:Name="CMDEchoLabel" Grid.Column="3" Content="-" Foreground="White" FontSize="12" FontWeight="Regular" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                        <TextBlock x:Name="CMDEchoLabel" Grid.Column="3" Text="-" Foreground="White" FontSize="12" FontWeight="Regular" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                     </Grid>
                                     <Grid Grid.Row="4">
                                         <Grid.ColumnDefinitions>
@@ -1400,7 +1265,7 @@
                                         </Grid.ColumnDefinitions>
                                         <Label Grid.Column="0" Content="Valid" Foreground="White" FontSize="12" FontWeight="Regular" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                         <Label Grid.Column="1" Content=":" Foreground="White" FontSize="12" FontWeight="Regular" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        <Label x:Name="lblValidatedData" Grid.Column="2" Content="0" Foreground="White" FontSize="12" FontWeight="Regular" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                        <TextBlock x:Name="lblValidatedData" Grid.Column="2" Text="0" Foreground="White" FontSize="12" FontWeight="Regular" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                         <Label Grid.Column="2" Content="✔" Foreground="ForestGreen" FontSize="12" FontWeight="Regular" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Grid>
                                     <Grid Grid.Row="2">
@@ -1411,7 +1276,7 @@
                                         </Grid.ColumnDefinitions>
                                         <Label Grid.Column="0" Content="Corrupted" Foreground="White" FontSize="12" FontWeight="Regular" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                         <Label Grid.Column="1" Content=":" Foreground="White" FontSize="12" FontWeight="Regular" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        <Label x:Name="lblCorruptedData" Grid.Column="3" Content="0 " Foreground="White" FontSize="12" FontWeight="Regular" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                        <TextBlock x:Name="lblCorruptedData" Grid.Column="3" Text="0 " Foreground="White" FontSize="12" FontWeight="Regular" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                         <Label Grid.Column="3" Content="🚫" Foreground="Red" FontSize="12" FontWeight="Regular" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Grid>
                                     <Grid Grid.Row="3">
@@ -1422,7 +1287,7 @@
                                         </Grid.ColumnDefinitions>
                                         <Label Grid.Column="0" Content="Total Data" Foreground="White" FontSize="12" FontWeight="Regular" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                         <Label Grid.Column="1" Content=":" Foreground="White" FontSize="12" FontWeight="Regular" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        <Label x:Name="lblTotalData" Grid.Column="2" Content="0" Foreground="White" FontSize="12" FontWeight="Regular" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                        <TextBlock x:Name="lblTotalData" Grid.Column="2" Text="0" Foreground="White" FontSize="12" FontWeight="Regular" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                     </Grid>
                                 </Grid>
                                 <!--#region separator-->

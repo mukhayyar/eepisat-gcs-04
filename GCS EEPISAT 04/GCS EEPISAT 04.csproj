@@ -7,6 +7,7 @@
     <ApplicationIcon>GCS.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <LangVersion>9.0</LangVersion>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
   
   <ItemGroup>
@@ -167,10 +168,10 @@
 	  <HintPath>..\..\..\..\..\..\Program Files\Reference Assemblies\Microsoft\Framework\v3.0\WindowsFormsIntegration.dll</HintPath>
 	</Reference>
 	<PackageReference Include="Aspose.GIS" Version="22.11.0" />
-	<PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
 	<PackageReference Include="Emoji.Wpf" Version="0.3.4" />
 	<PackageReference Include="GeoCoordinate.NetCore" Version="1.0.0.1" />
-	<PackageReference Include="LiveChartsCore.SkiaSharpView.WPF" Version="2.0.0-beta.700" />
+	<PackageReference Include="ScottPlot" Version="4.1.60" />
+	<PackageReference Include="ScottPlot.WPF" Version="4.1.60" />
 	<PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
 	<PackageReference Include="System.Data.SQLite" Version="1.0.117" />
 	<PackageReference Include="System.Data.SQLite.Core" Version="1.0.117" />
