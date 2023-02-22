@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GCS_EEPISAT_04"
-        xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
         xmlns:gmapwf="clr-namespace:GMap.NET.WindowsForms;assembly=GMap.NET.WindowsForms"
         xmlns:h="http://helix-toolkit.org/wpf"
         mc:Ignorable="d"
