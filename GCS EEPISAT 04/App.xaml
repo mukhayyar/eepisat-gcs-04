@@ -212,7 +212,7 @@
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Image
                             Width="70"
-                            Source="/Assets/Reconnect.png"
+                            Source="/Assets/Restart.png"
                             Style="{DynamicResource Icon}"/>
                     <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
@@ -468,11 +468,21 @@
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
                                 <Image
+                                        x:Name="DisconnectPortImg"
                                         Grid.Column="0"
-                                        Source="/assets/Reconnect.png">
+                                        Width="60"
+                                        Height="60">
                                     <Image.Effect>
                                         <DropShadowEffect BlurRadius="8" Opacity="0.2" />
                                     </Image.Effect>
+                                    <Image.Style>
+                                        <Style TargetType="{x:Type Image}">
+                                            <Setter Property="Source" Value="/Assets/Reconnect.png" />
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True" />
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Image.Style>
                                 </Image>
                             </Grid>
                         </Border>

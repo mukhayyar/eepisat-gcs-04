@@ -84,6 +84,7 @@ namespace GCS_EEPISAT_04
         char mode; // F & S
 
         float altitude;
+        float last_altitude = 0.0f;
         float max_altitude;
         float max_max_altitude;
         char hs_status;
@@ -112,6 +113,7 @@ namespace GCS_EEPISAT_04
         bool checkSumHasil;
         int validCount = 0;
         int corruptCount = 0;
+        float speed;
 
         bool hs_deployed = false;
         bool mast_raised = false;
@@ -217,6 +219,14 @@ namespace GCS_EEPISAT_04
                 Directory.CreateDirectory(binAppPath + "\\LogData\\SIMULATION");
             }
 
+            SatellitCountPlot.Refresh();
+            PressurePlot.Refresh();
+            VoltagePlot.Refresh();
+            TemperaturePlot.Refresh();
+            TiltPlot.Refresh();
+            AltitudePlot.Refresh();
+            LatLongPlot.Refresh();
+
             // setup graph
             SatellitCountPlot.Plot.Style(ScottPlot.Style.Gray1);
             SatellitCountPlot.Plot.Title("GPS Sats");
@@ -244,18 +254,18 @@ namespace GCS_EEPISAT_04
 
             TemperaturePlot.Plot.AddSignal(Temperature, color: System.Drawing.Color.FromArgb(255, 222, 158, 93), label: "Temperature");
             TemperaturePlot.Plot.Legend();
-            TemperaturePlot.Plot.SetAxisLimits(0, 10, -5, 60);
+            TemperaturePlot.Plot.SetAxisLimits(0, 10, -5, 50);
 
             VoltagePlot.Plot.AddSignal(Voltage, color: System.Drawing.Color.FromArgb(255, 222, 158, 93), label: "Voltage");
             VoltagePlot.Plot.Legend();
-            VoltagePlot.Plot.SetAxisLimits(0, 10, -10, 45);
+            VoltagePlot.Plot.SetAxisLimits(0, 10, -10, 10);
 
             TiltPlot.Plot.AddSignal(TiltX, label: "Tilt X");
             TiltPlot.Plot.AddSignal(TiltY, label: "Tilt Y");
             TiltPlot.Plot.Legend();
-            TiltPlot.Plot.SetAxisLimits(0, 50, -50, 50);
+            TiltPlot.Plot.SetAxisLimits(0, 10, -50, 50);
 
-            LatLongPlot.Plot.AddScatter(Lat, Long, color: System.Drawing.Color.FromArgb(255, 222, 158, 93), markerSize: 0, label: "Long & Lat");
+            LatLongPlot.Plot.AddScatter(Lat, Long, color: System.Drawing.Color.FromArgb(255, 222, 158, 93), markerSize: 0, label: "Lat & Long");
             //LatLongPlot.Plot.AddSignal(Lat, label: "Latitude");
             //LatLongPlot.Plot.AddSignal(Long, label: "Longitude");
             LatLongPlot.Plot.Legend();
@@ -264,7 +274,7 @@ namespace GCS_EEPISAT_04
             SignalPlot = AltitudePlot.Plot.AddSignal(PayloadAlt, color: System.Drawing.Color.FromArgb(255, 222, 158, 93), label: "Payload");
             AltitudePlot.Plot.AddSignal(GPSAlt, color: System.Drawing.Color.FromArgb(255, 106, 128, 184), label: "GPS");
             AltitudePlot.Plot.Legend();
-            AltitudePlot.Plot.SetAxisLimits(0, 10, -80, 1250);
+            AltitudePlot.Plot.SetAxisLimits(0, 10, -80, 1000);
 
             timergraph.Interval = new TimeSpan(0,0,1);
             timergraph.Tick += new EventHandler(TimerGraph_Tick);
@@ -282,7 +292,7 @@ namespace GCS_EEPISAT_04
         {
             if(graphOnline)
             {
-                if(mast_status == 'M' && state == "LANDED")
+                if(mast_status == 'M' && state == "LANDED" && teamId != 1000)
                 {
                     timergraph.Stop();
                 }
@@ -933,7 +943,11 @@ namespace GCS_EEPISAT_04
                     max_max_altitude = Math.Abs(max_altitude);
                 }
 
-                max_temperature = temperature;
+                speed = Math.Abs(altitude - last_altitude);
+                last_altitude = altitude;
+
+                System.Diagnostics.Debug.WriteLine("VerifyData : The Speed " + speed);
+                 max_temperature = temperature;
                 if (Math.Abs(max_temperature) > this.max_max_temperature)
                 {
                     max_max_temperature = Math.Abs(max_temperature);
@@ -1118,7 +1132,7 @@ namespace GCS_EEPISAT_04
                 SatellitCountPlot.Plot.XAxis.Label(size: 12);
                 PressurePlot.Plot.XLabel("Pressure: " + pressure + " kPa");
                 PressurePlot.Plot.XAxis.Label(size: 12);
-                AltitudePlot.Plot.XLabel("Payload: " + altitude + " m GPS: "+gps_altitude+" m");
+                AltitudePlot.Plot.XLabel("Probe: " + altitude + " m GPS: " + gps_altitude + " m" + " Speed: " + speed + " m/s");
                 AltitudePlot.Plot.XAxis.Label(size: 12);
                 TemperaturePlot.Plot.XLabel("Temp: " + temperature + " °C");
                 TemperaturePlot.Plot.XAxis.Label(size: 12);

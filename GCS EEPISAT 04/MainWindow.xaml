@@ -536,7 +536,7 @@
                                                     <ColumnDefinition></ColumnDefinition>
                                                 </Grid.ColumnDefinitions>
                                                 <Grid Grid.Column="0">
-                                                    <WpfPlot x:Name="SatellitCountPlot"></WpfPlot>
+                                                    <WpfPlot x:Name="VoltagePlot"></WpfPlot>
                                                 </Grid>
                                                 <Grid Grid.Column="2">
                                                     <WpfPlot x:Name="PressurePlot"></WpfPlot>
@@ -557,7 +557,7 @@
                                                         <RowDefinition></RowDefinition>
                                                     </Grid.RowDefinitions>
                                                     <WpfPlot Grid.Row="0" x:Name="TemperaturePlot"></WpfPlot>
-                                                    <WpfPlot Grid.Row="1" x:Name="VoltagePlot"></WpfPlot>
+                                                    <WpfPlot Grid.Row="1" x:Name="SatellitCountPlot"></WpfPlot>
                                                 </Grid>
                                                 <Grid Grid.Column="1">
                                                     <WpfPlot x:Name="LatLongPlot"></WpfPlot>
@@ -946,9 +946,8 @@
                                                     <Button
                                                         x:Name="RestartPortBtn"
                                                         Grid.Column="2"
-                                                        Width="70"
-                                                        Height="70"
-                                                        Margin="10,0,10,0"
+                                                        Width="90"
+                                                        Height="90"
                                                         Click="RestartPortBtn_Click"
                                                         Style="{DynamicResource RestartPort}" />
                                             </Grid>
@@ -1216,7 +1215,7 @@
                                         </Grid.ColumnDefinitions>
                                         <Label Grid.Column="0" Content="CMD Echo" Foreground="White" FontSize="12" FontWeight="Regular" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                         <Label Grid.Column="1" Content=":" Foreground="White" FontSize="12" FontWeight="Regular" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        <TextBlock x:Name="CMDEchoLabel" Grid.Column="3" Text="-" Foreground="White" FontSize="12" FontWeight="Regular" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                        <TextBlock x:Name="CMDEchoLabel" Grid.Column="3" Margin="5,0,0,0" Text="-" Foreground="White" FontSize="12" FontWeight="Regular" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                     </Grid>
                                     <Grid Grid.Row="4">
                                         <Grid.ColumnDefinitions>
