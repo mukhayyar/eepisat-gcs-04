@@ -11,7 +11,9 @@
         WindowState="Maximized"
         WindowStyle="None"
         Loaded="WindowLoaded"
-        Title="GCS 04" Height="768" Width="1366">
+        Width="{x:Static SystemParameters.PrimaryScreenWidth}"  
+        Height="{x:Static SystemParameters.PrimaryScreenHeight}"
+        Title="GCS 04">
     <!--<Window.DataContext>
         <local:MainWindow />
     </Window.DataContext>-->
@@ -26,10 +28,10 @@
                 <Border Grid.Row="1" CornerRadius="30" Background="#222222" Margin="15 15 15 15">
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="270"></RowDefinition>
-                            <RowDefinition Height="10"></RowDefinition>
-                            <RowDefinition Height="310"></RowDefinition>
-                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="1.5*"></RowDefinition>
+                            <RowDefinition Height="0.1*"></RowDefinition>
+                            <RowDefinition Height="1.7*"></RowDefinition>
+                            <RowDefinition Height="1*"></RowDefinition>
                         </Grid.RowDefinitions>
                         
                         <Border Grid.Row="0" Background="#292929" CornerRadius="30 30 30 30" Margin="20 20 20 20"/>
@@ -74,11 +76,11 @@
                         <Border  Grid.Row="1" Background="#FFFFFF" Width="250" Height="5" CornerRadius="2" />
                         <Grid Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top" Width="200" Margin="0 15 0 0">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="60" />
-                                <RowDefinition Height="60" />
-                                <RowDefinition Height="60" />
-                                <RowDefinition Height="60" />
-                                <RowDefinition Height="60" />
+                                <RowDefinition Height="0.2*" />
+                                <RowDefinition Height="0.2*" />
+                                <RowDefinition Height="0.2*" />
+                                <RowDefinition Height="0.2*" />
+                                <RowDefinition Height="0.2*" />
                             </Grid.RowDefinitions>
                             <RadioButton x:Name="HomeMenu" Grid.Row="0" Click="HomeNavClick" Style="{DynamicResource HomeMenu}" IsChecked="True"/>
                             <RadioButton x:Name="GraphMenu" Grid.Row="1" Click="GraphNavClick" Style="{DynamicResource GraphMenu}" />
@@ -86,7 +88,7 @@
                             <RadioButton x:Name="DataMenu" Grid.Row="3" Click="DataCsvNavClick" Style="{DynamicResource DataMenu}" />
                             <RadioButton x:Name="SettingMenu" Grid.Row="4" Click="SettingNavClick" Style="{DynamicResource SettingMenu}" />
                         </Grid>
-                        <Viewbox Grid.Row="3" Width="80" Height="100" Margin="0 0 0 40">
+                        <Viewbox Grid.Row="3" Width="100" Height="100" Margin="0 0 0 40">
                             <StackPanel Orientation="Horizontal">
                                 <Border BorderBrush="#00c000" BorderThickness="2" CornerRadius="5" Padding="2" Width="100" Height="50">
                                     <Grid>
@@ -492,13 +494,14 @@
                                                             Margin="10"
                                                             ShowCoordinateSystem="True"
                                                             ShowFrameRate="True"
-                                                            ShowViewCube="False">
+                                                            ShowViewCube="True">
                                                             <h:HelixViewport3D.Camera>
-                                                                    <PerspectiveCamera LookDirection="0.000,0.000,-12.601" Position="0.000,0.000,2500.000" />
+                                                                    <PerspectiveCamera x:Name="modelCamera" FieldOfView="45" LookDirection="0.000,0.000,-12.601" Position="0.000,200.000,1800.000" />
                                                                 </h:HelixViewport3D.Camera>
-                                                                <h:DefaultLights />
-                                                                <ModelVisual3D x:Name="model" />
-                                                        </h:HelixViewport3D>
+                                                            <h:DefaultLights />
+                                                            
+                                                            <ModelVisual3D x:Name="model" />
+                                                            </h:HelixViewport3D>
                                                     </Border>
                                                 </Grid>
                                             </Border>
@@ -1054,6 +1057,34 @@
                                                 CornerRadius="0">
                                                     <CheckBox x:Name="AutoScrollBtn" Click="AutoScrollActivate"></CheckBox>
                                                 </Border>
+                                                <Label
+                                                Grid.Row="2"
+                                                Content="CHOOSE LOCATION"
+                                                HorizontalContentAlignment="Center"
+                                                VerticalAlignment="Top"
+                                                FontSize="12"
+                                                FontWeight="Bold"
+                                                Foreground="White" />
+                                                <Border
+                                                Grid.Row="2"
+                                                Width="60"
+                                                Height="25"
+                                                Margin="0,0,150,0" 
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Center"
+                                                CornerRadius="0">
+                                                    <Button x:Name="ChooseVirginia" Click="BtnVirginiaClick">Virginia</Button>
+                                                </Border>
+                                                <Border
+                                                Grid.Row="2"
+                                                Width="60"
+                                                Height="25"
+                                                Margin="150,0,0,0" 
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                CornerRadius="0">
+                                                    <Button x:Name="ChooseSurabaya" Click="BtnSurabayaClick">Surabaya</Button>
+                                                </Border>
                                             </Grid>
                                         </Grid>
                                     </Grid>
@@ -1063,13 +1094,13 @@
                         <Border Grid.Column="1" CornerRadius="30" Background="#222222" Margin="15 15 15 15">
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="200" />
-                                    <RowDefinition Height="10" />
-                                    <RowDefinition Height="190" />
-                                    <RowDefinition Height="10" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="10" />
-                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="0.8*" />
+                                    <RowDefinition Height="0.05*" />
+                                    <RowDefinition Height="1*" />
+                                    <RowDefinition Height="0.05*" />
+                                    <RowDefinition Height="0.6*" />
+                                    <RowDefinition Height="0.05*" />
+                                    <RowDefinition Height="0.3*" />
                                 </Grid.RowDefinitions>
                                 <Label
                                 Grid.Row="0"

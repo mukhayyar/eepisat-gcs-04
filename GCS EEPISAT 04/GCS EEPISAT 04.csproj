@@ -12,10 +12,29 @@
   
   <ItemGroup>
     <None Remove="Assets\3D.png" />
+    <None Remove="Assets\3D\Bendera.png" />
+    <None Remove="Assets\3D\Caffe Frappe_normal.jpg" />
+    <None Remove="Assets\3D\Caffe Frappe_roughness.jpg" />
+    <None Remove="Assets\3D\Caffe_Frappe_diffuse.jpg" />
+    <None Remove="Assets\3D\Finishes_Laminate_CarbonFiber.jpg" />
+    <None Remove="Assets\3D\Finishes_Laminate_CarbonFiber_Bump.jpg" />
+    <None Remove="Assets\3D\maple_natural.png" />
+    <None Remove="Assets\3D\NORMAL_Ripstop_Nylon.png" />
+    <None Remove="Assets\3D\plastic_Smooth_bump.png" />
+    <None Remove="Assets\3D\probe-texture.jpg" />
     <None Remove="Assets\3D\Probe.obj" />
+    <None Remove="Assets\3D\Probe_Deploy.mtl" />
     <None Remove="Assets\3D\Probe_Deploy.obj" />
+    <None Remove="Assets\3D\Probe_Deploy_Parachute.mtl" />
+    <None Remove="Assets\3D\Probe_Deploy_Parachute.obj" />
+    <None Remove="Assets\3D\Probe_Stowed.mtl" />
     <None Remove="Assets\3D\Probe_Stowed.obj" />
     <None Remove="Assets\3D\Probe_Upright.obj" />
+    <None Remove="Assets\3D\Probe_Uprighting.mtl" />
+    <None Remove="Assets\3D\Probe_Uprighting.obj" />
+    <None Remove="Assets\3D\Steelplt.png" />
+    <None Remove="Assets\3D\texture-ripston-nylon.jpg" />
+    <None Remove="Assets\3D\TEXTURE_Ripstop_Nylon.jpg" />
     <None Remove="Assets\Accel.png" />
     <None Remove="Assets\Air Pressure.png" />
     <None Remove="Assets\CanSat.png" />
@@ -96,17 +115,68 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Assets\3D\Probe.obj">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Content Include="Assets\3D\Bendera.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\3D\Caffe Frappe_normal.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\3D\Caffe Frappe_roughness.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\3D\Caffe_Frappe_diffuse.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\3D\Finishes_Laminate_CarbonFiber.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\3D\Finishes_Laminate_CarbonFiber_Bump.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\3D\maple_natural.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\3D\NORMAL_Ripstop_Nylon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\3D\plastic_Smooth_bump.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\3D\probe-texture.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\3D\Probe_Deploy.mtl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\3D\Probe_Deploy.obj">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\3D\Probe_Deploy_Parachute.mtl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\3D\Probe_Deploy_Parachute.obj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\3D\Probe_Stowed.mtl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\3D\Probe_Stowed.obj">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\3D\Probe_Upright.obj">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Content Include="Assets\3D\Probe_Uprighting.mtl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\3D\Probe_Uprighting.obj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\3D\Steelplt.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\3D\texture-ripston-nylon.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\3D\TEXTURE_Ripstop_Nylon.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\Air Pressure.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -18,6 +18,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using System.Management;
+using System.Drawing;
 
 // Map
 using GMap.NET;
@@ -40,13 +41,15 @@ using System.Windows.Media;
 using Emoji;
 using System.Numerics;
 using System.Windows.Media.Animation;
+using System.Runtime.ConstrainedExecution;
+using Windows.UI.Xaml;
 
 namespace GCS_EEPISAT_04
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : System.Windows.Window
     {
         readonly SerialPort _serialPort = new();
         enum Sequencer { readSensor };
@@ -93,15 +96,12 @@ namespace GCS_EEPISAT_04
         float temperature;
         float max_temperature;
         float max_max_temperature;
-        string time_max_max_temperature;
         float pressure;
         float max_pressure;
         float max_max_pressure;
-        string time_max_max_pressure;
         float voltage;
         float max_voltage;
         float max_max_voltage;
-        string time_max_max_voltage;
         string gps_time;
         float gps_altitude;
         float gps_latitude;
@@ -114,11 +114,18 @@ namespace GCS_EEPISAT_04
         int validCount = 0;
         int corruptCount = 0;
         float speed;
+        float[] tilt_x_gen = new float[24];
+        float[] tilt_y_gen = new float[24];
 
         bool hs_deployed = false;
+        bool pc_deployed = false;
         bool mast_raised = false;
         bool auto_scroll = false;
-        
+        bool minimap_check = false;
+        string statusRegion = "Surabaya";
+        float gcs_latitude = 0.0f;
+        float gcs_longitude = 0.0f;
+
         int totalPayloadData = 0;
         
 
@@ -144,13 +151,26 @@ namespace GCS_EEPISAT_04
         
         int timerCSV = 0;
 
-        
-        readonly DispatcherTimer timerSimulation = new();
-        readonly DispatcherTimer timergraph = new();
+        public System.Threading.Timer timerCommand;
+        int counterCommand = 0; 
+
+
+        readonly System.Windows.Threading.DispatcherTimer timerSimulation = new();
+        readonly System.Windows.Threading.DispatcherTimer timergraph = new();
+        readonly System.Windows.Threading.DispatcherTimer timerGen3d = new();
+
 
         string fileobj;
+        string fileobj2;
+        string fileobj3;
+        string fileobj4;
 
-        private GeoCoordinateWatcher watcher = null;
+        Model3DGroup model1;
+        Model3DGroup model2;
+        Model3DGroup model3;
+        Model3DGroup model4;
+
+        readonly private GeoCoordinateWatcher watcher = null;
         double distance = 0;
 
         
@@ -175,6 +195,12 @@ namespace GCS_EEPISAT_04
         readonly double[] GPSAlt = new double[100_000];
         
         readonly ScottPlot.Plottable.SignalPlot SignalPlot;
+        readonly ScottPlot.Plottable.SignalPlot SignalPlot2;
+        readonly ScottPlot.Plottable.SignalPlot SignalPlot3;
+        readonly ScottPlot.Plottable.SignalPlot SignalPlot4;
+        readonly ScottPlot.Plottable.SignalPlot SignalPlot5;
+        readonly ScottPlot.Plottable.SignalPlot SignalPlot6;
+        readonly ScottPlot.Plottable.SignalPlot SignalPlot7;
         int NextPointIndex = 0;
 
         public MainWindow()
@@ -188,7 +214,7 @@ namespace GCS_EEPISAT_04
             SoundPlayer player = new(binAppPath + "/Audio/GCSSTART.wav");
             player.Play();
 
-            watcher = new GeoCoordinateWatcher();
+            watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.Default);
             watcher.Start();
 
 
@@ -197,13 +223,23 @@ namespace GCS_EEPISAT_04
             
             timerSimulation.Interval = TimeSpan.FromMilliseconds(1000);
             timerSimulation.Tick += TimerSimulation_Tick;
-            timerSimulation.Start();
 
             timer.Interval = new TimeSpan(0, 0, 1);
             timer.Tick += new EventHandler(Timer_Tick);
             timer.Start();
 
             fileobj = System.AppDomain.CurrentDomain.BaseDirectory + "/Assets/3D/Probe_Stowed.obj";
+            fileobj2 = System.AppDomain.CurrentDomain.BaseDirectory + "/Assets/3D/Probe_Deploy.obj";
+            fileobj3 = System.AppDomain.CurrentDomain.BaseDirectory + "/Assets/3D/Probe_Deploy_Parachute.obj";
+            fileobj4 = System.AppDomain.CurrentDomain.BaseDirectory + "/Assets/3D/Probe_Uprighting.obj";
+            ModelImporter import = new();
+            this.Dispatcher.Invoke(() =>
+            {
+                model1 = import.Load(fileobj);
+                model2 = import.Load(fileobj2);
+                model3 = import.Load(fileobj3);
+                model4 = import.Load(fileobj4);
+            });
 
             // CSV
             if (!Directory.Exists(binAppPath + "\\LogData\\"))
@@ -243,27 +279,28 @@ namespace GCS_EEPISAT_04
             LatLongPlot.Plot.Style(ScottPlot.Style.Gray1);
             LatLongPlot.Plot.Title("Latitude & Longitude");
 
-            SatellitCountPlot.Plot.AddSignal(GPSSats, color: System.Drawing.Color.FromArgb(255, 222, 158, 93), label: "GPS Sats");
+
+            SignalPlot = SatellitCountPlot.Plot.AddSignal(GPSSats, color: System.Drawing.Color.FromArgb(255, 222, 158, 93), label: "GPS Sats");
             SatellitCountPlot.Plot.Legend();
-            SatellitCountPlot.Plot.SetAxisLimits(0, 10, -2, 30);
+            SatellitCountPlot.Plot.SetAxisLimits(0, 1, -2, 30);
 
-            PressurePlot.Plot.AddSignal(Pressure, color: System.Drawing.Color.FromArgb(255, 222, 158, 93), label: "Pressure");
+            SignalPlot2 = PressurePlot.Plot.AddSignal(Pressure, color: System.Drawing.Color.FromArgb(255, 222, 158, 93), label: "Pressure");
             PressurePlot.Plot.Legend();
-            PressurePlot.Plot.SetAxisLimits(0, 10, -5, 200);
+            PressurePlot.Plot.SetAxisLimits(0, 1, -5, 200);
 
 
-            TemperaturePlot.Plot.AddSignal(Temperature, color: System.Drawing.Color.FromArgb(255, 222, 158, 93), label: "Temperature");
+            SignalPlot3 = TemperaturePlot.Plot.AddSignal(Temperature, color: System.Drawing.Color.FromArgb(255, 222, 158, 93), label: "Temperature");
             TemperaturePlot.Plot.Legend();
-            TemperaturePlot.Plot.SetAxisLimits(0, 10, -5, 50);
+            TemperaturePlot.Plot.SetAxisLimits(0, 1, -5, 50);
 
-            VoltagePlot.Plot.AddSignal(Voltage, color: System.Drawing.Color.FromArgb(255, 222, 158, 93), label: "Voltage");
+            SignalPlot4 = VoltagePlot.Plot.AddSignal(Voltage, color: System.Drawing.Color.FromArgb(255, 222, 158, 93), label: "Voltage");
             VoltagePlot.Plot.Legend();
-            VoltagePlot.Plot.SetAxisLimits(0, 10, -10, 10);
+            VoltagePlot.Plot.SetAxisLimits(0, 1, -10, 10);
 
-            TiltPlot.Plot.AddSignal(TiltX, label: "Tilt X");
-            TiltPlot.Plot.AddSignal(TiltY, label: "Tilt Y");
+            SignalPlot5 = TiltPlot.Plot.AddSignal(TiltX, label: "Tilt X");
+            SignalPlot7 = TiltPlot.Plot.AddSignal(TiltY, label: "Tilt Y");
             TiltPlot.Plot.Legend();
-            TiltPlot.Plot.SetAxisLimits(0, 10, -50, 50);
+            TiltPlot.Plot.SetAxisLimits(0, 1, -50, 50);
 
             LatLongPlot.Plot.AddScatter(Lat, Long, color: System.Drawing.Color.FromArgb(255, 222, 158, 93), markerSize: 0, label: "Lat & Long");
             //LatLongPlot.Plot.AddSignal(Lat, label: "Latitude");
@@ -271,24 +308,37 @@ namespace GCS_EEPISAT_04
             LatLongPlot.Plot.Legend();
             LatLongPlot.Plot.SetAxisLimits(-180, 180, -180, 180);
 
-            SignalPlot = AltitudePlot.Plot.AddSignal(PayloadAlt, color: System.Drawing.Color.FromArgb(255, 222, 158, 93), label: "Payload");
+            SignalPlot6 = AltitudePlot.Plot.AddSignal(PayloadAlt, color: System.Drawing.Color.FromArgb(255, 222, 158, 93), label: "Payload");
             AltitudePlot.Plot.AddSignal(GPSAlt, color: System.Drawing.Color.FromArgb(255, 106, 128, 184), label: "GPS");
             AltitudePlot.Plot.Legend();
-            AltitudePlot.Plot.SetAxisLimits(0, 10, -80, 1000);
+            AltitudePlot.Plot.SetAxisLimits(0, 1, -80, 1000);
 
             timergraph.Interval = new TimeSpan(0,0,1);
             timergraph.Tick += new EventHandler(TimerGraph_Tick);
+
+
+            //timerGen3d.Interval = TimeSpan.FromMilliseconds(33.3);
+            //timerGen3d.Tick += new EventHandler(timerGen3d_Tick);
+
+        }
+
+        private void timerGen3d_Tick(object sender, EventArgs e)
+        {
+            Timer3DGen(sender, e);
+        }
+
+        private void Timer3DGen(object sender, EventArgs e)
+        {
+
         }
 
         private void TimerGraph_Tick(object sender, EventArgs e)
         {
-            timerSatOne_Tick(sender, e);
-            timerSatTwo_Tick(sender, e);
+            TimerSatOne_Tick(sender, e);
+            TimerSatTwo_Tick(sender, e);
         }
 
-
-        // This timer adds data frequently (1000 times / second)
-        private void timerSatOne_Tick(object sender, EventArgs e)
+        private void TimerSatOne_Tick(object sender, EventArgs e)
         {
             if(graphOnline)
             {
@@ -322,24 +372,38 @@ namespace GCS_EEPISAT_04
             }
 
             SignalPlot.MaxRenderIndex = NextPointIndex;
+            SignalPlot2.MaxRenderIndex = NextPointIndex;
+            SignalPlot3.MaxRenderIndex = NextPointIndex;
+            SignalPlot4.MaxRenderIndex = NextPointIndex;
+            SignalPlot5.MaxRenderIndex = NextPointIndex;
+            SignalPlot6.MaxRenderIndex = NextPointIndex;
+            SignalPlot7.MaxRenderIndex = NextPointIndex;
             NextPointIndex += 1;
         }
 
-        // This timer renders infrequently (10 times per second)
-        private void timerSatTwo_Tick(object sender, EventArgs e)
+        // This timer renders infrequently (1 times per second)
+        private void TimerSatTwo_Tick(object sender, EventArgs e)
         {
             // adjust the axis limits only when needed
             double currentRightEdge = SatellitCountPlot.Plot.GetAxisLimits().XMax;
             
             if (NextPointIndex > currentRightEdge)
             {
-                SatellitCountPlot.Plot.SetAxisLimits(xMax: currentRightEdge + 100);
-                PressurePlot.Plot.SetAxisLimits(xMax: currentRightEdge + 100);
-                VoltagePlot.Plot.SetAxisLimits(xMax: currentRightEdge + 100);
-                TemperaturePlot.Plot.SetAxisLimits(xMax: currentRightEdge + 100);
-                TiltPlot.Plot.SetAxisLimits(xMax: currentRightEdge + 100);
-                AltitudePlot.Plot.SetAxisLimits(xMax: currentRightEdge + 100);
-                LatLongPlot.Plot.SetAxisLimits(xMax: currentRightEdge + 100);
+                SatellitCountPlot.Plot.SetAxisLimits(xMax: currentRightEdge + 1);
+                PressurePlot.Plot.SetAxisLimits(xMax: currentRightEdge + 1);
+                VoltagePlot.Plot.SetAxisLimits(xMax: currentRightEdge + 1);
+                TemperaturePlot.Plot.SetAxisLimits(xMax: currentRightEdge + 1);
+                TiltPlot.Plot.SetAxisLimits(xMax: currentRightEdge + 1);
+                AltitudePlot.Plot.SetAxisLimits(xMax: currentRightEdge + 1);
+                if(NextPointIndex != 0 &&NextPointIndex % 10 == 0)
+                {
+                    SatellitCountPlot.Plot.SetAxisLimits(xMin: NextPointIndex - 10);
+                    PressurePlot.Plot.SetAxisLimits(xMin: NextPointIndex - 10);
+                    VoltagePlot.Plot.SetAxisLimits(xMin: NextPointIndex - 10);
+                    TemperaturePlot.Plot.SetAxisLimits(xMin: NextPointIndex - 10);
+                    TiltPlot.Plot.SetAxisLimits(xMin: NextPointIndex - 10);
+                    AltitudePlot.Plot.SetAxisLimits(xMin: NextPointIndex - 10);
+                }
             }
 
             SatellitCountPlot.Render();
@@ -384,9 +448,8 @@ namespace GCS_EEPISAT_04
             (sender as ManagementEventWatcher).Start();
         }
 
-        private void WindowLoaded(object sender, RoutedEventArgs e)
+        private void WindowLoaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            watcher = new GeoCoordinateWatcher();
             watcher.StatusChanged += Watcher_StatusChanged;
             watcher.Start();
 
@@ -422,15 +485,6 @@ namespace GCS_EEPISAT_04
 
         }
 
-        private void WindowClosed(object sender, EventHandler e)
-        {
-            SoundPlayer player = new(binAppPath + "/Audio/GCSSTOP.wav");
-            player.Play();
-            timerSimulation.Stop();
-            timerCSV = 0;
-            timer.Stop();
-        }
-
         private void NewLine(string NewLine)
         {
             SerialControlTextBox.AppendText(NewLine);
@@ -445,21 +499,32 @@ namespace GCS_EEPISAT_04
                 GmapView.MapProvider = GoogleMapProvider.Instance;
                 GmapView.Manager.Mode = AccessMode.ServerAndCache;
                 GmapView.CacheLocation = binAppPath + "\\MapCache\\";
-                GmapView.Position = new PointLatLng(watcher.Position.Location.Latitude, watcher.Position.Location.Longitude); 
                 GmapView.MinZoom = 0;
                 GmapView.MaxZoom = 18;
-                GmapView.Zoom = 18;
+                GmapView.Zoom = 15;
                 GmapView.ShowCenter = false;
                 GmapView.DragButton = MouseButtons.Left;
-                Dispatcher.BeginInvoke((Action)(() =>
+                if (watcher.Position.Location.Latitude.ToString() != "NaN" && watcher.Position.Location.Longitude.ToString() != "NaN")
                 {
-                    GMapOverlay markers = new("markers");
-                    var markerGCS = new GMapOverlay("markers");
-                    mapMarkerGCS = new GMarkerGoogle(new PointLatLng(watcher.Position.Location.Latitude, watcher.Position.Location.Longitude), GMarkerGoogleType.blue_pushpin);
+                    GmapViewHome.Position = new PointLatLng(watcher.Position.Location.Latitude, watcher.Position.Location.Longitude);
+                    Dispatcher.BeginInvoke((Action)(() =>
+                    {
+                        GMapOverlay markers = new("markers");
+                        var markerGCS = new GMapOverlay("markers");
+                        mapMarkerGCS = new GMarkerGoogle(new PointLatLng(watcher.Position.Location.Latitude, watcher.Position.Location.Longitude), GMarkerGoogleType.arrow);
 
-                    markers.Markers.Add(mapMarkerGCS);
-                    GmapView.Overlays.Add(markers);
-                }));
+                        markers.Markers.Add(mapMarkerGCS);
+                        GmapView.Overlays.Add(markers);
+                    }));
+                }
+                else if (statusRegion == "Virginia")
+                {
+                    GmapViewHome.Position = new PointLatLng(37.196334, -80.578348);
+                }
+                else if (statusRegion == "Surabaya")
+                {
+                    GmapViewHome.Position = new PointLatLng(-7.2740428, 112.7986227);
+                }
                 GC.Collect();
             }
             catch (NullReferenceException)
@@ -493,50 +558,86 @@ namespace GCS_EEPISAT_04
                 GmapViewHome.MapProvider = GoogleSatelliteMapProvider.Instance;
                 GmapViewHome.Manager.Mode = AccessMode.ServerAndCache;
                 GmapViewHome.CacheLocation = binAppPath + "\\MapCache\\";
-                GmapViewHome.Position = new PointLatLng(watcher.Position.Location.Latitude, watcher.Position.Location.Longitude);
                 GmapViewHome.MinZoom = 0;
                 GmapViewHome.MaxZoom = 18;
-                GmapViewHome.Zoom = 18;
+                GmapViewHome.Zoom = 16;
                 GmapViewHome.ShowCenter = false;
                 GmapViewHome.DragButton = MouseButtons.Left;
-                Dispatcher.BeginInvoke((Action)(() =>
+                if(watcher.Position.Location.Latitude.ToString() != "NaN" && watcher.Position.Location.Longitude.ToString() != "NaN")
                 {
-                    GCSStatusText.Content = "In Service";
-                    GCSStatusIcon.Foreground = System.Windows.Media.Brushes.Green;
-                    string latitude = watcher.Position.Location.Latitude.ToString();
-                    string longitude = watcher.Position.Location.Longitude.ToString();
-                    GCSCoordinateText.Content = latitude.Substring(0, 7) + ", " + longitude.Substring(0, 7);
-                    GMapOverlay markers = new("markers");
-                    var markerGCS = new GMapOverlay("markers");
-                    mapMarkerGCS = new GMarkerGoogle(new PointLatLng(watcher.Position.Location.Latitude, watcher.Position.Location.Longitude), GMarkerGoogleType.arrow);
+                    GmapViewHome.Position = new PointLatLng(watcher.Position.Location.Latitude, watcher.Position.Location.Longitude);
+                    Dispatcher.BeginInvoke((Action)(() =>
+                    {
+                        GCSStatusText.Content = "In Service";
+                        GCSStatusIcon.Foreground = System.Windows.Media.Brushes.Green;
+                        GCSCoordinateText.Content = watcher.Position.Location.Latitude.ToString().Substring(0, 7) + ", " + watcher.Position.Location.Longitude.ToString().Substring(0, 7);
 
-                    markers.Markers.Add(mapMarkerGCS);
-                    GmapViewHome.Overlays.Add(markers);
-                }));
+                        // hardware butuh
+                        //// dummy gcs
+                        //double tempLat = -7.2081;
+                        //double tempLong = 112.77;
+                        //GCSCoordinateText.Content = tempLat.ToString() + ", " + tempLong.ToString();
+                        // dummy payload
+                        //double tempGpsLat = -7.1827;
+                        //double tempGpsLong = 112.7806;
+                        //string Platitude = tempGpsLat.ToString();
+                        //string Plongitude = tempGpsLong.ToString();
+                        //PayloadCoordinateText.Content = Platitude + ", " + Plongitude;
+                        //GMapOverlay markersP = new("markers");
+                        //var markerPayload = new GMapOverlay("markers");
+                        //mapMarkerPayload = new GMarkerGoogle(new PointLatLng(tempGpsLat, tempGpsLong), GMarkerGoogleType.blue);
 
-                
+                        //markersP.Markers.Add(mapMarkerPayload);
+                        //GmapViewHome.Overlays.Add(markersP);
+
+                        // end of hardware butuh
+
+                        GMapOverlay markers = new("markers");
+                        var markerGCS = new GMapOverlay("markers");
+                        mapMarkerGCS = new GMarkerGoogle(new PointLatLng(watcher.Position.Location.Latitude, watcher.Position.Location.Longitude), GMarkerGoogleType.arrow);
+                        // hardware butuh
+                        //mapMarkerGCS = new GMarkerGoogle(new PointLatLng(tempLat, tempLong), GMarkerGoogleType.arrow);
+                        // end of hardware butuh
+                        markers.Markers.Add(mapMarkerGCS);
+                        GmapViewHome.Overlays.Add(markers);
+                    }));
+                }
+                else if (statusRegion == "Virginia")
+                {
+                    GmapViewHome.Position = new PointLatLng(37.196334, -80.578348);
+                }
+                else if (statusRegion == "Surabaya")
+                {
+                    GmapViewHome.Position = new PointLatLng(-7.2740428, 112.7986227);
+                }
+
+
                 if (_serialPort.IsOpen == true)
                 {
-                    if(gps_latitude != 0 && gps_longitude != 0)
+                    if (gps_latitude != 0 && gps_longitude != 0)
                     {
-                        PayloadStatusText.Content = "In Service";
-                        PayloadStatusIcon.Foreground = System.Windows.Media.Brushes.Green;
-                        string Platitude = gps_latitude.ToString();
-                        string Plongitude = gps_longitude.ToString();
-                        PayloadCoordinateText.Content = Platitude.Substring(0, 7) + ", " + Plongitude.Substring(0, 7);
-                        GMapOverlay markersP = new("markers");
-                        var markerPayload = new GMapOverlay("markers");
-                        mapMarkerPayload = new GMarkerGoogle(new PointLatLng(gps_latitude, gps_longitude), GMarkerGoogleType.blue);
+                        if(mapMarkerPayload == null)
+                        {
+                            PayloadStatusText.Content = "In Service";
+                            PayloadStatusIcon.Foreground = System.Windows.Media.Brushes.Green;
+                            string Platitude = gps_latitude.ToString();
+                            string Plongitude = gps_longitude.ToString();
+                            PayloadCoordinateText.Content = Platitude.Substring(0, 7) + ", " + Plongitude.Substring(0, 7);
+                            GMapOverlay markersP = new("markers");
+                            var markerPayload = new GMapOverlay("markers");
+                            mapMarkerPayload = new GMarkerGoogle(new PointLatLng(gps_latitude, gps_longitude), GMarkerGoogleType.blue);
 
-                        markersP.Markers.Add(mapMarkerPayload);
-                        GmapViewHome.Overlays.Add(markersP);
-                        
-                    } else
+                            markersP.Markers.Add(mapMarkerPayload);
+                            GmapViewHome.Overlays.Add(markersP);
+                        }
+                    }
+                    else
                     {
                         PayloadStatusText.Content = "Locking GPS....";
                         PayloadStatusIcon.Foreground = System.Windows.Media.Brushes.Blue;
                     }
-                } else
+                }
+                else
                 {
                     PayloadStatusText.Content = "Out Of Service";
                     PayloadStatusIcon.Foreground = System.Windows.Media.Brushes.Red;
@@ -565,6 +666,7 @@ namespace GCS_EEPISAT_04
             }
         }
 
+
         public void GmapView_Region()
         {
             try
@@ -575,29 +677,54 @@ namespace GCS_EEPISAT_04
                     {
                         if (gps_latitude != 0 && gps_longitude != 0)
                         {
-                            GmapView.HoldInvalidation = true;
+                            PayloadStatusText.Content = "In Service";
+                            PayloadStatusIcon.Foreground = System.Windows.Media.Brushes.Green;
                             if (mapMarkerPayload != null)
                             {
+                                Debug.WriteLine("Payload Disini!");
+                                string Platitude = gps_latitude.ToString();
+                                string Plongitude = gps_longitude.ToString();
+                                PayloadCoordinateText.Content = Platitude + ", " + Plongitude;
                                 mapMarkerPayload.Position = new PointLatLng(gps_latitude, gps_longitude);
                                 mapMarkerPayload.ToolTipText = $"Payload\n" + $" Latitude : {gps_latitude}, \n" + $" Longitude : {gps_longitude}";
 
-                                double betweenlat = gps_latitude + watcher.Position.Location.Latitude;
-                                double betweenlng = gps_longitude + watcher.Position.Location.Longitude;
-                                GmapView.Position = new PointLatLng(betweenlat / 2, betweenlng / 2);
-                                
-                            } else
+                                if (watcher.Position.Location.Latitude.ToString() != "NaN" && watcher.Position.Location.Longitude.ToString() != "Nan")
+                                { 
+                                    double betweenlat = gps_latitude + watcher.Position.Location.Latitude;
+                                    double betweenlng = gps_longitude + watcher.Position.Location.Longitude;
+                                    GmapViewHome.Position = new PointLatLng(betweenlat / 2, betweenlng / 2);
+                                } else
+                                {
+                                    GmapViewHome.Position = new PointLatLng(gps_latitude, gps_longitude);
+                                }
+                                if ((string)MiniMapStatus.Content == "Started" && minimap_check == false)
+                                {
+                                    minimap_check = true;
+                                    GMapOverlay markersP = new("markers");
+                                    var markerPayload = new GMapOverlay("markers");
+                                    mapMarkerPayload = new GMarkerGoogle(new PointLatLng(gps_latitude, gps_longitude), GMarkerGoogleType.blue);
+                                    markersP.Markers.Add(mapMarkerPayload);
+                                    GmapView.Overlays.Add(markersP);
+                                }
+                            }
+                            else
                             {
                                 string Platitude = gps_latitude.ToString();
                                 string Plongitude = gps_longitude.ToString();
-                                PayloadCoordinateText.Content = Platitude.Substring(0, 7) + ", " + Plongitude.Substring(0, 7);
+                                PayloadCoordinateText.Content = Platitude + ", " + Plongitude;
                                 GMapOverlay markersP = new("markers");
                                 var markerPayload = new GMapOverlay("markers");
                                 mapMarkerPayload = new GMarkerGoogle(new PointLatLng(gps_latitude, gps_longitude), GMarkerGoogleType.blue);
 
                                 markersP.Markers.Add(mapMarkerPayload);
                                 GmapViewHome.Overlays.Add(markersP);
+
                             }
-                            GmapView.Refresh();
+                        }
+                        else
+                        {
+                            PayloadStatusText.Content = "Locking GPS....";
+                            PayloadStatusIcon.Foreground = System.Windows.Media.Brushes.Blue;
                         }
                     }
                     catch (NullReferenceException)
@@ -616,35 +743,42 @@ namespace GCS_EEPISAT_04
                     {
                         return;
                     }
+                    if (watcher.Position.Location.Latitude.ToString() != "NaN" && watcher.Position.Location.Longitude.ToString() != "Nan")
+                    {
+                        double dLat1InRad = gcs_latitude * (Math.PI / 180);
+                        double dLong1InRad = gcs_longitude * (Math.PI / 180);
 
-                    double dLat1InRad = watcher.Position.Location.Latitude * (Math.PI / 180);
-                    double dLong1InRad = watcher.Position.Location.Longitude * (Math.PI / 180);
+                        double dLat2InRad = gps_latitude * (Math.PI / 180);
+                        double dLong2InRad = gps_longitude * (Math.PI / 180);
 
-                    double dLat2InRad = gps_latitude * (Math.PI / 180);
-                    double dLong2InRad = gps_longitude * (Math.PI / 180);
+                        double dLongitude = dLong2InRad - dLong1InRad;
+                        double dLatitude = dLat2InRad - dLat1InRad;
 
-                    double dLongitude = dLong2InRad - dLong1InRad;
-                    double dLatitude = dLat2InRad - dLat1InRad;
+                        // Intermediate result a.
+                        double a = Math.Pow(Math.Sin(dLatitude / 2), 2) + Math.Cos(dLat1InRad) * Math.Cos(dLat2InRad) * Math.Pow(Math.Sin(dLongitude / 2), 2);
 
-                    // Intermediate result a.
-                    double a = Math.Pow(Math.Sin(dLatitude / 2), 2) + Math.Cos(dLat1InRad) * Math.Cos(dLat2InRad) * Math.Pow(Math.Sin(dLongitude / 2), 2);
+                        // Intermediate result c (great circle distance in Radians).
+                        double c = 2 * Math.Asin(Math.Sqrt(a));
 
-                    // Intermediate result c (great circle distance in Radians).
-                    double c = 2 * Math.Asin(Math.Sqrt(a));
+                        // Perhitungan
+                        const Double kEarthRadiusKms = 6371;
+                        distance = kEarthRadiusKms * c * 1000;
 
-                    // Perhitungan
-                    const Double kEarthRadiusKms = 6371;
-                    distance = kEarthRadiusKms * c * 1000;
-
+                        GCSDistanceText.Content = String.Format("{0:0}", distance);
+                    }
+                }
+                if (watcher.Position.Location.Latitude.ToString() != "NaN" && watcher.Position.Location.Longitude.ToString() != "Nan")
+                { 
+                    if (mapMarkerGCS != null)
+                    {
+                        gcs_latitude = ((float)watcher.Position.Location.Latitude);
+                        gcs_longitude = ((float)watcher.Position.Location.Longitude);
+                        GCSCoordinateText.Content = Math.Round(gcs_latitude, 4).ToString() + ", " + Math.Round(gcs_longitude, 4).ToString();
+                        mapMarkerGCS.Position = new PointLatLng(watcher.Position.Location.Latitude, watcher.Position.Location.Longitude);
+                        mapMarkerGCS.ToolTipText = $"GCS\n" + $" Latitude : {Math.Round(gcs_longitude, 4)}, \n" + $" Longitude : {Math.Round(gcs_longitude, 4)}";
+                    }
                 }
 
-                if (mapMarkerGCS != null)
-                {
-                    mapMarkerGCS.Position = new PointLatLng(watcher.Position.Location.Latitude, watcher.Position.Location.Longitude);
-                    mapMarkerGCS.ToolTipText = $"GCS\n" + $" Latitude : {Math.Round(watcher.Position.Location.Latitude, 4)}, \n" + $" Longitude : {Math.Round(watcher.Position.Location.Longitude, 4)}";
-                }
-
-                GCSDistanceText.Content = String.Format("{0:0}", distance);
 
                 if (gps_latitude == 0 && gps_longitude == 0)
                 {
@@ -670,6 +804,7 @@ namespace GCS_EEPISAT_04
             }
         }
 
+
         public void Serialport_Datareceive(object sender, SerialDataReceivedEventArgs e)
         {
             //if (stepData == Sequencer.readSensor)
@@ -678,6 +813,7 @@ namespace GCS_EEPISAT_04
                 {
                     this.dataSensor = _serialPort.ReadLine();
                     this.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new uiupdater(VerifyData));
+                    Debug.WriteLine("Test "+ _serialPort.ReadExisting());
                 }
 
                 catch (NullReferenceException)
@@ -707,6 +843,7 @@ namespace GCS_EEPISAT_04
             {
                 string.Concat(Emoji.Use.Speech_Balloon + " \0" +dataSensor, "------------#END OF PACKET DATA------------\n")
             });
+            Debug.WriteLine("{0}", dataSensor);
             SerialControlTextBox.SelectionLength = SerialControlTextBox.Text.Length;
             SerialControlTextBox.ScrollToEnd();
             CMDTextBox1.IsReadOnly = false;
@@ -728,7 +865,6 @@ namespace GCS_EEPISAT_04
                 try
                 {
                     splitData = dataSensor.Split((char)44); // (char)44 = ','
-                    System.Diagnostics.Debug.WriteLine("VerifyData : splitData {0}", dataSensor);
 
                     //System.Diagnostics.Debug.WriteLine("VerifyData : Receiver Checksum " + recCheckSum);
                     //Pengecekan 
@@ -737,7 +873,6 @@ namespace GCS_EEPISAT_04
                     {
                         try
                         {
-                            System.Diagnostics.Debug.WriteLine("VerifyData : Write Data " + splitData.ToString());
                             CheckTelemetryData();
                             PayDataLog();
                             WriteLogPayload();
@@ -745,8 +880,7 @@ namespace GCS_EEPISAT_04
                         }
                         catch (Exception ex)
                         {
-                            System.Diagnostics.Debug.WriteLine("Error - " + ex.Message);
-                            //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            System.Windows.Forms.MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return;
                         }
                     }
@@ -765,10 +899,9 @@ namespace GCS_EEPISAT_04
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    //System.Diagnostics.Debug.WriteLine("Error - " + ex.Message);
-                    //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    System.Windows.Forms.MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
             }
@@ -792,10 +925,10 @@ namespace GCS_EEPISAT_04
 
         private void RotateBackModel()
         {
-            axis *= -1;
             Matrix3D matrix = model.Content.Transform.Value;
+            axis = new Vector3D(0.0, 0.0, 0.0);
 
-            matrix.Rotate(new System.Windows.Media.Media3D.Quaternion(axis, angle));
+            matrix.Rotate(new System.Windows.Media.Media3D.Quaternion(axis, 0));
             model.Content.Transform = new MatrixTransform3D(matrix);
         }
 
@@ -920,6 +1053,14 @@ namespace GCS_EEPISAT_04
                     pc_status = splitData[7].ToCharArray()[0];
                     mast_status = splitData[8].ToCharArray()[0];
                     cmd_echo = splitData[19];
+                    if (missionTime.Length > 8)
+                    {
+                        missionTime = missionTime.Substring(0, missionTime.Length - 3);
+                    }
+                    if (gps_time.Length > 8)
+                    {
+                        gps_time = gps_time.Substring(0, gps_time.Length - 3);
+                    }
                     System.Diagnostics.Debug.WriteLine("VerifyData : The Data " + teamId + "," + missionTime + "," + packetCount + "," + altitude + "," + temperature + "," + voltage + "," + gps_time + "," + gps_altitude + "," + gps_latitude + "," + gps_longitude + "," + gps_sats_count + "," + tilt_x + "," + tilt_y + "," + mode + "," + state + "," + hs_status + "," + pc_status + "," + mast_status + "," + cmd_echo + "," + pressure);
                 }
                 else if (splitData.Length == 1)
@@ -934,7 +1075,6 @@ namespace GCS_EEPISAT_04
                 if (Math.Abs(max_voltage) > this.max_max_voltage)
                 {
                     max_max_voltage = Math.Abs(max_voltage);
-                    time_max_max_voltage = missionTime;
                 }
 
                 max_altitude = altitude;
@@ -951,14 +1091,12 @@ namespace GCS_EEPISAT_04
                 if (Math.Abs(max_temperature) > this.max_max_temperature)
                 {
                     max_max_temperature = Math.Abs(max_temperature);
-                    time_max_max_temperature = missionTime;
                 }
 
                 max_pressure = pressure;
                 if (Math.Abs(max_pressure) > this.max_max_pressure)
                 {
                     max_max_pressure = Math.Abs(max_pressure);
-                    time_max_max_pressure = missionTime;
                 }
 
                 max_packetCount = packetCount;
@@ -967,7 +1105,20 @@ namespace GCS_EEPISAT_04
                     max_max_packetCount = max_packetCount;
                 }
 
+
+                if(!timergraph.IsEnabled)
+                {
+                    timergraph.Start();
+                }
                 this.Dispatcher.BeginInvoke(new uiupdater(ShowTelemetryData));
+                if(model.Content != null)
+                {
+                    Debug.WriteLine("Get Rotated");
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        RotateBackModel();
+                    });
+                }
                 graphOnline = true;
                 this.Dispatcher.BeginInvoke(new uiupdater(GmapView_Region));
             }
@@ -996,37 +1147,65 @@ namespace GCS_EEPISAT_04
 
             //#region 3D Item
 
-            if(axis != null && model.Content != null)
-            {
-                RotateBackModel();
-            }
 
             if ((string)ThreeDModelStatus.Content != "Started" && (string)ThreeDModelBtn.Content != "Started")
             {
                 ThreeDModelStatus.Content = "Started";
                 ThreeDModelBtn.Content = "Started";
-                HelixViewport3D_Load();
+                this.Dispatcher.Invoke(() =>
+                {
+                    HelixViewport3D_Load();
+                });
             }
 
-            if(hs_status == 'N' && mast_status == 'N')
+            if (hs_status == 'N' && mast_status == 'N')
             {
-                fileobj = System.AppDomain.CurrentDomain.BaseDirectory + "/Assets/3D/Probe_Stowed.obj";
-                HelixViewport3D_Load();
+                this.Dispatcher.Invoke(() =>
+                {
+                    modelCamera.FieldOfView = 45;
+                    modelCamera.Position = new Point3D(0.000, 200.000, 1800.000);
+                    HelixViewport3D_Load();
+                });
+                mast_raised = false;
+                hs_deployed = false;
+                pc_deployed = false;
+            }
+
+            if (hs_status == 'P' && !hs_deployed)
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    modelCamera.FieldOfView = 35;
+                    modelCamera.Position = new Point3D(0.000, 200.000, 1800.000);
+                    HelixViewport3D_Load();
+                });
+                hs_deployed = true;
+                pc_deployed = false;
+                mast_raised = false;
+            }
+            if (pc_status == 'C' && !pc_deployed)
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    modelCamera.FieldOfView = 60;
+                    modelCamera.Position = new Point3D(0.000, 340.000, 1800.000);
+                    HelixViewport3D_Load();
+                });
+                pc_deployed = true;
                 mast_raised = false;
                 hs_deployed = false;
             }
-
-            if(hs_status == 'P' && !hs_deployed)
-            {
-                fileobj = System.AppDomain.CurrentDomain.BaseDirectory + "/Assets/3D/Probe_Deploy.obj";
-                HelixViewport3D_Load();
-                hs_deployed = true;
-            }
             if (mast_status == 'M' && !mast_raised)
             {
-                fileobj = System.AppDomain.CurrentDomain.BaseDirectory + "/Assets/3D/Probe_Upright.obj";
-                HelixViewport3D_Load();
+                this.Dispatcher.Invoke(() =>
+                {
+                    modelCamera.FieldOfView = 45;
+                    modelCamera.Position = new Point3D(0.000, 200.000, 1800.000);
+                    HelixViewport3D_Load();
+                });
                 mast_raised = true;
+                hs_deployed = false;
+                pc_deployed = false;
             }
 
 
@@ -1036,92 +1215,28 @@ namespace GCS_EEPISAT_04
             }
             else
             {
-                if(tilt_x == 0.00)
+                if (tilt_x == 0.00)
                 {
-                    axis = new Vector3D((float)0.00000000000001, (float)tilt_y, (float)0.00000000000001);
-                } else if(tilt_y == 0.00)
+                    axis = new Vector3D((float)0.00000000000001, (float)tilt_y, (float)0.0000000001f);
+                }
+                else if (tilt_y == 0.00)
                 {
-                    axis = new Vector3D((float)tilt_x, (float)0.00000000000001, (float)0.00000000000001);
+                    axis = new Vector3D((float)tilt_x, (float)0.00000000000001, (float)0.000000001f);
                 }
                 else
                 {
-                    axis = new Vector3D((float)tilt_x, (float)tilt_y, (float)0.0);
+                    Debug.WriteLine("Axis created");
+                    axis = new Vector3D((float)tilt_x, (float)tilt_y, (float)0.0f);
                 }
             }
 
+            double angle = Math.Sqrt(tilt_x * tilt_x + tilt_y * tilt_y);
             Matrix3D matrix = model.Content.Transform.Value;
-
             matrix.Rotate(new System.Windows.Media.Media3D.Quaternion(axis, angle));
-            model.Content.Transform = new MatrixTransform3D(matrix);
-
-            var loadingAnimation = new DoubleAnimation(0.01, 1, new Duration(TimeSpan.FromSeconds(0.5)));
-
-            Storyboard.SetTarget(loadingAnimation, model.Content);
-
-            //Storyboard.SetTargetProperty(loadingAnimation, new PropertyPath(UIElement.OpacityProperty));
-
-            //Storyboard.SetTarget(loadingAnimation, AssociatedObject);
-
-            //var storyboard = new Storyboard();
-            //storyboard.Children.Add(loadingAnimation);
-            //storyboard.Children.Add(closingAnimation);
-            //// Subscription to events must be done at this point, because the Storyboard object becomes frozen later on
-            //storyboard.Completed += HandleOnCompleted;
-
-            //string storyBoardName = "BeginNotificationStoryboard";
-
-            // We define the BeginStoryBoard action for the EventTrigger
-            //var beginStoryboard = new BeginStoryBoard();
-            //beginStoryboard.Name = storyBoardName;
-            //beginStoryboard.Storyboard = storyboard;
-
-            //// We create the EventTrigger
-            //var eventTrigger = new EventTrigger(Control.LoadedEvent);
-            //eventTrigger.Actions.Add(beginStoryboard);
-
-            //// Actions for the entering animation
-            //var enterSeekStoryboard = new SeekStoryboard
-            //{
-            //    Offset = TimeSpan.FromSeconds(5),
-            //    BeginStoryboardName = storyBoardName
-            //};
-            //var enterPauseStoryboard = new PauseStoryboard
-            //{
-            //    BeginStoryboardName = storyBoardName
-            //};
-
-            //// Actions for the exiting animation
-            //var exitSeekStoryboard = new SeekStoryboard
-            //{
-            //    Offset = TimeSpan.FromSeconds(5),
-            //    BeginStoryboardName = storyBoardName
-            //};
-            //var exitResumeStoryboard = new ResumeStoryboard
-            //{
-            //    BeginStoryboardName = storyBoardName
-            //};
-
-            //var trigger = new Trigger
-            //{
-            //    Property = UIElement.IsMouseOverProperty,
-            //    Value = true
-            //};
-
-            //trigger.EnterActions.Add(enterSeekStoryboard);
-            //trigger.EnterActions.Add(enterPauseStoryboard);
-            //trigger.ExitActions.Add(exitSeekStoryboard);
-            //trigger.ExitActions.Add(exitResumeStoryboard);
-
-            //var style = new Style();
-            //// The name of the Storyboard must be registered so the actions can find it
-            //style.RegisterName(storyBoardName, beginStoryboard);
-            //// Add both the EventTrigger and the regular Trigger
-            //style.Triggers.Add(eventTrigger);
-            //style.Triggers.Add(trigger);
-
-            //AssociatedObject.Style = style;
-
-            
+            this.Dispatcher.Invoke(() =>
+            {
+                model.Content.Transform = new MatrixTransform3D(matrix);
+            });
 
             //#endregion
 
@@ -1150,7 +1265,6 @@ namespace GCS_EEPISAT_04
                 lblTotalData.Text = totalPayloadData.ToString();
                 //    #region Dashboard Item
 
-                //    teamIDLabel.Content = String.Format("{0:0000}", containerTeamID);
                 // GPS
                 GPSTimeLabel.Text = String.Format("{00:00:00}", gps_time);
                 GPSCountLabel.Text = String.Format("{0:00}", gps_sats_count);
@@ -1273,26 +1387,34 @@ namespace GCS_EEPISAT_04
                     }
                     if (System.IO.File.Exists(payloadFileLog))
                     {
-                        string date = DateTime.Now.ToString("yyyy-MM-dd_mm-ss");
+                        string date = DateTime.Now.ToString("yyyy-MM-dd hh-mm tt");
+                        string dateMissionTime = missionTime.ToString();
                         //string date = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
                         if (mode == 'S')
                         {
-                            if (!Directory.Exists(binAppPath + "\\LogData\\SIMULATION\\" + date + "\\"))
+                            if (writePay == null)
                             {
-                                Directory.CreateDirectory(binAppPath + "\\LogData\\SIMULATION\\"+date+"\\");
+                                if (!Directory.Exists(binAppPath + "\\LogData\\SIMULATION\\" + date +  "\\"))
+                                {
+                                    Directory.CreateDirectory(binAppPath + "\\LogData\\SIMULATION\\"+ date +  "\\");
+                                }
+                                System.IO.File.Move(payloadFileLog, binAppPath + "\\LogData\\SIMULATION\\" + date +  "\\Flight_" + teamId + ".csv");
                             }
-                            System.IO.File.Move(payloadFileLog, binAppPath + "\\LogData\\SIMULATION\\" + date + "\\Flight_" + teamId + ".csv");
                         }
                         else
                         {
-                            if (!Directory.Exists(binAppPath + "\\LogData\\FLIGHT\\" + date + "\\"))
+                            if(writePay == null)
                             {
-                                Directory.CreateDirectory(binAppPath + "\\LogData\\FLIGHT\\" + date + "\\");
+                                if (!Directory.Exists(binAppPath + "\\LogData\\FLIGHT\\" + date +  "\\"))
+                                {
+                                    Directory.CreateDirectory(binAppPath + "\\LogData\\FLIGHT\\" + date +  "\\");
+                                }
+                                System.IO.File.Move(payloadFileLog, binAppPath + "\\LogData\\FLIGHT\\" + date +  "\\Flight_" + teamId + ".csv");
                             }
-                            System.IO.File.Move(payloadFileLog, binAppPath + "\\LogData\\FLIGHT\\" + date + "\\Flight_" + teamId + ".csv");
                         }
-                    } 
+                    }
                     BackgroundWorker worker = new();
+
                     worker.DoWork += delegate (object s, DoWorkEventArgs args)
                     {
                         
@@ -1308,7 +1430,7 @@ namespace GCS_EEPISAT_04
                     };
                     worker.RunWorkerAsync();
                 }
-                catch (NullReferenceException)
+                catch (NullReferenceException) 
                 {
                     return;
                 }
@@ -1403,23 +1525,23 @@ namespace GCS_EEPISAT_04
         {
             public Double Pteamid { get; set; }
             public String Pmissiontime { get; set; }
-            public Double Ppacketcount { get; set; }
+            public uint Ppacketcount { get; set; }
             public Char Pmode { get; set; }
             public String Pstate { get; set; }
-            public Double Paltitude { get; set; }
+            public float Paltitude { get; set; }
             public Char Phs_status { get; set; }
             public Char Ppc_status { get; set; }
             public Char Pmast_status { get; set; }
-            public Double Ptemperature { get; set; }
-            public Double Ppressure { get; set; }
-            public Double Pvoltage { get; set; }
+            public float Ptemperature { get; set; }
+            public float Ppressure { get; set; }
+            public float Pvoltage { get; set; }
             public String Pgps_time { get; set; }
-            public Double Pgps_altitude { get; set; }
-            public Double Pgps_latitude { get; set; }
-            public Double Pgps_longitude { get; set; }
+            public float Pgps_altitude { get; set; }
+            public float Pgps_latitude { get; set; }
+            public float Pgps_longitude { get; set; }
             public uint Pgps_sats_count { get; set; }
-            public Double Ptilt_x { get; set; }
-            public Double Ptilt_y { get; set; }
+            public float Ptilt_x { get; set; }
+            public float Ptilt_y { get; set; }
             public String Pcmd_echo { get; set; }
 
             public String Pchecksum { get; set; }
@@ -1431,19 +1553,24 @@ namespace GCS_EEPISAT_04
             {
                 if (watcher.Position.Location.IsUnknown)
                 {
-                    GCSStatusText.Content = "Out Of Service";
-                    GCSStatusIcon.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromRgb(255, 0, 0));
+                    if(gcs_latitude == 0.0f && gcs_longitude == 0.0f)
+                    {
+                        GCSStatusText.Content = "Out Of Service";
+                        GCSStatusIcon.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromRgb(255, 0, 0));
+                    }
                 }
                 else
                 {
+                    gcs_latitude = ((float)watcher.Position.Location.Latitude);
+                    gcs_longitude = ((float)watcher.Position.Location.Longitude);
                     GCSStatusText.Content = "In Service";
-                    GCSCoordinateText.Content = String.Format("{0:00.0000}, {0:00.0000}", watcher.Position.Location.Latitude, watcher.Position.Location.Longitude);
+                    GCSCoordinateText.Content = gcs_latitude.ToString().Substring(0, 7) + ", " + gcs_latitude.ToString().Substring(0, 7);
                     GCSStatusIcon.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 255, 0));
                 }
             }
         }
 
-        private void ShutdownBtnClick(object sender, RoutedEventArgs e)
+        private void ShutdownBtnClick(object sender, System.Windows.RoutedEventArgs e)
         {
             MessageBoxResult result =  System.Windows.MessageBox.Show("Are you sure to shutdown the GCS?", "", MessageBoxButton.OKCancel);
             switch (result)
@@ -1459,7 +1586,7 @@ namespace GCS_EEPISAT_04
             }
         }
 
-        private void RestartBtnClick(object sender, RoutedEventArgs e)
+        private void RestartBtnClick(object sender, System.Windows.RoutedEventArgs e)
         {
             MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure to restart the GCS?", "", MessageBoxButton.OKCancel);
             switch (result)
@@ -1571,37 +1698,37 @@ namespace GCS_EEPISAT_04
             GC.Collect();
         }
 
-        private void SimToggleBtn_checked(object sender, RoutedEventArgs e)
+        private void SimToggleBtn_checked(object sender, System.Windows.RoutedEventArgs e)
         {
             // T1.Foreground = new SolidColorBrush(Colors.Red);
         }
 
-        private void SimToggleBtn_Unchecked(object sender, RoutedEventArgs e)
+        private void SimToggleBtn_Unchecked(object sender, System.Windows.RoutedEventArgs e)
         {
             //T2.Foreground = new SolidColorBrush(Colors.Blue);
         }
 
-        private void SimToggleBtn_click(object sender, RoutedEventArgs e)
+        private void SimToggleBtn_click(object sender, System.Windows.RoutedEventArgs e)
         {
             //T2.Foreground = new SolidColorBrush(Colors.Blue);
         }
 
-        private void HomeNavClick(object sender, RoutedEventArgs e)
+        private void HomeNavClick(object sender, System.Windows.RoutedEventArgs e)
         {
             MainPage.SelectedIndex = 0;
         }
 
-        private void GraphNavClick(object sender, RoutedEventArgs e)
+        private void GraphNavClick(object sender, System.Windows.RoutedEventArgs e)
         {
             MainPage.SelectedIndex = 1;
         }
 
-        private void MapNavClick(object sender, RoutedEventArgs e)
+        private void MapNavClick(object sender, System.Windows.RoutedEventArgs e)
         {
             MainPage.SelectedIndex = 2;
         }
 
-        private void DataCsvNavClick(object sender, RoutedEventArgs e)
+        private void DataCsvNavClick(object sender, System.Windows.RoutedEventArgs e)
         {
             MainPage.SelectedIndex = 3;
         }
@@ -1611,7 +1738,7 @@ namespace GCS_EEPISAT_04
 
         }
 
-        private void ImportImageButton_Click(object sender, RoutedEventArgs e)
+        private void ImportImageButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             openFileDialog = new Microsoft.Win32.OpenFileDialog
             {
@@ -1634,6 +1761,7 @@ namespace GCS_EEPISAT_04
         {
             try
             {
+                Col4.Clear();
                 string ext = Path.GetExtension(filePath);
                 DataTable dt = new();
                 if(ext == ".csv")
@@ -1710,7 +1838,7 @@ namespace GCS_EEPISAT_04
             }
         }
         
-        private void ConnectPortBtn_Click(object sender, RoutedEventArgs e)
+        private void ConnectPortBtn_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             if (_serialPort.IsOpen == false)
             {
@@ -1748,28 +1876,25 @@ namespace GCS_EEPISAT_04
                         _serialPort.PortName = ComportDropdown.SelectedItem.ToString();
                         _serialPort.BaudRate = Convert.ToInt32(BaudrateDropdown.SelectedItem);
                         _serialPort.NewLine = "\r";
-                        _serialPort.Close();
+                        //_serialPort.Close();
                         _serialPort.Open();
                         PortStatus.Content = "Connected To Serial Port";
                         SerialPortStatus.Content = "Connected";
                         PortStatusPane.Background = System.Windows.Media.Brushes.ForestGreen;
-                        ConnectPortBtn.Visibility = Visibility.Hidden;
-                        DisconnectPortBtn.Visibility = Visibility.Visible;
+                        ConnectPortBtn.Visibility = System.Windows.Visibility.Hidden;
+                        DisconnectPortBtn.Visibility = System.Windows.Visibility.Visible;
                         CMDTextBox1.IsReadOnly = false;
-
-                        timergraph.Start();
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    System.Diagnostics.Debug.WriteLine("Error - " + ex.Message);
                     PortStatus.Content = "Can't Connect To Serial Port, Try Again!";
                     PortStatusPane.Background = System.Windows.Media.Brushes.Firebrick;
                     return;
                 }
             }
         }
-        private void DisconnectPortBtn_Click(object sender, RoutedEventArgs e)
+        private void DisconnectPortBtn_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             if (_serialPort.IsOpen == true)
             {
@@ -1780,8 +1905,8 @@ namespace GCS_EEPISAT_04
                     SerialPortStatus.Content = "Disconnected";
                     SerialDataStatus.Content = "Idle";
                     PortStatusPane.Background = System.Windows.Media.Brushes.Firebrick;
-                    ConnectPortBtn.Visibility = Visibility.Visible;
-                    DisconnectPortBtn.Visibility = Visibility.Hidden;
+                    ConnectPortBtn.Visibility = System.Windows.Visibility.Visible;
+                    DisconnectPortBtn.Visibility = System.Windows.Visibility.Hidden;
                     CMDTextBox1.IsReadOnly = true;
                     timergraph.Stop();
                 }
@@ -1803,7 +1928,7 @@ namespace GCS_EEPISAT_04
                 }
             }
         }
-        private void RestartPortBtn_Click(object sender, RoutedEventArgs e)
+        private void RestartPortBtn_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             try
             {
@@ -1814,8 +1939,8 @@ namespace GCS_EEPISAT_04
                 ComportDropdown.SelectedValue = null;
                 BaudrateDropdown.SelectedValue = null;
 
-                ConnectPortBtn.Visibility = Visibility.Visible;
-                DisconnectPortBtn.Visibility = Visibility.Hidden;
+                ConnectPortBtn.Visibility = System.Windows.Visibility.Visible;
+                DisconnectPortBtn.Visibility = System.Windows.Visibility.Hidden;
 
                 string[] CompPorts = SerialPort.GetPortNames();
                 ComportDropdown.Items.Clear();
@@ -1832,24 +1957,40 @@ namespace GCS_EEPISAT_04
 
         private void HelixViewport3D_Load()
         {
-            ModelImporter import = new();
-            Model3DGroup model1 = import.Load(fileobj);
 
-           
-            model.Content = model1;
+            if (hs_status == 'N' && mast_status == 'N' && pc_status == 'N')
+            {
+                model.Content = model1;
+            }
+
+            if (hs_status == 'P' && !hs_deployed)
+            {
+                model.Content = model2;
+            }
+            if (pc_status == 'C' && !pc_deployed)
+            {
+                model.Content = model3;
+            }
+            if (mast_status == 'M' && !mast_raised)
+            {
+
+                model.Content = model4;
+            }
+
+
         }
 
-        private void SettingNavClick(object sender, RoutedEventArgs e)
+        private void SettingNavClick(object sender, System.Windows.RoutedEventArgs e)
         {
             MainPage.SelectedIndex = 4;
         }
         
-        private void SimDataClick(object sender, RoutedEventArgs e)
+        private void SimDataClick(object sender, System.Windows.RoutedEventArgs e)
         {
             DataPage.SelectedIndex = 0;
         }
         
-        private void PayloadDataClick(object sender, RoutedEventArgs e)
+        private void PayloadDataClick(object sender, System.Windows.RoutedEventArgs e)
         {
             DataPage.SelectedIndex = 1;
         }
@@ -1870,7 +2011,7 @@ namespace GCS_EEPISAT_04
                     {
                         string cmd = "CMD,1085,CAL";
 
-                        _serialPort.WriteLine(cmd);
+                        timerCommand = new System.Threading.Timer(SendCommand, cmd, 0, 50);
 
                         CMDTextBox2.Text += "\r\n" + Emoji.Use.Information_Source + "Payload is calibrating...." + "\r\n";
                         CMDTextBox2.ScrollToEnd();
@@ -1916,8 +2057,8 @@ namespace GCS_EEPISAT_04
                     try
                     {
                         string cmd = "CMD,1085,CX,ON";
-                        _serialPort.WriteLine(cmd);
-                        
+                        timerCommand = new System.Threading.Timer(SendCommand, cmd, 0, 50);
+
 
                         CMDTextBox2.Text += "\r\n" + Emoji.Use.Information_Source + "Activating payload telemetry......" + "\r\n";
                         CMDTextBox2.ScrollToEnd();
@@ -1939,8 +2080,8 @@ namespace GCS_EEPISAT_04
                     {
                         string cmd = "CMD,1085,CX,OFF";
 
-                        _serialPort.WriteLine(cmd);
-                        
+                        timerCommand = new System.Threading.Timer(SendCommand, cmd, 0, 50);
+
 
                         CMDTextBox2.Text += "\r\n" + Emoji.Use.Information_Source + "Deactivating  payload telemetry" + "\r\n";
                         CMDTextBox2.ScrollToEnd();
@@ -1948,6 +2089,7 @@ namespace GCS_EEPISAT_04
                         SerialDataStatus.Content = "CXOFF";
                         SoundPlayer player = new(binAppPath + "/Audio/PXOFF.wav");
                         player.Play();
+                        timergraph.Stop();
                         CMDTextBox1.Clear();
                         CMDShortcut.SelectedIndex = -1;
                     }
@@ -1968,8 +2110,8 @@ namespace GCS_EEPISAT_04
                             {
                                 string cmd = "CMD,1085,ST,GPS";
 
-                                _serialPort.WriteLine(cmd);
-                                
+                                timerCommand = new System.Threading.Timer(SendCommand, cmd, 0, 50);
+
 
                                 CMDTextBox2.Text += "\r\n" + Emoji.Use.Clock1 + "Setting payload time by GPS....." + "\r\n";
                                 CMDTextBox2.ScrollToEnd();
@@ -1992,8 +2134,8 @@ namespace GCS_EEPISAT_04
                             {
                                 string cmd = "CMD,1085,ST," + lineSplit;
 
-                                _serialPort.WriteLine(cmd);
-                                
+                                timerCommand = new System.Threading.Timer(SendCommand, cmd, 0, 50);
+
 
                                 CMDTextBox2.Text += "\r\n" + Emoji.Use.Clock1 + "Set time payload by UTC...." + "\r\n";
                                 CMDTextBox2.ScrollToEnd();
@@ -2021,8 +2163,8 @@ namespace GCS_EEPISAT_04
                     {
                         string cmd = "CMD,1085,SIM,ENABLE";
 
-                        _serialPort.WriteLine(cmd);
-                        
+                        timerCommand = new System.Threading.Timer(SendCommand, cmd, 0, 50);
+
 
                         CMDTextBox2.Text += "\r\n" + Emoji.Use.Rotating_Light + "Enable payload simulation mode...." + "\r\n";
                         CMDTextBox2.ScrollToEnd();
@@ -2044,8 +2186,8 @@ namespace GCS_EEPISAT_04
                     {
                         string cmd = "CMD,1085,SIM,DISABLE";
 
-                        _serialPort.WriteLine(cmd);
-                        
+                        timerCommand = new System.Threading.Timer(SendCommand, cmd, 0, 50);
+
 
                         SerialDataStatus.Content = "SIMDISABLE";
                         CMDTextBox2.Text += "\r\n" + Emoji.Use.No_Entry + "Disable payload simulation mode...." + "\r\n";
@@ -2075,8 +2217,8 @@ namespace GCS_EEPISAT_04
                     {
                         string cmd = "CMD,1085,SIM,ACTIVATE";
 
-                        _serialPort.WriteLine(cmd);
-                        
+                        timerCommand = new System.Threading.Timer(SendCommand, cmd, 0, 50);
+
 
                         CMDTextBox2.Text += "\r\n" + Emoji.Use.Construction + "Activating payload simulation......" + "\r\n";
                         CMDTextBox2.ScrollToEnd();
@@ -2136,8 +2278,8 @@ namespace GCS_EEPISAT_04
                     {
                         string cmd = "CMD,1085," + lineSplit;
 
-                        _serialPort.WriteLine(cmd);
-                        
+                        timerCommand = new System.Threading.Timer(SendCommand, cmd, 0, 50);
+
 
                         CMDTextBox2.Text += "\r\n" + Emoji.Use.Pencil + "PRESSURE " + lineSplit + " is being sended....." + "\r\n";
                         CMDTextBox2.ScrollToEnd();
@@ -2152,6 +2294,23 @@ namespace GCS_EEPISAT_04
                     {
                         CMDTextBox2.Text += "\r\n" + Emoji.Use.Loudspeaker + "Please enter the correct SIMP command!" + "\r\n";
                         CMDTextBox2.ScrollToEnd();
+                    }
+                }
+                else if (line == "CMD,1085,TEST")
+                {
+                    try
+                    {
+                        string cmd = "CMD,1085,TEST";
+
+                        timerCommand = new System.Threading.Timer(SendCommand, cmd, 0, 50);
+
+
+                        CMDTextBox2.Text += "\r\n" + Emoji.Use.Construction + "Command Testing....." + "\r\n";
+                        CMDTextBox2.ScrollToEnd();
+                    }
+                    catch
+                    {
+                        return;
                     }
                 }
                 else if (line.Contains("CMD,1085,"))
@@ -2183,8 +2342,8 @@ namespace GCS_EEPISAT_04
                         }
                         string cmd = "CMD,1085," + lineSplit;
 
-                        _serialPort.WriteLine(cmd);
-                        
+                        timerCommand = new System.Threading.Timer(SendCommand, cmd, 0, 50);
+
 
                         CMDTextBox2.Text += "\r\n" + Emoji.Use.Wrench + " " + words + " Mechanism Activated" + "\r\n";
                         CMDTextBox2.ScrollToEnd();
@@ -2200,6 +2359,7 @@ namespace GCS_EEPISAT_04
                         return;
                     }
                 }
+                
                 else
                 {
                     CMDTextBox2.Text += "\r\n" + Emoji.Use.Information_Source + "----+The Command You entered Is Not Recognized.+----" + "\r\n";
@@ -2209,6 +2369,22 @@ namespace GCS_EEPISAT_04
                     player.Play();
                     CMDTextBox1.Clear();
                 }
+            }
+        }
+
+        public void SendCommand(object state)
+        {
+
+            if (counterCommand < 4)
+            {
+                _serialPort.WriteLine((string)state);
+                Debug.WriteLine("Counter Test Baru: {0} {1}", counterCommand++, (string)state);
+            }
+            else
+            {
+                counterCommand = 0;
+                // Stop the timer after 4 iterations
+                timerCommand.Dispose();
             }
         }
 
@@ -2284,6 +2460,11 @@ namespace GCS_EEPISAT_04
 
         private void TimerSimulation_Tick(object sender, EventArgs e)
         {
+            if(Col4.Count == timerCSV)
+            {
+                timerCSV = 0;
+                timerSimulation.Stop();
+            }
             try
             {
                 string cmd = "CMD,1085,SIMP," + Col4[timerCSV] + "\r";
@@ -2356,7 +2537,7 @@ namespace GCS_EEPISAT_04
                         catch (IOException ex)
                         {
                             fileError = true;
-                            System.Windows.Forms.MessageBox.Show("It wasn't possible to write the data to the disk." + ex.Message);
+                            System.Windows.Forms.MessageBox.Show("File with this name is already exist. Please try again. " + ex.Message);
                         }
                     }
                     if (!fileError)
@@ -2364,38 +2545,17 @@ namespace GCS_EEPISAT_04
 
                         try
                         {
-                            int columnCount = PayloadDataCsv.Columns.Count;
-                            string columnNames = "";
-                            string[] outputCsv = new string[10000];
-                            for (int i = 0; i < columnCount; i++)
+                            string payloadFileLogExport;
+                            if (mode == 'S')
                             {
-                                columnNames += PayloadDataCsv.Columns[i].Header.ToString() + ",";
-                                GC.Collect();
+                                payloadFileLogExport = binAppPath + "\\LogData\\SIMULATION\\Flight_" + teamId + ".csv";
                             }
-                            outputCsv[0] += columnNames;
-                            
-                            var cellInfos = PayloadDataCsv.SelectedCells;
-                            System.Diagnostics.Debug.WriteLine("Count - " + PayloadDataCsv.Items.Count);
-
-                            
-                            for (int i = 0; i < PayloadDataCsv.Items.Count; i++)
+                            else
                             {
-                                for (int j = 0; j < PayloadDataCsv.Columns.Count; j++)
-                                {
-                                    System.Diagnostics.Debug.WriteLine("Count - " + PayloadDataCsv.Items.Count + " " + i + " " + j);
-                                    var cellContent = PayloadDataCsv.Columns[j].GetCellContent(PayloadDataCsv.Items[i]);
-                                    if (cellContent != null && cellContent is TextBlock)
-                                    {
-                                        var konten = (cellContent as TextBlock).Text;
-                                        System.Diagnostics.Debug.WriteLine("Test - " + konten);
-                                        outputCsv[i + 1] += konten + ",";
-                                    }
-                                }
-                                GC.Collect();
+                                payloadFileLogExport = binAppPath + "\\LogData\\FLIGHT\\Flight_" + teamId + ".csv";
                             }
 
-
-                            System.IO.File.WriteAllLines(sfd.FileName, outputCsv, Encoding.UTF8);
+                            System.IO.File.Copy(payloadFileLogExport, sfd.FileName);
                             System.Windows.Forms.MessageBox.Show("Data Exported Successfully !!!", "Info");
                         }
                         catch (Exception ex)
@@ -2411,7 +2571,7 @@ namespace GCS_EEPISAT_04
             }
         }
 
-        private void MapTerrainClick(object sender, RoutedEventArgs e) {
+        private void MapTerrainClick(object sender, System.Windows.RoutedEventArgs e) {
             if (GmapViewHome.MapProvider == null)
             {
                 GmapViewHome.MapProvider = GoogleTerrainMapProvider.Instance;
@@ -2424,7 +2584,7 @@ namespace GCS_EEPISAT_04
                 }
             }   
         }
-        private void MapStreetClick(object sender, RoutedEventArgs e) {
+        private void MapStreetClick(object sender, System.Windows.RoutedEventArgs e) {
             if (GmapViewHome.MapProvider == null)
             {
                 GmapViewHome.MapProvider = GoogleMapProvider.Instance;
@@ -2437,7 +2597,7 @@ namespace GCS_EEPISAT_04
                 }
             }
         }
-        private void MapSatellitClick(object sender, RoutedEventArgs e) {
+        private void MapSatellitClick(object sender, System.Windows.RoutedEventArgs e) {
             if (GmapViewHome.MapProvider == null)
             {
                 GmapViewHome.MapProvider = GoogleSatelliteMapProvider.Instance;
@@ -2451,7 +2611,7 @@ namespace GCS_EEPISAT_04
             }
         }
 
-        private void ThreeDModelActivate(object sender, RoutedEventArgs e)
+        private void ThreeDModelActivate(object sender, System.Windows.RoutedEventArgs e)
         {
             if((string)ThreeDModelBtn.Content == "Started")
             {
@@ -2461,13 +2621,13 @@ namespace GCS_EEPISAT_04
             } else
             {
                 fileobj = System.AppDomain.CurrentDomain.BaseDirectory + "/Assets/3D/Probe_Stowed.obj";
-                ThreeDModelStatus.Content = "Startsed";
+                ThreeDModelStatus.Content = "Started";
                 ThreeDModelBtn.Content = "Started";
                 HelixViewport3D_Load();
             }
         }
 
-        private void MiniMapActivate(object sender, RoutedEventArgs e)
+        private void MiniMapActivate(object sender, System.Windows.RoutedEventArgs e)
         {
             if ((string)MiniMapBtn.Content == "Started")
             {
@@ -2538,7 +2698,7 @@ namespace GCS_EEPISAT_04
             }
         }
 
-        private void AutoScrollActivate(object sender, RoutedEventArgs e)
+        private void AutoScrollActivate(object sender, System.Windows.RoutedEventArgs e)
         {
             if (AutoScrollBtn.IsChecked == true)
             {
@@ -2550,6 +2710,18 @@ namespace GCS_EEPISAT_04
             }
         }
 
+        private void BtnVirginiaClick(object sender, System.Windows.RoutedEventArgs e)
+        {
+            statusRegion = "Virginia";
+
+            GmapViewHome.Position = new PointLatLng(37.196334, -80.578348);
+        }
+        private void BtnSurabayaClick(object sender, System.Windows.RoutedEventArgs e)
+        {
+            statusRegion = "Surabaya";
+
+            GmapViewHome.Position = new PointLatLng(-7.2740428, 112.7986227);
+        }
 
     }
 }
