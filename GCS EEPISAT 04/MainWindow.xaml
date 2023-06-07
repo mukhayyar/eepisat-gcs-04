@@ -333,7 +333,7 @@
                                                         <Label Grid.Column="1" Content="COMMAND PROMPT" Margin="-30 -4 0 -10" Foreground="#FFFFFF" FontSize="15" FontWeight="Bold"/>
                                                     </Grid>
                                                     <Border Grid.Row="1" Margin="15 5 15 0" Background="White" CornerRadius="10">
-                                                        <TextBox x:Name="CMDTextBox2" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" Margin="15 2 15 2" BorderThickness="0" IsReadOnly="True"></TextBox>
+                                                        <TextBox x:Name="CMDTextBox2" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" Margin="15 2 15 2" BorderThickness="0" IsReadOnly="True" FontWeight="Bold" FontSize="14"></TextBox>
                                                     </Border>
                                                         <Grid Grid.Row="2">
                                                             <Grid.ColumnDefinitions>
@@ -351,11 +351,13 @@
                                                                 <ComboBoxItem>SIMDISABLE</ComboBoxItem>
                                                                 <ComboBoxItem>SIMACTIVATE</ComboBoxItem>
                                                                 <ComboBoxItem>SIMP</ComboBoxItem>
-                                                                <ComboBoxItem>MECHANIC</ComboBoxItem>
+                                                                <ComboBoxItem>BK</ComboBoxItem>
+                                                                <ComboBoxItem>CR</ComboBoxItem>
+                                                                <ComboBoxItem>TC</ComboBoxItem>
                                                             </ComboBox>
                                                         </Border>
-                                                        <Border Grid.Column="1" Margin="10 5 5 5" Background="White" CornerRadius="10">
-                                                                <TextBox x:Name="CMDTextBox1" Margin="15 2 15 2" BorderThickness="0" KeyDown="CMDTextBox_KeyPress"></TextBox>
+                                                            <Border Grid.Column="1" Margin="10 5 5 5" Background="White" CornerRadius="10">
+                                                                <TextBox x:Name="CMDTextBox1" Margin="15 2 15 2" BorderThickness="0" KeyDown="CMDTextBox_KeyPress" FontWeight="Bold" FontSize="14" VerticalAlignment="Center"></TextBox>
                                                             </Border>
                                                             <Border Grid.Column="2" Margin="5 5 15 5" Background="White" CornerRadius="10">
                                                             <Button x:Name="CMDSendButton" Click="CMDSendButtonClick" Background="White" Margin="5 2 5 2" BorderThickness="0">
@@ -452,7 +454,7 @@
                                                             </Grid>
                                                         </Grid>
                                                     </Grid>
-                                                    <Grid Grid.Column="1">
+                                                    <Grid Grid.Column="2">
                                                         <Grid.RowDefinitions>
                                                             <RowDefinition></RowDefinition>
                                                             <RowDefinition></RowDefinition>
@@ -460,7 +462,7 @@
                                                         <Image Grid.Column="0" Source="/Icon/Parachute Released.png" Style="{DynamicResource IconItemList}" />
                                                         <Label Grid.Row="1" x:Name="ParachuteReleasedLabel" Content="N" Foreground="#FFFFFF" Background="#7D1C1C" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Regular" FontSize="14"/>
                                                     </Grid>
-                                                    <Grid Grid.Column="2">
+                                                    <Grid Grid.Column="1">
                                                         <Grid.RowDefinitions>
                                                             <RowDefinition></RowDefinition>
                                                             <RowDefinition></RowDefinition>
@@ -496,7 +498,7 @@
                                                             ShowFrameRate="True"
                                                             ShowViewCube="True">
                                                             <h:HelixViewport3D.Camera>
-                                                                    <PerspectiveCamera x:Name="modelCamera" FieldOfView="45" LookDirection="0.000,0.000,-12.601" Position="0.000,200.000,1800.000" />
+                                                                    <PerspectiveCamera x:Name="modelCamera" FieldOfView="45" LookDirection="0.000,0.000,-12.601" Position="0.000,100.000,1800.000" />
                                                                 </h:HelixViewport3D.Camera>
                                                             <h:DefaultLights />
                                                             
@@ -726,94 +728,225 @@
                                                     ColumnWidth="90"
                                                     HorizontalScrollBarVisibility="Auto"
                                                     IsReadOnly="True"
-                                                    VerticalScrollBarVisibility="Auto">
-                                                        <DataGrid.Columns>
+                                                    VerticalScrollBarVisibility="Auto" >
+                                                        <DataGrid.Columns >
                                                             <DataGridTextColumn
                                                             Width="60"
                                                             x:Name="DataGridTeamID"
                                                             Binding="{Binding Pteamid}"
-                                                            Header="Team ID" />
+                                                            Header="Team ID" 
+                                                            >
+                                                                <DataGridTextColumn.HeaderStyle>
+                                                                    <Style TargetType="DataGridColumnHeader">
+                                                                        <Setter Property="Background"  Value="#FF2359AF"/>
+                                                                        <Setter Property="Foreground"  Value="#F1f1f1f1"/>
+                                                                        <Setter Property="FontWeight"  Value="Bold"/>
+                                                                        <Setter Property="HorizontalAlignment"  Value="Center"/>
+                                                                        <Setter Property="Block.Background"  Value="#FF2359AF"/>
+                                                                    </Style>
+                                                                </DataGridTextColumn.HeaderStyle>
+                                                            </DataGridTextColumn>
                                                             <DataGridTextColumn
                                                             Width="120"
                                                             x:Name="DataGridMissionTime"
                                                             Binding="{Binding Pmissiontime}"
-                                                            Header="Mission Time" />
+                                                            Header="Mission Time" >
+                                                                <DataGridTextColumn.HeaderStyle>
+                                                                    <Style TargetType="DataGridColumnHeader">
+                                                                        <Setter Property="Background"  Value="#FF2359AF"/>
+                                                                    </Style>
+                                                                </DataGridTextColumn.HeaderStyle>
+                                                            </DataGridTextColumn>
                                                             <DataGridTextColumn
                                                             Width="90"
                                                             Binding="{Binding Ppacketcount}"
-                                                            Header="Packet Count" />
+                                                            Header="Packet Count" >
+                                                                <DataGridTextColumn.HeaderStyle>
+                                                                    <Style TargetType="DataGridColumnHeader">
+                                                                        <Setter Property="Background"  Value="#FF2359AF"/>
+                                                                    </Style>
+                                                                </DataGridTextColumn.HeaderStyle>
+                                                            </DataGridTextColumn>
                                                             <DataGridTextColumn
                                                             Width="60"
                                                             Binding="{Binding Pmode}"
-                                                            Header="Mode" />
+                                                            Header="Mode" >
+                                                                <DataGridTextColumn.HeaderStyle>
+                                                                    <Style TargetType="DataGridColumnHeader">
+                                                                        <Setter Property="Background"  Value="#FF2359AF"/>
+                                                                    </Style>
+                                                                </DataGridTextColumn.HeaderStyle>
+                                                            </DataGridTextColumn>
                                                             <DataGridTextColumn
                                                             Width="120"
                                                             Binding="{Binding Pstate}"
-                                                            Header="State" />
+                                                            Header="State" >
+                                                                <DataGridTextColumn.HeaderStyle>
+                                                                    <Style TargetType="DataGridColumnHeader">
+                                                                        <Setter Property="Background"  Value="#FF2359AF"/>
+                                                                    </Style>
+                                                                </DataGridTextColumn.HeaderStyle>
+                                                            </DataGridTextColumn>
                                                             <DataGridTextColumn
                                                             Width="60"
                                                             Binding="{Binding Paltitude}"
-                                                            Header="Altitude" />
+                                                            Header="Altitude" >
+                                                                <DataGridTextColumn.HeaderStyle>
+                                                                    <Style TargetType="DataGridColumnHeader">
+                                                                        <Setter Property="Background"  Value="#FF2359AF"/>
+                                                                    </Style>
+                                                                </DataGridTextColumn.HeaderStyle>
+                                                            </DataGridTextColumn>
                                                             <DataGridTextColumn
                                                             Width="80"
                                                             Binding="{Binding Phs_status}"
-                                                            Header="HS Deployed" />
+                                                            Header="HS Deployed" >
+                                                                <DataGridTextColumn.HeaderStyle>
+                                                                    <Style TargetType="DataGridColumnHeader">
+                                                                        <Setter Property="Background"  Value="#FF2359AF"/>
+                                                                    </Style>
+                                                                </DataGridTextColumn.HeaderStyle>
+                                                            </DataGridTextColumn>
                                                             <DataGridTextColumn
                                                             Width="80"
                                                             Binding="{Binding Ppc_status}"
-                                                            Header="PC Deployed" />
+                                                            Header="PC Deployed" >
+                                                                <DataGridTextColumn.HeaderStyle>
+                                                                    <Style TargetType="DataGridColumnHeader">
+                                                                        <Setter Property="Background"  Value="#FF2359AF"/>
+                                                                    </Style>
+                                                                </DataGridTextColumn.HeaderStyle>
+                                                            </DataGridTextColumn>
                                                             <DataGridTextColumn
                                                             Width="80"
                                                             Binding="{Binding Pmast_status}"
-                                                            Header="Mast Raised" />
+                                                            Header="Mast Raised" >
+                                                                <DataGridTextColumn.HeaderStyle>
+                                                                    <Style TargetType="DataGridColumnHeader">
+                                                                        <Setter Property="Background"  Value="#FF2359AF"/>
+                                                                    </Style>
+                                                                </DataGridTextColumn.HeaderStyle>
+                                                            </DataGridTextColumn>
                                                             <DataGridTextColumn
                                                             Width="80"
                                                             Binding="{Binding Ptemperature}"
-                                                            Header="Temperature" />
+                                                            Header="Temperature" >
+                                                                <DataGridTextColumn.HeaderStyle>
+                                                                    <Style TargetType="DataGridColumnHeader">
+                                                                        <Setter Property="Background"  Value="#FF2359AF"/>
+                                                                    </Style>
+                                                                </DataGridTextColumn.HeaderStyle>
+                                                            </DataGridTextColumn>
                                                             <DataGridTextColumn
                                                             Width="80"
                                                             Binding="{Binding Ppressure}"
-                                                            Header="Pressure" />
+                                                            Header="Pressure" >
+                                                                <DataGridTextColumn.HeaderStyle>
+                                                                    <Style TargetType="DataGridColumnHeader">
+                                                                        <Setter Property="Background"  Value="#FF2359AF"/>
+                                                                    </Style>
+                                                                </DataGridTextColumn.HeaderStyle>
+                                                            </DataGridTextColumn>
                                                             <DataGridTextColumn
                                                             Width="60"
                                                             Binding="{Binding Pvoltage}"
-                                                            Header="Voltage" />
+                                                            Header="Voltage" >
+                                                                <DataGridTextColumn.HeaderStyle>
+                                                                    <Style TargetType="DataGridColumnHeader">
+                                                                        <Setter Property="Background"  Value="#FF2359AF"/>
+                                                                    </Style>
+                                                                </DataGridTextColumn.HeaderStyle>
+                                                            </DataGridTextColumn>
                                                             <DataGridTextColumn
                                                             Width="120"
                                                             Binding="{Binding Pgps_time}"
-                                                            Header="GPS Time" />
+                                                            Header="GPS Time" >
+                                                                <DataGridTextColumn.HeaderStyle>
+                                                                    <Style TargetType="DataGridColumnHeader">
+                                                                        <Setter Property="Background"  Value="#FF2359AF"/>
+                                                                    </Style>
+                                                                </DataGridTextColumn.HeaderStyle>
+                                                            </DataGridTextColumn>
                                                             <DataGridTextColumn
                                                             Width="80"
                                                             Binding="{Binding Pgps_altitude}"
-                                                            Header="GPS Altitude" />
+                                                            Header="GPS Altitude" >
+                                                                <DataGridTextColumn.HeaderStyle>
+                                                                    <Style TargetType="DataGridColumnHeader">
+                                                                        <Setter Property="Background"  Value="#FF2359AF"/>
+                                                                    </Style>
+                                                                </DataGridTextColumn.HeaderStyle>
+                                                            </DataGridTextColumn>
                                                             <DataGridTextColumn
                                                             Width="90"
                                                             Binding="{Binding Pgps_latitude}"
-                                                            Header="GPS Latitude" />
+                                                            Header="GPS Latitude" >
+                                                                <DataGridTextColumn.HeaderStyle>
+                                                                    <Style TargetType="DataGridColumnHeader">
+                                                                        <Setter Property="Background"  Value="#FF2359AF"/>
+                                                                    </Style>
+                                                                </DataGridTextColumn.HeaderStyle>
+                                                            </DataGridTextColumn>
                                                             <DataGridTextColumn
                                                             Width="90"
                                                             Binding="{Binding Pgps_longitude}"
-                                                            Header="GPS Longitude" />
+                                                            Header="GPS Longitude" >
+                                                                <DataGridTextColumn.HeaderStyle>
+                                                                    <Style TargetType="DataGridColumnHeader">
+                                                                        <Setter Property="Background"  Value="#FF2359AF"/>
+                                                                    </Style>
+                                                                </DataGridTextColumn.HeaderStyle>
+                                                            </DataGridTextColumn>
                                                             <DataGridTextColumn
                                                             Width="60"
                                                             Binding="{Binding Pgps_sats_count}"
-                                                            Header="GPS Sats" />
+                                                            Header="GPS Sats" >
+                                                                <DataGridTextColumn.HeaderStyle>
+                                                                    <Style TargetType="DataGridColumnHeader">
+                                                                        <Setter Property="Background"  Value="#FF2359AF"/>
+                                                                    </Style>
+                                                                </DataGridTextColumn.HeaderStyle>
+                                                            </DataGridTextColumn>
                                                             <DataGridTextColumn
                                                             Width="60"
                                                             Binding="{Binding Ptilt_x}"
-                                                            Header="Tilt X" />
+                                                            Header="Tilt X" >
+                                                                <DataGridTextColumn.HeaderStyle>
+                                                                    <Style TargetType="DataGridColumnHeader">
+                                                                        <Setter Property="Background"  Value="#FF2359AF"/>
+                                                                    </Style>
+                                                                </DataGridTextColumn.HeaderStyle>
+                                                            </DataGridTextColumn>
                                                             <DataGridTextColumn
                                                             Width="60"
                                                             Binding="{Binding Ptilt_y}"
-                                                            Header="Tilt Y" />
+                                                            Header="Tilt Y" >
+                                                                <DataGridTextColumn.HeaderStyle>
+                                                                    <Style TargetType="DataGridColumnHeader">
+                                                                        <Setter Property="Background"  Value="#FF2359AF"/>
+                                                                    </Style>
+                                                                </DataGridTextColumn.HeaderStyle>
+                                                            </DataGridTextColumn>
                                                             <DataGridTextColumn
                                                             Width="60"
                                                             Binding="{Binding Pcmd_echo}"
-                                                            Header="CMD Echo" />
+                                                            Header="CMD Echo" >
+                                                                <DataGridTextColumn.HeaderStyle>
+                                                                    <Style TargetType="DataGridColumnHeader">
+                                                                        <Setter Property="Background"  Value="#FF2359AF"/>
+                                                                    </Style>
+                                                                </DataGridTextColumn.HeaderStyle>
+                                                            </DataGridTextColumn>
                                                             <DataGridTextColumn
                                                             Width="60"
                                                             Binding="{Binding Pchecksum}"
-                                                            Header="Checksum" />
+                                                            Header="Checksum" >
+                                                                <DataGridTextColumn.HeaderStyle>
+                                                                    <Style TargetType="DataGridColumnHeader">
+                                                                        <Setter Property="Background"  Value="#FF2359AF"/>
+                                                                    </Style>
+                                                                </DataGridTextColumn.HeaderStyle>
+                                                            </DataGridTextColumn>
                                                         </DataGrid.Columns>
                                                     </DataGrid>
                                                     <Button Grid.Row="1" Margin="20,10,20,10" Click="BtnCsv_Click">Export to CSV</Button>
