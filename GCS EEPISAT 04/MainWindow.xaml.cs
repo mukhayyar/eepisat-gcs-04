@@ -494,10 +494,6 @@ namespace GCS_EEPISAT_04
             watcher.Start();
 
 
-            detector = new ManagementEventWatcher("SELECT * FROM Win32_DeviceChangeEvent WHERE EventType = 2 OR EventType = 3");
-            detector.EventArrived += new EventArrivedEventHandler(USBChangedEvent);
-            detector.Start();
-
             try
             {
                 string[] CompPorts = SerialPort.GetPortNames();
@@ -2027,7 +2023,6 @@ namespace GCS_EEPISAT_04
             //model.Content.Transform = new MatrixTransform3D(Matrix3D.Identity);
 
 
-
         }
 
         private void SettingNavClick(object sender, System.Windows.RoutedEventArgs e)
@@ -2098,9 +2093,10 @@ namespace GCS_EEPISAT_04
 
                         SoundPlayer player = new(binAppPath + "/Audio/CAL.wav");
                         player.Play();
-                        CMDTextBox1.Clear();
+                        CMDTextBox1.Text = "CMD,1085,CR";
                         CMDShortcut.SelectedIndex = -1;
                         openHeatShieldSimulation = false;
+                        countOpenHeatShield = 0;
                     }
                     catch
                     {
@@ -2143,7 +2139,7 @@ namespace GCS_EEPISAT_04
                         CMDTextBox2.ScrollToEnd();
 
                         SerialDataStatus.Content = "CR";
-                        CMDTextBox1.Clear();
+                        CMDTextBox1.Text = "CMD,1085,CX,ON";
                         CMDShortcut.SelectedIndex = -1;
                     }
                     catch
